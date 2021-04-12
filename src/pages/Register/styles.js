@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Overlay = styled.div`
   position: absolute;
@@ -12,7 +12,21 @@ export const Overlay = styled.div`
   align-items: center;
 `;
 
+const RegisterAnimation = keyframes`
+  0%{
+    top: -450px;
+    opacity: 0;
+    /* transform: scale(0.01) rotate(90deg); */
+  }
+  100%{
+    top: 0px;
+    opacity: 1;
+    /* transform: scale(1) rotate(0deg); */
+  }
+`;
+
 export const ModalContainer = styled.section`
+  animation: ${RegisterAnimation} 0.5s;
   width: 90vw;
   height: 90vh;
   display: flex;
@@ -45,6 +59,7 @@ export const BannerRegister = styled.div`
   }
   >a {
     position: relative;
+    
   }
 `;
 
@@ -65,24 +80,7 @@ export const RegisterContainer = styled.div`
     letter-spacing: 1.2px;
   }
 
-  >span {
-    width: 100%;
-    height: 75px;
-    padding: 0 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    >a{
-      color: white;
-      font-size: 22px;
-
-      text-decoration: none;
-      opacity: 80%;
-      font-weight: 400;
-      width: fit-content;
-      height: fit-content;
-    }
-  }
+  
 `;
 
 export const RegisterForm = styled.form`
@@ -105,6 +103,29 @@ export const RegisterForm = styled.form`
     height: 50px;
     font-size: 16px;
     border-radius: 30px;
+  }
+
+  >span {
+    width: 100%;
+    height: 75px;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    >a{
+      color: white;
+      font-size: 22px;
+
+      text-decoration: none;
+      opacity: 80%;
+      font-weight: 400;
+      width: fit-content;
+      height: fit-content;
+
+      :hover {
+        text-decoration: underline;
+      }
+    }
   }
 `;
 

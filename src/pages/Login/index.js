@@ -1,6 +1,6 @@
 import { Overlay, ModalContainer, BannerLogin, FormLogin, Button, Circle, InputContainerHolder } from "./styles";
 import Input from "../../components/input";
-import banner from "../../assets/banner.jpg";
+import banner from "../../assets/bannerLogin.jpg";
 
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -28,7 +28,7 @@ function Login() {
       history.push("/home");
     } catch (error) {
       console.error(error);
-      alert(error);
+      alert( error.response.data.error);
     }
     
     console.log({"email":login.email, "password":login.password});

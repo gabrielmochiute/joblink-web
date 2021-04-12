@@ -55,7 +55,6 @@ export const GlobalStyles = createGlobalStyle`
     }
     :disabled{
       background-color: transparent;
-      border: 1px solid var(--darkGray);
       color: var(--darkGray);
     }
   }

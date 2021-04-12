@@ -1,4 +1,18 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+
+const LoginAnimation = keyframes`
+  0%{
+    left: -450px;
+    opacity: 0;
+    /* transform: scale(0.01) rotate(90deg); */
+  }
+  100%{
+    left: 0px;
+    opacity: 1;
+    /* transform: scale(1) rotate(0deg); */
+  }
+`;
 
 export const Overlay = styled.div`
   position: absolute;
@@ -13,6 +27,7 @@ export const Overlay = styled.div`
 `;
 
 export const ModalContainer = styled.section`
+  animation: ${LoginAnimation} 0.5s;
   width: 90vw;
   height: 90vh;
   display: flex;
