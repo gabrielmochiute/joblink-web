@@ -8,9 +8,11 @@ export const Container = styled.div`
   > input {
     border: 0;
     padding-left: 15px;
+    padding-right: 15px;
     border-radius: 3px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: #EDEDED;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background-color: #ededed;
   }
 
   > label {

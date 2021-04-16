@@ -1,4 +1,11 @@
-import { Overlay, ModalContainer, BannerRegister, RegisterContainer, RegisterForm, ButtonNext } from "./styles";
+import {
+  Overlay,
+  ModalContainer,
+  BannerRegister,
+  RegisterContainer,
+  RegisterForm,
+  ButtonNext,
+} from "./styles";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
@@ -9,6 +16,8 @@ import { signIn } from "../../services/security";
 
 function Register() {
   const history = useHistory();
+
+  // const [stage, setStage] = useState();
 
   const [register, setRegister] = useState({
     cpf: "",
@@ -54,7 +63,7 @@ function Register() {
         name,
         email,
         password,
-        "birth_date": newBirthDate
+        birth_date: newBirthDate,
       });
 
       console.log(response.data);
@@ -69,8 +78,7 @@ function Register() {
 
       alert(error.response.data.error);
     }
-
-  }
+  };
 
   const handleInput = (e) => {
     setRegister({ ...register, [e.target.id]: e.target.value });
@@ -80,12 +88,12 @@ function Register() {
     setConfirmPassword(e.target.value);
   };
 
-  return(
+  return (
     <>
       <Overlay>
         <ModalContainer>
           <BannerRegister>
-            <img src={banner}/>
+            <img src={banner} />
             {/* <a href='https://br.freepik.com/vetores/desenho-animado'>Desenho animado vetor criado por vectorjuice - br.freepik.com</a> */}
           </BannerRegister>
           <RegisterContainer>
@@ -139,10 +147,10 @@ function Register() {
                 value={confirmPassword}
                 handler={handleConfirmPassword}
               />
-            <span>
-              <Link to="/">Já possuo cadastro</Link>
-              <ButtonNext disabled={handleButton()}>Next &rsaquo;</ButtonNext>
-            </span>
+              <span>
+                <Link to="/">Já possuo cadastro</Link>
+                <ButtonNext disabled={handleButton()}>Next &rsaquo;</ButtonNext>
+              </span>
             </RegisterForm>
           </RegisterContainer>
         </ModalContainer>

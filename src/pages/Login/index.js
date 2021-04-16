@@ -1,4 +1,12 @@
-import { Overlay, ModalContainer, BannerLogin, FormLogin, Button, Circle, InputContainerHolder } from "./styles";
+import {
+  Overlay,
+  ModalContainer,
+  BannerLogin,
+  FormLogin,
+  Button,
+  Circle,
+  InputContainerHolder,
+} from "./styles";
 import Input from "../../components/input";
 import banner from "../../assets/bannerLogin.jpg";
 
@@ -6,9 +14,13 @@ import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import { api } from "../../services/api";
 import { signIn } from "../../services/security";
+import Alert from "../../components/Alert";
+import { LoadingBar } from "../../components/Loading/styles";
 
 function Login() {
   const history = useHistory();
+
+  const [message, setMessage] = useState();
 
   const [login, setLogin] = useState({
     email: "",
@@ -28,23 +40,25 @@ function Login() {
       history.push("/home");
     } catch (error) {
       console.error(error);
-      alert( error.response.data.error);
+      // alert(error.response.data.error);
+      setMessage({ title: "Ops...", description: error.response.data.error });
     }
-    
-    console.log({"email":login.email, "password":login.password});
+
+    console.log({ email: login.email, password: login.password });
   };
 
   const handleInput = (e) => {
     setLogin({ ...login, [e.target.id]: e.target.value });
   };
 
-
-  return(
+  return (
     <>
       <Overlay>
+        <Alert message={message} type="error" handleClose={setMessage} />
+        {/* <LoadingBar /> */}
         <ModalContainer>
           <BannerLogin>
-            <img src={banner}/>
+            <img src={banner} />
             {/* <a href='https://br.freepik.com/vetores/desenho-animado'>Desenho animado vetor criado por vectorjuice - br.freepik.com</a> */}
           </BannerLogin>
           <FormLogin onSubmit={handleSubmit}>

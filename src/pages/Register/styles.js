@@ -5,7 +5,7 @@ export const Overlay = styled.div`
   width: 100vw;
   height: 100vh;
 
-  background-color: #E5E5E5;
+  background-color: #e5e5e5;
 
   display: flex;
   justify-content: center;
@@ -41,7 +41,6 @@ export const ModalContainer = styled.section`
   border-radius: 4px;
 
   position: relative;
-
 `;
 
 export const BannerRegister = styled.div`
@@ -53,34 +52,35 @@ export const BannerRegister = styled.div`
   justify-content: space-between;
   flex-direction: column;
 
-  >img {
+  > img {
     width: 100%;
     height: 100%;
   }
-  >a {
+  > a {
     position: relative;
-    
   }
 `;
 
 export const RegisterContainer = styled.div`
   width: 55vw;
   height: 100%;
-  
+
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  background-image: linear-gradient(to bottom, var(--secondary), var(--primary));
-  >h1 {
+  background-image: linear-gradient(
+    to bottom,
+    var(--secondary),
+    var(--primary)
+  );
+  > h1 {
     margin-top: 30px;
     color: white;
     font-size: 38px;
     font-weight: 400;
     letter-spacing: 1.2px;
   }
-
-  
 `;
 
 export const RegisterForm = styled.form`
@@ -92,27 +92,33 @@ export const RegisterForm = styled.form`
   align-items: center;
   flex-direction: column;
 
-  >select {
+  > input:not(:placeholder-shown) + label,
+  > input:focus + label {
+    color: white;
+  }
+
+  > select {
     border: 0;
     padding-left: 15px;
     border-radius: 3px;
     margin-top: 15px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: #EDEDED;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background-color: #ededed;
     width: 80%;
     height: 50px;
     font-size: 16px;
     border-radius: 30px;
   }
 
-  >span {
+  > span {
     width: 100%;
     height: 75px;
     padding: 0 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    >a{
+    > a {
       color: white;
       font-size: 22px;
 
@@ -128,7 +134,6 @@ export const RegisterForm = styled.form`
     }
   }
 `;
-
 
 export const ButtonNext = styled.button`
   width: 120px;
