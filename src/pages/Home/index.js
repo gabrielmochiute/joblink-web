@@ -1,6 +1,6 @@
 import { useHistory } from "react-router";
 import { getUser, signOut } from "../../services/security";
-import { Overlay, Container, Forms, CheckList, Next } from "./styles";
+import { Overlay, Container, Forms, CheckList, Next, Steps } from "./styles";
 import Check from "../../components/Check";
 import Input from "../../components/input";
 
@@ -43,7 +43,11 @@ function Home() {
               />
             </CheckList>
             <Next>
-              <div></div>
+              <Steps>
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+              </Steps>
               <button>NEXT</button>
             </Next>
           </Forms>

@@ -6,16 +6,17 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  /* background-color: crimson; */
 
   > input {
     background-color: #ededed;
-    width: 50px;
-    height: 50px;
+    width: 5vw;
+    height: 5vh;
     /* border-radius: 100px; */
   }
 
   > label {
-    font-size: 26px;
+    font-size: 3.5vh;
     align-items: center;
     width: 100%;
     padding-left: 15px;
