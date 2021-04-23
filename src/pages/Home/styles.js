@@ -16,9 +16,13 @@ export const Overlay = styled.div`
 
 export const Container = styled.article`
   width: 95vw;
-  height: 90vh;
+  min-height: 90vh;
   background-color: white;
+  overflow: hidden;
+
   padding-top: 50px;
+  padding-left: 5vw;
+  padding-right: 5vw;
 
   display: flex;
   justify-content: space-between;
@@ -37,7 +41,7 @@ export const Forms = styled.form`
   width: 100%;
   /* background-color: blueviolet; */
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-direction: column;
   align-items: center;
 `;
@@ -45,18 +49,19 @@ export const Forms = styled.form`
 export const CheckList = styled.div`
   /* background-color: blue; */
   width: inherit;
-  height: 300px;
+  min-height: 50vh;
+  overflow: hidden;
 
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  align-items: flex-start;
+  justify-content: space-evenly;
   flex-direction: column;
   /* margin-top: 100px; */
 `;
 
 export const Next = styled.div`
   width: 100%;
-  height: 70px;
+  height: 10vh;
   /* background-color: blue; */
   margin-top: 50px;
   padding: 0 15px;
@@ -66,40 +71,81 @@ export const Next = styled.div`
   align-items: center;
 
   > button {
-    /* background-image: none; */
+    display: inline-block;
+    position: relative;
+    z-index: 0;
+    background-image: none;
     border: none;
     background: none;
-    color: black;
     width: fit-content;
     height: fit-content;
     font-size: 36px;
     font-weight: 600;
+    transition: 0.8s;
+
+    > span {
+      position: relative;
+      z-index: 0;
+      background: black;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: black;
+      transition: all 0.9s;
+    }
+    :hover {
+      background-image: none;
+      color: var(--secondary);
+      > span {
+        position: relative;
+        z-index: 0;
+        background: linear-gradient(to right, var(--secondary), var(--primary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: black;
+      }
+    }
   }
 `;
 
 export const Steps = styled.div`
+  min-width: 15vw;
+  height: inherit;
   /* background-color: blue; */
-  width: 30vw;
-  height: 15vh;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(
-    to bottom,
-    transparent 40%,
-    black 50%,
-    transparent 50%
-  );
-  > div {
-    width: 100px;
-    height: 100px;
-    border-radius: 100px;
-    padding-top: 5px;
+  transition: 2s;
 
-    box-shadow: 1px 1px 5px black;
-    background-color: var(--light);
+  > span {
+    width: 15vw;
+    height: 5px;
+    position: absolute;
+    /* background: linear-gradient(
+      to right,
+      var(--primary) 50%,
+      var(--darkGray) 50%
+    ); */
+  }
+
+  > div {
+    width: 80px;
+    height: 80px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 2s;
+    z-index: 19;
+    user-select: none;
+    /* padding-top: 5px; */
+
+    /* box-shadow: 1px 1px 5px black; */
+    background-color: var(--darkGray);
     text-align: center;
-    font-size: 56px;
+    font-size: 5vh;
+    color: #ffffff;
   }
 `;
