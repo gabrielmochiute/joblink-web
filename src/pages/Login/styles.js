@@ -1,6 +1,5 @@
 import styled, { keyframes } from "styled-components";
 
-
 const LoginAnimation = keyframes`
   0%{
     left: -450px;
@@ -19,7 +18,7 @@ export const Overlay = styled.div`
   width: 100vw;
   height: 100vh;
 
-  background-color: #E5E5E5;
+  background-color: #e5e5e5;
 
   display: flex;
   justify-content: center;
@@ -43,22 +42,24 @@ export const ModalContainer = styled.section`
 
   position: relative;
 
+  box-shadow: 5px 10px 10px #00000020;
 `;
 
 export const BannerLogin = styled.div`
   width: 55vw;
   height: 100%;
+
   background-color: burlywood;
 
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   flex-direction: column;
 
-  >img {
+  > img {
     width: 100%;
     height: 100%;
   }
-  >a {
+  > a {
     position: relative;
   }
 `;
@@ -67,16 +68,46 @@ export const FormLogin = styled.form`
   width: 45vw;
   height: 100%;
   /* background-color: blue; */
-  
+
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  h1{
+  h1 {
     font-size: 32px;
     font-weight: bold;
     z-index: 19;
-    position: relative
+    position: relative;
+  }
+
+  > span {
+    width: 80%;
+    height: 100px;
+    /* background-color: violet; */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-size: 20px;
+
+    > a {
+      transition: all 0.6s;
+      color: var(--darkGray);
+      /* background-color: blue; */
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+
+      text-decoration: none;
+      opacity: 80%;
+      font-weight: 400;
+      width: fit-content;
+      height: fit-content;
+
+      :hover {
+        transform: scale(1.025);
+        text-decoration: underline;
+      }
+    }
   }
 `;
 
@@ -100,10 +131,13 @@ export const Button = styled.button`
 
   font-size: 18px;
   font-weight: 200;
+  background: linear-gradient(to right, var(--secondary), var(--primary));
+  transition: 0.1s ease-in;
 `;
 
 export const InputContainerHolder = styled.div`
   /* background-color: blue; */
+
   width: 100%;
   height: 350px;
 
@@ -112,23 +146,10 @@ export const InputContainerHolder = styled.div`
   align-items: center;
   justify-content: space-evenly;
 
-
-  >span{
-    width: 80%;
-    height: 50px;
-  
-    display: flex;
-    justify-content: flex-end;
-
-    >a{
-      color: var(--darkGray);
-      /* background-color: blue; */
-
-      text-decoration: none;
-      opacity: 80%;
-      font-weight: 400;
-      width: fit-content;
-      height: fit-content;
+  > div {
+    > input {
+      box-shadow: 2px 5px 10px #00000040;
+      border-radius: 15px;
     }
   }
 `;

@@ -19,6 +19,7 @@ import { LoadingBar } from "../../components/Loading/styles";
 
 function Login() {
   const history = useHistory();
+  const { innerWidth: width, innerHeight: height } = window;
 
   const [message, setMessage] = useState();
 
@@ -57,10 +58,6 @@ function Login() {
         <Alert message={message} type="error" handleClose={setMessage} />
         {/* <LoadingBar /> */}
         <ModalContainer>
-          <BannerLogin>
-            <img src={banner} />
-            {/* <a href='https://br.freepik.com/vetores/desenho-animado'>Desenho animado vetor criado por vectorjuice - br.freepik.com</a> */}
-          </BannerLogin>
           <FormLogin onSubmit={handleSubmit}>
             <div>
               <Circle></Circle>
@@ -83,12 +80,18 @@ function Login() {
                 handler={handleInput}
                 required
               ></Input>
-              <span>
-                <Link to="/register">Não possuo cadastro</Link>
-              </span>
             </InputContainerHolder>
-            <Button>Login</Button>
+            <Button>Entrar</Button>
+            <span>
+              <Link to="/register">Não possuo cadastro</Link>
+            </span>
           </FormLogin>
+          <BannerLogin
+            style={width >= 1000 ? { display: "flex" } : { display: "none" }}
+          >
+            <img src={banner} />
+            {/* <a href='https://br.freepik.com/vetores/desenho-animado'>Desenho animado vetor criado por vectorjuice - br.freepik.com</a> */}
+          </BannerLogin>
         </ModalContainer>
       </Overlay>
     </>

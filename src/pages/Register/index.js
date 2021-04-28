@@ -17,6 +17,8 @@ import { signIn } from "../../services/security";
 function Register() {
   const history = useHistory();
 
+  const { innerWidth: width, innerHeight: height } = window;
+
   // const [stage, setStage] = useState();
 
   const [register, setRegister] = useState({
@@ -94,7 +96,9 @@ function Register() {
     <>
       <Overlay>
         <ModalContainer>
-          <BannerRegister>
+          <BannerRegister
+            style={width >= 1000 ? { display: "flex" } : { display: "none" }}
+          >
             <img src={banner} />
             {/* <a href='https://br.freepik.com/vetores/desenho-animado'>Desenho animado vetor criado por vectorjuice - br.freepik.com</a> */}
           </BannerRegister>

@@ -203,3 +203,45 @@ export const TitleDescriptionContainer = styled.div`
     resize: none;
   }
 `;
+
+export const ContainerImage = styled.div`
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  /* background-color: blue; */
+
+  > img {
+    width: 60vw;
+    height: 45vh;
+    margin-bottom: 15px;
+  }
+
+  /* background-color: blue; */
+  > input {
+    display: none;
+  }
+  > label {
+    width: fit-content;
+    height: 50px;
+
+    padding: 0px 15px;
+    border-radius: 15px;
+    font-size: 32px;
+    /* background: linear-gradient(to right, var(--secondary), var(--primary));
+ */
+    border-bottom: solid 5px var(--secondary);
+    /* color: white; */
+    text-align: center;
+    transition: 0.5s;
+    cursor: pointer;
+
+    :hover {
+      color: white;
+      background-color: var(--primary);
+      /* border-color: var(--primary); */
+    }
+  }
+`;

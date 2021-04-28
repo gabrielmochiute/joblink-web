@@ -6,7 +6,7 @@ export const GlobalStyles = createGlobalStyle`
     --darkGray: #C4C4C4;
     --light: #EDF2f4;
     --primary: #F78A2F;
-    --secondary: #ED5354;
+    --secondary: #F55D7F;
   }
   
   
@@ -45,16 +45,17 @@ export const GlobalStyles = createGlobalStyle`
     border: 1px solid var(--light);
     border-radius:4px;
     cursor: pointer;
-    transition: .6s ease-in;
+    transition: all .2s ease-in;
 
     :hover{
-      background-image: linear-gradient(to right, var(--secondary), var(--secondary));
+      background-image: linear-gradient(to right ,var(--secondary),var(--secondary));
     }
     :active{
       transform:scale(0.95);
     }
     :disabled{
       background-color: transparent;
+      background-image: none;
       color: var(--darkGray);
     }
   }

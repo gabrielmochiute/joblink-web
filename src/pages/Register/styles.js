@@ -44,11 +44,11 @@ export const ModalContainer = styled.section`
 `;
 
 export const BannerRegister = styled.div`
-  width: 45vw;
+  width: 50vw;
   height: 100%;
   /* background-color: burlywood; */
 
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   flex-direction: column;
 
@@ -62,8 +62,9 @@ export const BannerRegister = styled.div`
 `;
 
 export const RegisterContainer = styled.div`
-  width: 55vw;
+  min-width: 55vw;
   height: 100%;
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;

@@ -10,9 +10,11 @@ import {
   Steps,
   TitleDescriptionContainer,
   StepsButtons,
+  ContainerImage,
 } from "./styles";
 import Check from "../../components/Check";
 import { useState } from "react";
+import PlaceholderImage from "../../assets/placeholder_image.svg";
 import Input from "../../components/input";
 
 function Urgency({ handleInput }) {
@@ -83,6 +85,18 @@ function TitleAndDescription({ handleInput, form }) {
   );
 }
 
+function Upload() {
+  return (
+    <>
+      <ContainerImage>
+        <input id="idUpload" type="file" />
+        <img src={PlaceholderImage} alt="Imagem para a postagem" />
+        <label htmlFor="idUpload">Escolha uma imagem</label>
+      </ContainerImage>
+    </>
+  );
+}
+
 function Home() {
   const history = useHistory();
 
@@ -125,6 +139,7 @@ function Home() {
             {step === 2 && (
               <TitleAndDescription handleInput={handleInput} form={form} />
             )}
+            {step === 3 && <Upload />}
             <Next>
               <Steps>
                 <span
