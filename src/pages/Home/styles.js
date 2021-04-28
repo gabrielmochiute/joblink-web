@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const Overlay = styled.div`
-  width: 100vw;
-  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
   background-image: linear-gradient(
     to bottom,
     var(--primary),
@@ -19,6 +20,7 @@ export const Container = styled.article`
   min-height: 90vh;
   background-color: white;
   overflow: hidden;
+  position: absolute;
 
   padding-top: 50px;
   padding-left: 5vw;
@@ -69,8 +71,52 @@ export const Next = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
 
-  > button {
+export const Steps = styled.div`
+  min-width: 15vw;
+  height: inherit;
+  /* background-color: blue; */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 2s;
+
+  > span {
+    width: 15vw;
+    height: 5px;
+    position: absolute;
+    /* background: linear-gradient(
+      to right,
+      var(--primary) 50%,
+      var(--darkGray) 50%
+    ); */
+  }
+
+  > div {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 2s;
+    z-index: 19;
+    user-select: none;
+    /* padding-top: 5px; */
+
+    /* box-shadow: 1px 1px 5px black; */
+    background-color: var(--darkGray);
+    text-align: center;
+    font-size: 5vh;
+    color: #ffffff;
+  }
+`;
+
+export const StepsButtons = styled.div`
+  > button,
+  span {
     display: inline-block;
     position: relative;
     z-index: 0;
@@ -82,6 +128,7 @@ export const Next = styled.div`
     font-size: 36px;
     font-weight: 600;
     transition: 0.8s;
+    text-transform: uppercase;
 
     > span {
       position: relative;
@@ -107,45 +154,52 @@ export const Next = styled.div`
       }
     }
   }
-`;
-
-export const Steps = styled.div`
-  min-width: 15vw;
-  height: inherit;
-  /* background-color: blue; */
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: 2s;
 
   > span {
-    width: 15vw;
-    height: 5px;
-    position: absolute;
-    /* background: linear-gradient(
-      to right,
-      var(--primary) 50%,
-      var(--darkGray) 50%
-    ); */
+    font-size: 4vh;
+    user-select: none;
+    transition: 0.5s;
+
+    :hover {
+      cursor: pointer;
+    }
+  }
+`;
+
+export const TitleDescriptionContainer = styled.div`
+  width: 100%;
+  min-height: fit-content;
+  overflow: hidden;
+  /* background-color: blue; */
+
+  padding: 0px 2vw;
+
+  > label {
+    font-size: 3vh;
   }
 
-  > div {
-    width: 80px;
-    height: 80px;
-    border-radius: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 2s;
-    z-index: 19;
-    user-select: none;
-    /* padding-top: 5px; */
+  > textarea,
+  input {
+    width: 100%;
 
-    /* box-shadow: 1px 1px 5px black; */
-    background-color: var(--darkGray);
-    text-align: center;
-    font-size: 5vh;
-    color: #ffffff;
+    font-size: 3vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+    border-radius: 30px;
+    border: 0;
+
+    padding: 10px 15px;
+
+    background-color: #ededed;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+
+  > textarea {
+    min-height: 30vh;
+    overflow: auto;
+    margin-bottom: 8px;
+    resize: none;
   }
 `;

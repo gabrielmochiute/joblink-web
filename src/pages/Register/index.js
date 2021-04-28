@@ -25,6 +25,7 @@ function Register() {
     email: "",
     birthDate: "",
     password: "",
+    gender: "M",
   });
 
   const handleButton = (e) => {
@@ -56,7 +57,7 @@ function Register() {
       return alert("As senhas precisam ser iguais");
 
     try {
-      const { cpf, name, email, password } = register;
+      const { cpf, name, email, password, gender } = register;
 
       const response = await api.post("/clients", {
         cpf,
@@ -64,6 +65,7 @@ function Register() {
         email,
         password,
         birth_date: newBirthDate,
+        gender,
       });
 
       console.log(response.data);
