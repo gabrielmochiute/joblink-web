@@ -38,7 +38,7 @@ function Login() {
 
       //Implementar a autorização
 
-      history.push("/home");
+      history.push("/feed");
     } catch (error) {
       console.error(error);
       // alert(error.response.data.error);

@@ -1,9 +1,9 @@
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import Home from "./pages/Home";
+import Post from "./pages/Post";
 import Login from "./pages/Login";
+import Feed from "./pages/Feed";
 import Register from "./pages/Register";
 import { isSignedIn } from "./services/security";
-
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -25,8 +25,12 @@ function Router() {
           <Register />
         </Route>
 
-        <PrivateRoute path="/home">
-          <Home />
+        <PrivateRoute path="/Post">
+          <Post />
+        </PrivateRoute>
+
+        <PrivateRoute path="/feed">
+          <Feed />
         </PrivateRoute>
       </Switch>
     </BrowserRouter>
