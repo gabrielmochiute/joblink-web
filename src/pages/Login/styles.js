@@ -46,11 +46,19 @@ export const ModalContainer = styled.section`
 `;
 
 export const BannerLogin = styled.div`
+  transition: 0.7s;
   width: 55vw;
   height: 100%;
 
   background-color: burlywood;
+  visibility: visible;
+  opacity: 100;
 
+  @media screen and (max-width: 768px) {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+  }
   /* display: flex; */
   justify-content: space-between;
   flex-direction: column;

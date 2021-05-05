@@ -86,9 +86,7 @@ function Login() {
               <Link to="/register">Não possuo cadastro</Link>
             </span>
           </FormLogin>
-          <BannerLogin
-            style={width >= 1000 ? { display: "flex" } : { display: "none" }}
-          >
+          <BannerLogin>
             <img src={banner} />
             {/* <a href='https://br.freepik.com/vetores/desenho-animado'>Desenho animado vetor criado por vectorjuice - br.freepik.com</a> */}
           </BannerLogin>

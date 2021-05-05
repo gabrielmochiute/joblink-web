@@ -52,6 +52,10 @@ export const BannerRegister = styled.div`
   justify-content: space-between;
   flex-direction: column;
 
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+
   > img {
     width: 100%;
     height: 100%;

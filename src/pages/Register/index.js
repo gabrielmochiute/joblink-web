@@ -17,8 +17,6 @@ import { signIn } from "../../services/security";
 function Register() {
   const history = useHistory();
 
-  const { innerWidth: width, innerHeight: height } = window;
-
   // const [stage, setStage] = useState();
 
   const [register, setRegister] = useState({
@@ -28,6 +26,7 @@ function Register() {
     birthDate: "",
     password: "",
     gender: "M",
+    adress: "Teste",
   });
 
   const handleButton = (e) => {
@@ -59,7 +58,7 @@ function Register() {
       return alert("As senhas precisam ser iguais");
 
     try {
-      const { cpf, name, email, password, gender } = register;
+      const { cpf, name, email, password, gender, adress } = register;
 
       const response = await api.post("/clients", {
         cpf,
@@ -96,9 +95,7 @@ function Register() {
     <>
       <Overlay>
         <ModalContainer>
-          <BannerRegister
-            style={width >= 1000 ? { display: "flex" } : { display: "none" }}
-          >
+          <BannerRegister>
             <img src={banner} />
             {/* <a href='https://br.freepik.com/vetores/desenho-animado'>Desenho animado vetor criado por vectorjuice - br.freepik.com</a> */}
           </BannerRegister>

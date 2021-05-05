@@ -9,6 +9,9 @@ export const GlobalStyles = createGlobalStyle`
     --light: #EDF2f4;
     --primary: #F78A2F;
     --secondary: #F55D7F;
+    --font: #332F25;  
+    --urgency: #ffe712;
+    --highUrgency: #FE0202;
   }
   
   
