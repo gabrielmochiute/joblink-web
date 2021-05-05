@@ -1,6 +1,21 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import px2vw from "../../utils/px2vw";
-const { innerWidth: width } = window;
+import Waves from "../../assets/waves.svg";
+
+const CardAnimation = keyframes`
+  0%{
+    opacity: 0;
+    transform: scale(0.80);
+    
+  }
+  50% {
+    transform: scale(1);
+    
+  }
+  100%{
+    opacity: 1;
+  }
+`;
 
 export const NavigationBar = styled.nav`
   position: fixed;
@@ -94,6 +109,7 @@ export const SearchBar = styled.div`
     background-color: none;
     border: none;
     overflow: hidden;
+    border-radius: 50px;
 
     :focus {
       border: solid 3px var(--primary);
@@ -114,7 +130,9 @@ export const SearchBar = styled.div`
 export const FeedContainer = styled.article`
   width: 100%;
   min-height: 500px;
+  padding: 0 25px;
   padding-top: 100px;
+  transition: 0.9s;
 
   display: flex;
   justify-content: baseline;
@@ -129,9 +147,14 @@ export const FeedContainer = styled.article`
 `;
 
 export const ServiceCard = styled.div`
+  animation: ${CardAnimation} 0.4s;
+
   position: relative;
   transition: 0.7s;
-  /* background-color: blue; */
+  background-image: url(${Waves});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 
   width: 600px;
 
@@ -143,14 +166,7 @@ export const ServiceCard = styled.div`
   }
 
   height: fit-content;
-  background: 
-    /* linear-gradient(
-    to bottom,
-    var(--primary),
-    var(--secondary) 50%, */ var(
-    --white
-  );
-  /* ); */
+
   box-shadow: 5px 5px 10px #00000020;
   border-radius: 15px;
   display: flex;
@@ -161,13 +177,16 @@ export const ServiceCard = styled.div`
   /* background-color: black; */
 
   > p {
-    width: 80%;
+    width: 90%;
     height: fit-content;
     text-align: justify;
     font-size: 18px;
     margin-bottom: 15px;
     font-weight: 500;
     color: var(--font);
+    /* background-color: var(--white); */
+    padding: 0 10%;
+    border-radius: 15px;
   }
   > label {
     width: 90%;
@@ -228,52 +247,63 @@ export const GradientLine = styled.div`
 
 export const ImageTitle = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(to bottom, var(--primary), var(--secondary));
+  justify-content: center;
+  /* align-items: flex-end; */
+  /* background: linear-gradient(to bottom, var(--primary), var(--secondary)); */
   width: 100%;
   height: fit-content;
-  margin-bottom: 30px;
-  padding-top: 25px;
+  padding: 30px 20px;
+  border-radius: 15px 15px 0px 0px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  > label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-  > h1 {
-    font-size: 30px;
-    font-weight: 500;
-    @media screen and (max-width: 768px) {
-      font-size: 24px;
+    > h1 {
+      font-size: 30px;
+      font-weight: 500;
+      @media screen and (max-width: 768px) {
+        font-size: 24px;
+      }
+      color: var(--white);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+
+      /* background-color: blue; */
     }
-    color: var(--white);
-    overflow: hidden;
-    text-align: center;
-    /* background-color: blue; */
-    width: 75%;
+
+    > h4 {
+      font-weight: 500;
+      text-transform: capitalize;
+      color: var(--white);
+      font-size: 18px;
+      @media screen and (max-width: 768px) {
+        font-size: 12px;
+      }
+      user-select: none;
+    }
   }
   > div {
     /* background-color: violet; */
     /* height: 100%; */
-    width: 25%;
+    width: 20%;
     display: flex;
     align-items: center;
     flex-direction: column;
+    text-align: start;
     > img {
       width: 100px;
       height: 100px;
+      margin-bottom: 15px;
       @media screen and (max-width: 768px) {
         width: 70px;
         height: 70px;
       }
 
       border-radius: 100%;
-    }
-
-    > h4 {
-      font-weight: 700;
-      color: var(--white);
-      font-size: 14px;
-      @media screen and (max-width: 768px) {
-        font-size: 12px;
-      }
-      user-select: none;
     }
   }
 `;
@@ -287,6 +317,9 @@ export const Urgency = styled.div`
   position: absolute;
   top: 0;
   right: 0;
+
+  margin-right: 5px;
+  margin-top: 5px;
 
   display: flex;
   justify-content: space-around;
