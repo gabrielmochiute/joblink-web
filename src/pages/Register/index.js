@@ -5,6 +5,7 @@ import {
   RegisterContainer,
   RegisterForm,
   ButtonNext,
+  InputRow,
 } from "./styles";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -25,8 +26,8 @@ function Register() {
     email: "",
     birthDate: "",
     password: "",
-    gender: "M",
-    address: "Teste teste teste",
+    gender: "",
+    address: "",
   });
 
   const handleButton = (e) => {
@@ -97,48 +98,65 @@ function Register() {
       <Overlay>
         <ModalContainer>
           <BannerRegister>
+            <h1>Cadastro</h1>
             <img src={banner} />
             {/* <a href='https://br.freepik.com/vetores/desenho-animado'>Desenho animado vetor criado por vectorjuice - br.freepik.com</a> */}
           </BannerRegister>
           <RegisterContainer>
-            <h1>REGISTER</h1>
-
             <RegisterForm onSubmit={handleSubmit}>
-              <Input
-                id="name"
-                label="Nome"
-                value={register.name}
-                type="text"
-                handler={handleInput}
-                required
-              />
-              <Input
-                id="birthDate"
-                label="Data Nasc."
-                value={register.birthDate}
-                type="date"
-                handler={handleInput}
-                required
-              />
+              <InputRow>
+                <Input
+                  id="name"
+                  label="Nome*"
+                  value={register.name}
+                  type="text"
+                  handler={handleInput}
+                  required
+                />
+                <Input
+                  id="birthDate"
+                  label="Data Nasc.*"
+                  value={register.birthDate}
+                  type="date"
+                  handler={handleInput}
+                  required
+                />
+              </InputRow>
               <Input
                 id="email"
-                label="Email"
+                label="Email*"
                 type="email"
                 value={register.email}
                 handler={handleInput}
                 required
               ></Input>
+              <InputRow>
+                <Input
+                  id="cpf"
+                  label="CPF*"
+                  type="text"
+                  value={register.cpf}
+                  handler={handleInput}
+                  required
+                ></Input>
+                <select id="gender" onChange={handleInput}>
+                  <option>Selecione seu sexo*</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Feminino</option>
+                  <option value="C">Confidencial</option>
+                </select>
+              </InputRow>
               <Input
-                id="cpf"
-                label="CPF"
+                id="address"
+                label="Endereço*"
                 type="text"
-                value={register.cpf}
                 handler={handleInput}
+                value={register.address}
                 required
-              ></Input>
+              />
               <Input
                 id="password"
-                label="Senha"
+                label="Senha*"
                 type="password"
                 handler={handleInput}
                 value={register.password}
@@ -146,7 +164,7 @@ function Register() {
               />
               <Input
                 id="validPassword"
-                label="Confirmar senha"
+                label="Confirmar senha*"
                 type="password"
                 value={confirmPassword}
                 handler={handleConfirmPassword}

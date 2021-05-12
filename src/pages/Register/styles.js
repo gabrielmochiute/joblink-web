@@ -27,8 +27,8 @@ const RegisterAnimation = keyframes`
 
 export const ModalContainer = styled.section`
   animation: ${RegisterAnimation} 0.5s;
-  width: 90vw;
-  height: 90vh;
+  width: 90%;
+  height: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,6 +46,7 @@ export const ModalContainer = styled.section`
 export const BannerRegister = styled.div`
   width: 50vw;
   height: 100%;
+  position: relative;
   /* background-color: burlywood; */
 
   /* display: flex; */
@@ -63,12 +64,24 @@ export const BannerRegister = styled.div`
   > a {
     position: relative;
   }
+
+  > h1 {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    color: var(--font);
+    font-weight: 600;
+    margin-top: 15px;
+    text-transform: uppercase;
+    user-select: none;
+  }
 `;
 
 export const RegisterContainer = styled.div`
   min-width: 55vw;
   height: 100%;
   overflow: hidden;
+  padding-top: 50px;
 
   display: flex;
   flex-direction: column;
@@ -90,7 +103,7 @@ export const RegisterContainer = styled.div`
 
 export const RegisterForm = styled.form`
   width: 100%;
-  height: 85%;
+  height: 100%;
 
   display: flex;
   justify-content: space-around;
@@ -137,6 +150,34 @@ export const RegisterForm = styled.form`
         text-decoration: underline;
       }
     }
+  }
+`;
+
+export const InputRow = styled.div`
+  width: 90%;
+  /* background-color: red; */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  div {
+    width: 48%;
+  }
+
+  > select {
+    width: 48%;
+    height: 50px;
+
+    margin-top: 15px;
+    border: 0;
+    border-radius: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background-color: #ededed;
   }
 `;
 

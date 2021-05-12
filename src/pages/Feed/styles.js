@@ -29,6 +29,7 @@ export const NavigationBar = styled.nav`
   display: flex;
   justify-content: space-around;
   align-items: center;
+
   box-shadow: 5px 5px 10px #00000020;
 
   > img {
@@ -52,6 +53,7 @@ export const NavigationBar = styled.nav`
     > img {
       width: 60px;
       height: 60px;
+      margin-right: 15px;
       border-radius: 50px;
     }
   }
@@ -98,6 +100,7 @@ export const SearchBar = styled.div`
   align-items: center;
   border-radius: 30px;
   background-color: var(--gray);
+  /* background: blue; */
 
   > input {
     width: 100%;
@@ -152,9 +155,10 @@ export const ServiceCard = styled.div`
   position: relative;
   transition: 0.7s;
   background-image: url(${Waves});
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: white;
 
   width: 600px;
 
@@ -280,10 +284,16 @@ export const ImageTitle = styled.div`
       text-transform: capitalize;
       color: var(--white);
       font-size: 18px;
+
       @media screen and (max-width: 768px) {
         font-size: 12px;
       }
       user-select: none;
+
+      :hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
     }
   }
   > div {
@@ -298,6 +308,7 @@ export const ImageTitle = styled.div`
       width: 100px;
       height: 100px;
       margin-bottom: 15px;
+      cursor: pointer;
       @media screen and (max-width: 768px) {
         width: 70px;
         height: 70px;

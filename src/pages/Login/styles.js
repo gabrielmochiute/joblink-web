@@ -1,4 +1,5 @@
 import styled, { keyframes } from "styled-components";
+import Background from "../../assets/background.svg";
 
 const LoginAnimation = keyframes`
   0%{
@@ -15,10 +16,14 @@ const LoginAnimation = keyframes`
 
 export const Overlay = styled.div`
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 
-  background-color: #e5e5e5;
+  background-image: url(${Background});
+  background-position: bottom;
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 
   display: flex;
   justify-content: center;

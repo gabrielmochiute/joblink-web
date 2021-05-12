@@ -32,7 +32,7 @@ export const Container = styled.div`
     width: 100%;
     height: 50px;
     font-size: 16px;
-    border-radius: 30px;
+    border-radius: 15px;
     /* margin-bottom: 30px; */
   }
 

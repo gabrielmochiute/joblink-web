@@ -4,6 +4,8 @@ import Login from "./pages/Login";
 import Feed from "./pages/Feed";
 import Register from "./pages/Register";
 import { isSignedIn } from "./services/security";
+import UserScreen from "./pages/UserScreen";
+import Teste from "./pages/Teste";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -32,6 +34,13 @@ function Router() {
         <PrivateRoute path="/feed">
           <Feed />
         </PrivateRoute>
+        <PrivateRoute path="/user/:id">
+          <UserScreen />
+        </PrivateRoute>
+
+        <Route path="/teste">
+          <Teste />
+        </Route>
       </Switch>
     </BrowserRouter>
   );
