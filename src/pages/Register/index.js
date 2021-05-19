@@ -161,7 +161,9 @@ function Register() {
           <BannerRegister>
             <h1>Cadastro</h1>
             <Lottie options={defaultOptions} />
-            <Link to="/">Já possui cadastro? Clique aqui para se logar</Link>
+            <Link to="/login">
+              Já possui cadastro? Clique aqui para se logar
+            </Link>
             {/* <a href='https://br.freepik.com/vetores/desenho-animado'>Desenho animado vetor criado por vectorjuice - br.freepik.com</a> */}
           </BannerRegister>
           <RegisterContainer>

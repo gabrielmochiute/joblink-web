@@ -157,7 +157,7 @@ export const ServiceCard = styled.div`
   background-image: url(${Waves});
   background-position: top;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-color: white;
 
   width: 600px;
@@ -239,16 +239,6 @@ export const ServiceCard = styled.div`
   }
 `;
 
-export const GradientLine = styled.div`
-  width: 100%;
-  height: 15px;
-  background: linear-gradient(to right, var(--secondary), var(--primary));
-  position: relative;
-  top: 0;
-  left: 0;
-  /* z-index: 99; */
-`;
-
 export const ImageTitle = styled.div`
   display: flex;
   justify-content: center;
@@ -256,9 +246,9 @@ export const ImageTitle = styled.div`
   /* background: linear-gradient(to bottom, var(--primary), var(--secondary)); */
   width: 100%;
   height: fit-content;
-  padding: 30px 20px;
+  padding: 0px 20px;
   border-radius: 15px 15px 0px 0px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   margin-top: 15px;
   > label {
     display: flex;

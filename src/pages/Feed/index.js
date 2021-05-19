@@ -61,7 +61,6 @@ function ServiceCards({ post, history }) {
         {post.image ? (
           <>
             <CardImage src={post.image} />
-            <GradientLine />
           </>
         ) : (
           ""
