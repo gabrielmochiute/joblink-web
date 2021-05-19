@@ -52,9 +52,9 @@ export const GlobalStyles = createGlobalStyle`
     cursor: pointer;
     transition: all .2s ease-in;
 
-    :hover{
+    /* :hover{
       background-image: linear-gradient(to right ,var(--secondary),var(--secondary));
-    }
+    } */
     :active{
       transform:scale(0.95);
     }

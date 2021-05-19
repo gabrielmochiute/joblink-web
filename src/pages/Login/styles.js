@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import Background from "../../assets/background.svg";
+import Background from "../../assets/wave.png";
 
 const LoginAnimation = keyframes`
   0%{
@@ -14,20 +14,74 @@ const LoginAnimation = keyframes`
   }
 `;
 
+const WaveAnimation = keyframes`
+  0%{
+    background-position-x: 0; 
+  }
+  0%{
+    background-position-x: 1000px; 
+  }
+`;
+
+const WaveAnimation2 = keyframes`
+  0%{
+    background-position-x: 0; 
+  }
+  0%{
+    background-position-x: -1000px; 
+  }
+`;
+
 export const Overlay = styled.div`
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 100vh;
 
-  background-image: url(${Background});
-  background-position: bottom;
-  background-size: cover;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-
+  background-color: #ffffff66;
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+export const Wave = styled.section`
+  > div {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background-image: url(${Background});
+    background-size: 1000px 100px;
+  }
+
+  .wave1 {
+    animation: ${WaveAnimation} 30s linear infinite;
+    z-index: 100;
+    opacity: 1;
+    animation-delay: 0s;
+    bottom: 0;
+  }
+  .wave2 {
+    animation: ${WaveAnimation2} 15s linear infinite;
+    z-index: 99;
+    opacity: 0.5;
+    animation-delay: -5s;
+    bottom: 10px;
+  }
+  .wave3 {
+    animation: ${WaveAnimation2} 30s linear infinite;
+    z-index: 98;
+    opacity: 0.2;
+    animation-delay: -2s;
+    bottom: 15px;
+  }
+  .wave4 {
+    animation: ${WaveAnimation2} 5s linear infinite;
+    z-index: 97;
+    opacity: 0.7;
+    animation-delay: -2s;
+    bottom: 20px;
+  }
 `;
 
 export const ModalContainer = styled.section`
@@ -38,7 +92,7 @@ export const ModalContainer = styled.section`
   align-items: center;
   justify-content: center;
 
-  z-index: 19;
+  z-index: 999;
 
   overflow-x: auto;
 
@@ -54,18 +108,22 @@ export const BannerLogin = styled.div`
   transition: 0.7s;
   width: 55vw;
   height: 100%;
+  user-select: none;
 
-  background-color: burlywood;
+  /* background-color: burlywood; */
   visibility: visible;
   opacity: 100;
+
+  /* display: flex; */
 
   @media screen and (max-width: 768px) {
     visibility: hidden;
     opacity: 0;
     position: absolute;
   }
-  /* display: flex; */
-  justify-content: space-between;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
   flex-direction: column;
 
   > img {
@@ -79,6 +137,9 @@ export const BannerLogin = styled.div`
 
 export const FormLogin = styled.form`
   width: 45vw;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
   height: 100%;
   /* background-color: blue; */
 

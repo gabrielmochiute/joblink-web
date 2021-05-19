@@ -97,7 +97,7 @@ function Upload() {
   );
 }
 
-function Home() {
+function Post() {
   const history = useHistory();
 
   const [step, setStep] = useState(1);
@@ -200,4 +200,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Post;

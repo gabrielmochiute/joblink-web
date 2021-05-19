@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import { isSignedIn } from "./services/security";
 import UserScreen from "./pages/UserScreen";
 import Teste from "./pages/Teste";
+import Home from "./pages/Home";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -19,7 +20,7 @@ function Router() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/login">
           <Login />
         </Route>
 
@@ -40,6 +41,10 @@ function Router() {
 
         <Route path="/teste">
           <Teste />
+        </Route>
+
+        <Route path="/">
+          <Home />
         </Route>
       </Switch>
     </BrowserRouter>

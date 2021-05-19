@@ -4,6 +4,7 @@ export const Overlay = styled.div`
   position: absolute;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
 
   background-color: #e5e5e5;
 
@@ -16,12 +17,12 @@ const RegisterAnimation = keyframes`
   0%{
     top: -450px;
     opacity: 0;
-    /* transform: scale(0.01) rotate(90deg); */
+    /* transform: scale(0.5); */
   }
   100%{
     top: 0px;
     opacity: 1;
-    /* transform: scale(1) rotate(0deg); */
+    /* transform: scale(1); */
   }
 `;
 
@@ -29,6 +30,7 @@ export const ModalContainer = styled.section`
   animation: ${RegisterAnimation} 0.5s;
   width: 90%;
   height: 90%;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,6 +40,7 @@ export const ModalContainer = styled.section`
   overflow-x: auto;
 
   background-color: white;
+  box-shadow: 2px 5px 10px #00000060;
   border-radius: 4px;
 
   position: relative;
@@ -62,23 +65,53 @@ export const BannerRegister = styled.div`
     height: 100%;
   }
   > a {
-    position: relative;
+    position: absolute;
+    bottom: 25px;
+    left: 0px;
+    margin: 15px;
+    text-decoration: none;
+    color: transparent;
+    background-image: linear-gradient(
+      to bottom,
+      var(--primary),
+      var(--secondary)
+    );
+    -webkit-background-clip: text;
+    font-size: 20px;
+    transition: all 0.3s;
+    cursor: pointer;
+
+    :hover {
+      text-decoration: underline;
+    }
   }
 
   > h1 {
     position: absolute;
     width: 100%;
     text-align: center;
-    color: var(--font);
+    color: transparent;
     font-weight: 600;
+    font-size: 28px;
     margin-top: 15px;
     text-transform: uppercase;
     user-select: none;
+    letter-spacing: 1.5px;
+    background-image: linear-gradient(
+      to right,
+      var(--primary),
+      var(--secondary)
+    );
+    -webkit-background-clip: text;
   }
 `;
 
 export const RegisterContainer = styled.div`
   min-width: 55vw;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    overflow: hidden;
+  }
   height: 100%;
   overflow: hidden;
   padding-top: 50px;
@@ -87,11 +120,7 @@ export const RegisterContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  background-image: linear-gradient(
-    to bottom,
-    var(--secondary),
-    var(--primary)
-  );
+  background-image: linear-gradient(to right, var(--secondary), var(--primary));
   > h1 {
     margin-top: 30px;
     color: white;
@@ -134,22 +163,8 @@ export const RegisterForm = styled.form`
     height: 75px;
     padding: 0 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
-    > a {
-      color: white;
-      font-size: 22px;
-
-      text-decoration: none;
-      opacity: 80%;
-      font-weight: 400;
-      width: fit-content;
-      height: fit-content;
-
-      :hover {
-        text-decoration: underline;
-      }
-    }
   }
 `;
 
@@ -182,13 +197,100 @@ export const InputRow = styled.div`
 `;
 
 export const ButtonNext = styled.button`
-  width: 120px;
+  width: 130px;
   height: 50px;
   color: white;
   font-size: 26px;
   background: none;
   border: none;
   font-weight: 200;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  margin: 15px;
 
   text-transform: uppercase;
+  transition: all 0.6s;
+
+  :disabled {
+    opacity: 0.2;
+  }
+
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+export const ClientOrFreelancer = styled.div`
+  width: 100%;
+  min-height: 300px;
+  padding: 0 25px;
+  /* background-color: #fff; */
+  > h1 {
+    font-size: 32px;
+    color: var(--white);
+    font-weight: 400;
+    margin-bottom: 15px;
+  }
+
+  > ul {
+    /* background-color: #fff; */
+    list-style: inside;
+    list-style-type: none;
+    color: var(--white);
+
+    > li {
+      margin-bottom: 15px;
+    }
+  }
+`;
+
+export const FreelancerType = styled.div`
+  width: 100%;
+  min-height: 300px;
+  overflow: auto;
+  padding: 15px;
+
+  > h1 {
+    color: var(--white);
+    font-weight: 400;
+    font-size: 38px;
+    margin-bottom: 25px;
+  }
+
+  > select {
+    width: 90%;
+    height: 50px;
+    border-radius: 15px;
+    font-size: 24px;
+    color: var(--font);
+    padding: 0px 10px;
+  }
+`;
+
+const upAnimation = keyframes`
+  0%{
+    opacity: 0;
+    transform: translateY(0);
+  }
+  50%{
+    opacity: 1;
+  }
+  100%{
+    transform: translateY(-800px) rotate(960deg);
+  }
+`;
+
+export const Squares = styled.ul`
+  > li {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    opacity: 0.6;
+    display: block;
+    position: absolute;
+    bottom: -40px;
+    animation: ${upAnimation} 1s infinite;
+    /* animation-direction: alternate; */
+  }
 `;
