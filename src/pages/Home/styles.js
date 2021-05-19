@@ -5,6 +5,11 @@ export const MainContainer = styled.div`
   width: 100%;
   min-height: 900px;
   overflow: hidden;
+  background-color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 `;
 
 export const Introduction = styled.section`
@@ -15,19 +20,23 @@ export const Introduction = styled.section`
   padding: 50px 50px;
 
   > div {
-    padding-top: 50px;
+    /* padding-top: 50px; */
     display: flex;
     align-items: flex-start;
     flex-direction: column;
 
     > h1,
-    h2 {
+    h2,
+    h3 {
       width: 700px;
       font-size: 64px;
       /* background-color: green; */
       font-weight: 500;
     }
     > h2 {
+      color: var(--primary);
+    }
+    > h3 {
       font-size: 34px;
       font-weight: 300;
       margin-top: 15px;
@@ -68,14 +77,27 @@ export const Introduction = styled.section`
       }
     }
   }
+`;
 
-  > img {
-    position: absolute;
-    width: 40vw;
-    height: fit-content;
-    top: 0;
-    right: 0;
+export const LoginRegister = styled.div`
+  width: 40vw;
+  visibility: visible;
+  opacity: 1;
+  transition: 0.6s ease-in;
+  @media screen and (max-width: 900px) {
+    visibility: hidden;
+    opacity: 0;
   }
+  height: 1000px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 20;
+  background-image: url(${Circles});
+  /* background-color: green; */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-x: right;
 `;
 
 export const About = styled.section`
