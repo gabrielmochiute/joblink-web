@@ -29,11 +29,11 @@ function User({ user }) {
 function UserScreen() {
   const [user, setUser] = useState([]);
   const [success, setSuccess] = useState(false);
-  let { id } = useParams();
+  let { id, type } = useParams();
 
   const getUser = async () => {
     try {
-      const response = await api.get(`/clients/${id}`);
+      const response = await api.get(`/${type}/${id}`);
 
       setUser(response.data);
       setSuccess(true);

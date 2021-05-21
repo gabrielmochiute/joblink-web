@@ -19,8 +19,14 @@ import { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router";
 
 function ServiceCards({ post, history }) {
+  const [user, setUser] = useState("clients");
+
+  if (post.User.is_freelancer) {
+    setUser("freelancers");
+  }
+
   const sendToUserPage = () => {
-    history.push(`/user/${post.User.id}`);
+    history.push(`/find/${user}/${post.User.id}`);
   };
 
   return (

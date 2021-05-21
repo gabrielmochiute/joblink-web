@@ -35,7 +35,7 @@ function Router() {
         <PrivateRoute path="/feed">
           <Feed />
         </PrivateRoute>
-        <PrivateRoute path="/user/:id">
+        <PrivateRoute path="/find/:type/:id">
           <UserScreen />
         </PrivateRoute>
 
