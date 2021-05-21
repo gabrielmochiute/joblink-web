@@ -9,7 +9,7 @@ export const GlobalStyles = createGlobalStyle`
     --light: #EDF2f4;
     --primary: #F78A2F;
     --secondary: #F55D7F;
-    --font: #332F25;  
+    --font: #3A3A3A;  
     --urgency: #ffe712;
     --highUrgency: #FE0202;
   }
@@ -32,7 +32,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-thumb{
-    background-color: var(--light);
+    background: linear-gradient(to bottom, var(--primary), var(--secondary));
     border-radius: 15px;
   }
 

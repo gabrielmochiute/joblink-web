@@ -43,6 +43,7 @@ function Register() {
     password: "",
     gender: "",
     address: "",
+    profession: "",
   });
 
   const handleButton = (e) => {
@@ -101,8 +102,44 @@ function Register() {
         alert(error.response.data.error);
       }
     } else {
-      if (!step === 3) setStep(step + 1);
-      return;
+      if (step != 3) {
+        return setStep(step + 1);
+      } else {
+        const formatedBirthDate = register.birthDate.split("-", 3);
+        const newBirthDate = `${formatedBirthDate[2]}/${formatedBirthDate[1]}/${formatedBirthDate[0]}`;
+
+        if (confirmPassword !== register.password)
+          return alert("As senhas precisam ser iguais");
+
+        try {
+          const { cpf, name, email, password, gender, address, profession } =
+            register;
+
+          const response = await api.post("/freelancers", {
+            cpf,
+            name,
+            email,
+            password,
+            birth_date: newBirthDate,
+            gender,
+            address,
+            profession,
+          });
+
+          console.log(response.data);
+
+          signIn(response.data);
+
+          //Implementar a autorização
+
+          history.push("/feed");
+        } catch (error) {
+          console.error(error);
+
+          alert(error.response.data.error);
+        }
+        return;
+      }
     }
   };
 
@@ -275,8 +312,11 @@ function Register() {
               {step === 3 && (
                 <FreelancerType>
                   <h1>Selecione o seu tipo de trabalho</h1>
-                  <select>
+                  <select id="profession" onChange={handleInput}>
                     <option>Tipo de trabalho</option>
+                    <option value="mecanico">Mecânico</option>
+                    <option value="tecnico">técnico</option>
+                    <option value="advogado">advogado</option>
                   </select>
                 </FreelancerType>
               )}
