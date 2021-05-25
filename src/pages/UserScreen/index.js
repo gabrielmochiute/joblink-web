@@ -6,6 +6,7 @@ import {
   ProfilePosts,
 } from "./styles";
 import Settings from "../../assets/settings_icon.svg";
+import Profile from "../../assets/perfil.png";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
@@ -37,6 +38,7 @@ function UserScreen() {
 
       setUser(response.data);
       setSuccess(true);
+      console.log(response.data);
     } catch (error) {
       // alert(error);
     }
@@ -51,7 +53,7 @@ function UserScreen() {
       {success ? (
         <>
           <Banner>
-            <ProfilePicture src="https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png" />
+            <ProfilePicture src={user.image ? user.image : Profile} />
           </Banner>
           <User user={user} />
         </>

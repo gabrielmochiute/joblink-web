@@ -1,4 +1,5 @@
 import jwtDecode from "jwt-decode";
+import { useState } from "react";
 import { api } from "./api";
 
 const USER_KEY = "@user";
@@ -17,9 +18,19 @@ export const signOut = () => {
 };
 
 export const getUser = () => {
-  const { client } = JSON.parse(localStorage.getItem(USER_KEY));
+  const { client, freelancer } = JSON.parse(localStorage.getItem(USER_KEY));
 
-  return client;
+  if (client) {
+    return {
+      user: client,
+      isFreelancer: false,
+    };
+  } else {
+    return {
+      user: freelancer,
+      isFreelancer: true,
+    };
+  }
 };
 
 export const setUser = (client) => {

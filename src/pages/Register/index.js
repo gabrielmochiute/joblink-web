@@ -21,6 +21,7 @@ import Check from "../../components/Check";
 import animationData from "../../lotties/lottie-register.json";
 import Lottie from "react-lottie";
 import ReactDom from "react-dom";
+import Alert from "../../components/Alert";
 
 function Li() {
   return <li></li>;
@@ -28,6 +29,8 @@ function Li() {
 
 function Register() {
   const history = useHistory();
+
+  const [message, setMessage] = useState();
 
   const [step, setStep] = useState(1);
 
@@ -99,7 +102,10 @@ function Register() {
       } catch (error) {
         console.error(error);
 
-        alert(error.response.data.error);
+        setMessage({
+          title: "Ops...",
+          description: "CPF ou E-mail já cadastrados ou inválidos",
+        });
       }
     } else {
       if (step != 3) {
@@ -130,13 +136,14 @@ function Register() {
 
           signIn(response.data);
 
-          //Implementar a autorização
-
           history.push("/feed");
         } catch (error) {
           console.error(error);
 
-          alert(error.response.data.error);
+          setMessage({
+            title: "Ops...",
+            description: "CPF ou E-mail já cadastrados ou inválidos",
+          });
         }
         return;
       }
@@ -194,6 +201,7 @@ function Register() {
   return (
     <>
       <Overlay>
+        <Alert message={message} type="error" handleClose={setMessage} />
         <ModalContainer>
           <BannerRegister>
             <h1>Cadastro</h1>

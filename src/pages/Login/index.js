@@ -21,7 +21,6 @@ import Alert from "../../components/Alert";
 
 function Login() {
   const history = useHistory();
-  const { innerWidth: width, innerHeight: height } = window;
 
   const [message, setMessage] = useState();
 

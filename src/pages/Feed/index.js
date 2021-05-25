@@ -3,9 +3,6 @@ import {
   SearchBar,
   FeedContainer,
   ServiceCard,
-  Wave,
-  WaveContainer,
-  GradientLine,
   ImageTitle,
   CardImage,
   Urgency,
@@ -17,16 +14,35 @@ import UrgencyImage from "../../assets/urgency.svg";
 import HighUrgencyImage from "../../assets/highUrgency.svg";
 import { useEffect, useState } from "react";
 import { Redirect, useHistory } from "react-router";
+import { getUser } from "../../services/security";
+import Alert from "../../components/Alert";
 
-function ServiceCards({ post, history }) {
-  const [user, setUser] = useState("clients");
+function ServiceCards({ post, history, setMessage }) {
+  const signedUser = getUser();
 
-  if (post.User.is_freelancer) {
-    setUser("freelancers");
-  }
+  const [typeUser, setTypeUser] = useState("clients");
+
+  useEffect(() => {
+    setTypeUser(post.User.is_freelancer ? "freelancers" : "clients");
+  }, []);
 
   const sendToUserPage = () => {
-    history.push(`/find/${user}/${post.User.id}`);
+    history.push(`/find/${typeUser}/${post.User.id}`);
+  };
+
+  const startService = async () => {
+    try {
+      const response = await api.post(
+        `/posts/${post.id}/freelancer/${signedUser.user.id}/service`
+      );
+
+      console.log(response);
+
+      setMessage({ title: "Sucesso", description: "O serviço deu certo." });
+    } catch (error) {
+      setMessage({ title: "Ops...", description: "Algo deu errado." });
+    }
+    // console.log(signedUser);
   };
 
   return (
@@ -73,7 +89,15 @@ function ServiceCards({ post, history }) {
         )}
         <p>{post.description}</p>
         <label>
-          <button onClick={() => {}}>Entrar em contato</button>
+          <button
+            onClick={() => {
+              if (window.confirm("Tem certeza?")) {
+                startService();
+              }
+            }}
+          >
+            Entrar em contato
+          </button>
         </label>
       </ServiceCard>
     </>
@@ -82,6 +106,8 @@ function ServiceCards({ post, history }) {
 
 function Feed() {
   const history = useHistory();
+
+  const [message, setMessage] = useState();
 
   const [cards, setCards] = useState([]);
 
@@ -123,6 +149,7 @@ function Feed() {
 
   return (
     <>
+      <Alert description={message} type="error" handleClose={setMessage} />
       <NavigationBar>
         <label>
           <img
@@ -146,7 +173,7 @@ function Feed() {
 
       <FeedContainer>
         {cards.map((p) => (
-          <ServiceCards post={p} history={history} />
+          <ServiceCards post={p} history={history} setMessage={setMessage} />
         ))}
 
         {/* <ServiceCards image="teste" /> */}
