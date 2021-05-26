@@ -13,41 +13,70 @@ import Logo from "../../assets/logo_branca.png";
 import UrgencyImage from "../../assets/urgency.svg";
 import HighUrgencyImage from "../../assets/highUrgency.svg";
 import { useEffect, useState } from "react";
-import { Redirect, useHistory } from "react-router";
+import { useHistory } from "react-router";
 import { getUser } from "../../services/security";
 import Alert from "../../components/Alert";
 
-function ServiceCards({ post, history, setMessage }) {
+function ServiceCards({ post, history, setMessage, services }) {
   const signedUser = getUser();
 
   const [typeUser, setTypeUser] = useState("clients");
 
+  const [contact, setContact] = useState("Entrar em contato");
+
+  const [isAccepted, setIsAccepted] = useState(false);
+
   useEffect(() => {
+    // const checkIfIsAccepted = () => {
+    //   services.map((s) => {
+    //     if (s.Post.id === post.id) {
+    //       console.log(`A postagem ${post.id} é a mesma que a ${s.Post.id}`);
+
+    //       // setIsAccepted(true);
+    //     }
+    //   });
+    // };
     setTypeUser(post.User.is_freelancer ? "freelancers" : "clients");
+
+    // checkIfIsAccepted();
   }, []);
 
   const sendToUserPage = () => {
     history.push(`/find/${typeUser}/${post.User.id}`);
   };
 
+  console.log({ card: post.id, serviço: services });
+
   const startService = async () => {
     try {
-      const response = await api.post(
-        `/posts/${post.id}/freelancer/${signedUser.user.id}/service`
-      );
+      const response = await api.post(`/posts/${post.id}/service`);
 
       console.log(response);
 
       setMessage({ title: "Sucesso", description: "O serviço deu certo." });
+      setContact("Aceito!");
+      // alert("sucesso");
     } catch (error) {
       setMessage({ title: "Ops...", description: "Algo deu errado." });
     }
     // console.log(signedUser);
   };
 
+  let progress;
+
+  if (services.find((s) => s.Post.id === post.id)) {
+    //Se é o dono do post
+    if (signedUser.user.id === post.User.id) {
+      progress = "Andamento";
+    } else {
+      return null;
+    }
+  }
+
   return (
     <>
       <ServiceCard>
+        {progress}
         {post.urgency >= 4 ? (
           <Urgency
             style={
@@ -96,7 +125,7 @@ function ServiceCards({ post, history, setMessage }) {
               }
             }}
           >
-            Entrar em contato
+            {contact}
           </button>
         </label>
       </ServiceCard>
@@ -115,6 +144,8 @@ function Feed() {
 
   const [reload, setReload] = useState(null);
 
+  const [services, setServices] = useState([]);
+
   const loadCards = async () => {
     // setCards([]);
     const response = await api.get("/feed");
@@ -122,11 +153,19 @@ function Feed() {
     setCards([...response.data]);
   };
 
+  const loadServices = async () => {
+    const response = await api.get("/services");
+
+    setServices([...response.data]);
+  };
+
   useEffect(() => {
     loadCards();
+    loadServices();
   }, [reload]);
 
   console.log(cards);
+  console.log(services);
 
   const handleSearch = async (e) => {
     setSearch(e.target.value);
@@ -173,7 +212,12 @@ function Feed() {
 
       <FeedContainer>
         {cards.map((p) => (
-          <ServiceCards post={p} history={history} setMessage={setMessage} />
+          <ServiceCards
+            post={p}
+            history={history}
+            setMessage={setMessage}
+            services={services}
+          />
         ))}
 
         {/* <ServiceCards image="teste" /> */}
