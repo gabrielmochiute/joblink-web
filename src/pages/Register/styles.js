@@ -234,13 +234,43 @@ export const ClientOrFreelancer = styled.div`
   }
 
   > ul {
-    /* background-color: #fff; */
+    width: 100%;
+    height: fit-content;
     list-style: inside;
     list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     color: var(--white);
+    gap: 15px;
 
     > li {
+      width: 0px;
+      flex: auto;
       margin-bottom: 15px;
+
+      > input {
+        display: none;
+      }
+
+      > h2 {
+        text-align: center;
+        font-weight: 400;
+      }
+
+      > label {
+        > img {
+          width: 100%;
+          height: 100%;
+          transition: 0.3s;
+          cursor: pointer;
+          border-radius: 10px;
+
+          :hover {
+            border: solid 2px var(--secondary);
+          }
+        }
+      }
     }
   }
 `;
@@ -265,6 +295,9 @@ export const FreelancerType = styled.div`
     font-size: 24px;
     color: var(--font);
     padding: 0px 10px;
+    /* margin-bottom: 25px; */
+    background-color: #ededed;
+    border: none;
   }
 `;
 

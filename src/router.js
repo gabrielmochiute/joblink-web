@@ -7,6 +7,7 @@ import { isSignedIn } from "./services/security";
 import UserScreen from "./pages/UserScreen";
 import Teste from "./pages/Teste";
 import Home from "./pages/Home";
+import Contact from "./pages/Contact";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -37,6 +38,10 @@ function Router() {
         </PrivateRoute>
         <PrivateRoute path="/find/:type/:id">
           <UserScreen />
+        </PrivateRoute>
+
+        <PrivateRoute path="/contact/:freelancer/:client">
+          <Contact />
         </PrivateRoute>
 
         <Route path="/teste">

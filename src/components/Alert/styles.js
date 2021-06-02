@@ -1,17 +1,18 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  position: absolute;
-  top: 0;
-  left: 30%;
-  right: 30%;
-  z-index: 9999;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 999;
 
-  /* width: 300px; */
-  height: 0px;
+  width: 0px;
+  height: fit-content;
+  padding-left: 16px;
+  /* padding-right: 16px; */
   margin: 5px;
 
-  transition: height 0.4s;
+  transition: width 0.4s;
 
   border-radius: 8px;
   background-image: ${(props) =>
@@ -24,14 +25,17 @@ export const Container = styled.div`
   color: white;
 
   > h1 {
-    text-align: center;
+    /* text-align: center; */
     font-size: 24px;
     margin: 5px;
+    font-weight: 500;
   }
 
   > p {
-    text-align: center;
+    /* text-align: center; */
     font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 16px;
   }
 
   > span {

@@ -6,6 +6,7 @@ import {
   ImageTitle,
   CardImage,
   Urgency,
+  CardAnimation,
 } from "./styles";
 import { api } from "../../services/api";
 import SearchIcon from "../../assets/search_icon.svg";
@@ -22,23 +23,16 @@ function ServiceCards({ post, history, setMessage, services }) {
 
   const [typeUser, setTypeUser] = useState("clients");
 
-  const [contact, setContact] = useState("Entrar em contato");
+  const [contact, setContact] = useState("Aceitar");
 
   const [isAccepted, setIsAccepted] = useState(false);
 
+  // const [acceptedService, setAcceptedService] = useState(false);
+
+  // const [acceptedService, setAcceptedService] = useState();
+
   useEffect(() => {
-    // const checkIfIsAccepted = () => {
-    //   services.map((s) => {
-    //     if (s.Post.id === post.id) {
-    //       console.log(`A postagem ${post.id} é a mesma que a ${s.Post.id}`);
-
-    //       // setIsAccepted(true);
-    //     }
-    //   });
-    // };
     setTypeUser(post.User.is_freelancer ? "freelancers" : "clients");
-
-    // checkIfIsAccepted();
   }, []);
 
   const sendToUserPage = () => {
@@ -49,29 +43,61 @@ function ServiceCards({ post, history, setMessage, services }) {
 
   const startService = async () => {
     try {
-      const response = await api.post(`/posts/${post.id}/service`);
+      const response = await api.post(`/post/${post.id}/service`);
 
       console.log(response);
 
-      setMessage({ title: "Sucesso", description: "O serviço deu certo." });
+      setMessage({
+        title: "Sucesso",
+        description: `O usuário já foi notificado sobre sua solicitação!`,
+      });
       setContact("Aceito!");
       // alert("sucesso");
     } catch (error) {
-      setMessage({ title: "Ops...", description: "Algo deu errado." });
+      setMessage({ title: "Ops...", description: "Algo falhou :(" });
     }
     // console.log(signedUser);
   };
 
   let progress;
+  let acceptedService;
 
-  if (services.find((s) => s.Post.id === post.id)) {
-    //Se é o dono do post
-    if (signedUser.user.id === post.User.id) {
-      progress = "Andamento";
-    } else {
-      return null;
+  // if (services.find((s) => s.Post.id === post.id)) {
+  //   //Se é o dono do post
+
+  //   if (signedUser.user.id === post.User.id) {
+  //     progress = "Em andamento";
+  //     // console.log(acceptedService);
+  //   } else {
+  //     return null;
+  //   }
+  // }
+
+  //Verificando se o serviço já foi aceito
+  services.find((s) => {
+    if (s.Post.id === post.id) {
+      if (
+        signedUser.user.id === post.User.id ||
+        signedUser.user.name === s.User.name
+      ) {
+        switch (s.progress) {
+          case 1:
+            progress = "Em andamento";
+            break;
+          default:
+            progress = "";
+            break;
+        }
+
+        //Guardando dentro da variável o serviço
+        acceptedService = s;
+
+        console.log({ serviço: acceptedService });
+      } else {
+        return null;
+      }
     }
-  }
+  });
 
   return (
     <>
@@ -118,15 +144,31 @@ function ServiceCards({ post, history, setMessage, services }) {
         )}
         <p>{post.description}</p>
         <label>
-          <button
-            onClick={() => {
-              if (window.confirm("Tem certeza?")) {
-                startService();
+          {/*Verificando se o usuário que está logado é o dono da postagem, 
+          caso seja ele tem a opção de entrar em contato com o profissional que aceitou sua postage*/}
+          {signedUser.user.id === post.User.id ? (
+            //Mandando o usuário para a tela de chat caso ele clique no botão
+            <button
+              onClick={() =>
+                history.push(
+                  `/contact/${acceptedService.User.name}/${post.User.id}`
+                )
               }
-            }}
-          >
-            {contact}
-          </button>
+            >
+              Entrar em contato com o
+              {post.is_announcement === 0 ? " cliente" : " profissional"}
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                if (window.confirm("Tem certeza?")) {
+                  startService();
+                }
+              }}
+            >
+              {contact}
+            </button>
+          )}
         </label>
       </ServiceCard>
     </>
@@ -164,9 +206,6 @@ function Feed() {
     loadServices();
   }, [reload]);
 
-  console.log(cards);
-  console.log(services);
-
   const handleSearch = async (e) => {
     setSearch(e.target.value);
 
@@ -188,7 +227,7 @@ function Feed() {
 
   return (
     <>
-      <Alert description={message} type="error" handleClose={setMessage} />
+      <Alert message={message} type="error" handleClose={setMessage} />
       <NavigationBar>
         <label>
           <img

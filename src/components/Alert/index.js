@@ -6,13 +6,13 @@ function Alert({ message, type, handleClose }) {
 
   useEffect(() => {
     if (message) {
-      containerRef.current.style.height = "120px";
+      containerRef.current.style.width = "350px";
 
       setTimeout(() => {
         handleClose(undefined);
       }, 5000);
     } else {
-      containerRef.current.style.height = "0px";
+      containerRef.current.style.width = "0px";
     }
   }, [message]);
 

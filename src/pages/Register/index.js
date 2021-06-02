@@ -15,6 +15,7 @@ import { Link, useHistory } from "react-router-dom";
 
 import Input from "../../components/input";
 import banner from "../../assets/banner.jpg";
+import freelancer from "../../assets/freelancer.jpg";
 import { api } from "../../services/api";
 import { signIn } from "../../services/security";
 import Check from "../../components/Check";
@@ -213,7 +214,7 @@ function Register() {
           </BannerRegister>
           <RegisterContainer>
             <RegisterForm onSubmit={handleSubmit}>
-              {step === 1 && (
+              {step === 2 && (
                 <>
                   {" "}
                   <InputRow>
@@ -283,9 +284,9 @@ function Register() {
                   />
                 </>
               )}
-              {step === 2 && (
+              {step === 1 && (
                 <ClientOrFreelancer>
-                  <h1>Você é profissional ou cliente</h1>
+                  <h1>Você é profissional ou cliente?</h1>
                   <ul
                     onChange={(e) => {
                       if (e.target.value === "freelancer")
@@ -294,29 +295,36 @@ function Register() {
                     }}
                   >
                     <li>
-                      <Check
-                        id="UserOrFreelancer"
+                      <input
+                        id="client"
                         name="userType"
                         type="radio"
                         label="Cliente"
                         value="client"
                         required
                       />
+                      <h2>Cliente</h2>
+                      <label htmlFor="client">
+                        <img src={banner} alt="Cliente" />
+                      </label>
                     </li>
                     <li>
-                      <Check
-                        id="UserOrFreelancer"
+                      <input
+                        id="freelancer"
                         name="userType"
                         type="radio"
                         label="Profissional"
                         value="freelancer"
                         required
                       />
+                      <h2>Profissional</h2>
+                      <label htmlFor="freelancer">
+                        <img src={freelancer} alt="Cliente" />
+                      </label>
                     </li>
                   </ul>
                 </ClientOrFreelancer>
               )}
-
               {step === 3 && (
                 <FreelancerType>
                   <h1>Selecione o seu tipo de trabalho</h1>
@@ -326,11 +334,25 @@ function Register() {
                     <option value="tecnico">técnico</option>
                     <option value="advogado">advogado</option>
                   </select>
+                  <Input
+                    id="yearsExperience"
+                    label="Anos de experiência(opcional)"
+                    type="text"
+                  />
+
+                  <Input
+                    id="yearsExperience"
+                    label="Formação (opcional)"
+                    type="text"
+                  />
                 </FreelancerType>
               )}
               <span>
-                <ButtonNext disabled={handleButton()}>Next &rarr;</ButtonNext>
+                <ButtonNext disabled={step !== 1 && handleButton()}>
+                  Next &rarr;
+                </ButtonNext>
               </span>
+              ;
             </RegisterForm>
           </RegisterContainer>
         </ModalContainer>

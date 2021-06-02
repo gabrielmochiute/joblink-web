@@ -138,22 +138,29 @@ export const FeedContainer = styled.article`
   transition: 0.9s;
 
   display: flex;
-  justify-content: baseline;
+  justify-content: flex-start;
+  align-content: space-between;
   gap: 30px;
-  /* align-items: baseline; */
+  align-items: stretch;
   flex-wrap: wrap;
+  /* flex-direction: column; */
+
+  /* display: grid;
+  grid-template-columns: 2fr 2fr;
+  grid-template-rows: 2fr 2fr;
+  grid-auto-rows: auto; */
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
     align-items: center;
-  } ;
+  }
 `;
 
 export const ServiceCard = styled.div`
-  animation: ${CardAnimation} 0.4s;
+  animation: ${CardAnimation} 0.4s ease-in;
 
   position: relative;
-  transition: 0.7s;
+  transition: 2s;
   background-image: url(${Waves});
   background-position: top;
   background-repeat: no-repeat;
@@ -161,6 +168,7 @@ export const ServiceCard = styled.div`
   background-color: white;
 
   width: 600px;
+  height: fit-content;
 
   @media screen and (max-width: 768px) {
     width: 500px;
@@ -203,7 +211,7 @@ export const ServiceCard = styled.div`
       > button {
         width: 80%;
         font-size: 20px;
-        background-color: blue;
+        /* background-color: blue; */
       }
     }
 
@@ -231,9 +239,11 @@ export const ServiceCard = styled.div`
       user-select: none;
       margin-bottom: 30px;
       border: none;
+      padding: 0px 15px;
 
       :hover {
-        border-bottom: solid 2px black;
+        background-color: var(--secondary);
+        color: var(--white);
       }
     }
   }
@@ -241,22 +251,27 @@ export const ServiceCard = styled.div`
 
 export const ImageTitle = styled.div`
   display: flex;
-  justify-content: center;
-  /* align-items: flex-end; */
-  /* background: linear-gradient(to bottom, var(--primary), var(--secondary)); */
+  justify-content: space-evenly;
+  align-items: flex-start;
   width: 100%;
   height: fit-content;
-  padding: 0px 20px;
   border-radius: 15px 15px 0px 0px;
-  margin-bottom: 30px;
-  margin-top: 15px;
+  margin-bottom: 60px;
+  margin-top: 50px;
+  gap: 15px;
+
+  /* background-color: pink; */
+
   > label {
+    flex: 5;
+    width: 70%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-
+    justify-content: flex-end;
     > h1 {
-      font-size: 30px;
+      background-color: rosybrown;
+      text-align: start;
+      font-size: 28px;
       font-weight: 500;
       @media screen and (max-width: 768px) {
         font-size: 24px;
@@ -265,11 +280,10 @@ export const ImageTitle = styled.div`
       overflow: hidden;
       display: flex;
       align-items: center;
-
-      /* background-color: blue; */
     }
 
     > h4 {
+      background-color: plum;
       font-weight: 500;
       text-transform: capitalize;
       color: var(--white);
@@ -287,16 +301,18 @@ export const ImageTitle = styled.div`
     }
   }
   > div {
-    /* background-color: violet; */
+    /* background-color: purple; */
     /* height: 100%; */
     width: 20%;
+    flex: 1;
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     flex-direction: column;
     text-align: start;
     > img {
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      height: 100%;
       margin-bottom: 15px;
       cursor: pointer;
       @media screen and (max-width: 768px) {
@@ -337,6 +353,9 @@ export const Urgency = styled.div`
 `;
 
 export const CardImage = styled.img`
-  width: 100%;
+  width: 75%;
+  /* padding: 15px; */
+  border: solid var(--gray) 3px;
   height: fit-content;
+  margin-bottom: 15px;
 `;
