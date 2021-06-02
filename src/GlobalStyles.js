@@ -23,6 +23,7 @@ export const GlobalStyles = createGlobalStyle`
   }
   ::-webkit-scrollbar{
     width: 4px;
+    border-radius: 15px;
     background-color: var(--darkGray);
   }
 

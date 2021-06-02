@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Send from "../../assets/send.svg";
 
 export const MainContainer = styled.div`
   width: 100vw;
@@ -105,6 +106,7 @@ export const OtherUserMessage = styled.div`
   display: flex;
   gap: 15px;
   justify-content: space-between;
+  align-items: center;
 
   > p {
     min-width: 200px;
@@ -129,9 +131,76 @@ export const OtherUserMessage = styled.div`
   }
 `;
 
-export const SendMessageContainer = styled.div`
+export const SendMessageContainer = styled.form`
   width: 100%;
   height: 10vh;
   background: linear-gradient(to right, var(--primary), var(--secondary));
   border-radius: 50px 50px 0px 0px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  > img {
+    width: 60px;
+  }
+
+  > label {
+    width: 90%;
+    height: 90%;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    > input {
+      transition: border 0.1s, border-color 4s;
+      padding: 0 25px;
+      color: var(--white);
+      font-size: 32px;
+      width: 100%;
+      height: 90%;
+      border-radius: 50px;
+      border: none;
+      background-color: #00000050;
+
+      /* :focus {
+        border-color: white;
+        border: solid 3px;
+      } */
+
+      /* Mudar a cor do placeholder em todos os navegadores*/
+      ::-webkit-input-placeholder {
+        color: #ffffff90;
+      }
+
+      :-moz-placeholder {
+        /* Firefox 18- */
+        color: #ffffff90;
+      }
+
+      ::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #ffffff90;
+      }
+
+      :-ms-input-placeholder {
+        color: #ffffff90;
+      }
+    }
+
+    > button {
+      position: absolute;
+      right: 0;
+
+      width: 75px;
+      height: 75px;
+      border-radius: 50px;
+      border: none;
+      background-color: #ffffff30;
+      background-image: url(${Send});
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }
 `;
