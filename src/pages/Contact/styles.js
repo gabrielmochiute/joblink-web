@@ -1,9 +1,38 @@
-import styled from "styled-components";
-import Send from "../../assets/send.svg";
+import styled, { keyframes } from "styled-components";
+import ChatBackground from "../../assets/ChatBackground.svg";
 
-export const MainContainer = styled.div`
+export const MainAnimation = keyframes`
+  0%{
+    opacity: 0;
+    position: absolute;
+    top: -500px;
+  }
+  100% {
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+  }
+`;
+
+export const Overlay = styled.div`
   width: 100vw;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url(${ChatBackground});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+
+export const MainContainer = styled.div`
+  box-shadow: 5px 5px 5px 5px #00000040;
+  animation: ${MainAnimation} 0.6s ease-out;
+
+  width: 90vw;
+  height: 90vh;
   background-color: var(--white);
   display: flex;
   align-items: center;
@@ -13,7 +42,7 @@ export const MainContainer = styled.div`
 
 export const ProfileBar = styled.nav`
   width: 100%;
-  height: 10vh;
+  height: 15vh;
   overflow: hidden;
   /* background-color: burlywood; */
   display: flex;
@@ -69,30 +98,26 @@ export const YourMessage = styled.div`
   margin-left: auto;
   margin-bottom: 15px;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   gap: 15px;
   align-items: flex-start;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  border-radius: 50px 50px 0px 50px;
 
   > p {
-    min-width: 200px;
+    min-width: 100px;
     max-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    padding: 0px 15px;
-    padding-bottom: 15px;
-    min-height: 50px;
-    border-radius: 15px;
+    padding: 15px 25px;
     overflow: hidden;
-    background-color: var(--primary);
     color: var(--white);
     text-align: justify;
-    font-weight: 500;
+    font-weight: 350;
     font-size: 26px;
-  }
-
-  > img {
-    width: 60px;
-    height: 60px;
-    border-radius: 100%;
   }
 `;
 
@@ -109,18 +134,22 @@ export const OtherUserMessage = styled.div`
   align-items: center;
 
   > p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     min-width: 200px;
     max-width: 600px;
 
-    padding: 0px 15px;
-    padding-bottom: 15px;
+    padding: 15px 25px;
+
     min-height: 50px;
-    border-radius: 15px;
+    border-radius: 50px;
     overflow: hidden;
     background-color: var(--gray);
     color: var(--font);
     text-align: justify;
-    font-weight: 500;
+    font-weight: 350;
     font-size: 26px;
   }
 
@@ -133,9 +162,9 @@ export const OtherUserMessage = styled.div`
 
 export const SendMessageContainer = styled.form`
   width: 100%;
-  height: 10vh;
-  background: linear-gradient(to right, var(--primary), var(--secondary));
-  border-radius: 50px 50px 0px 0px;
+  height: 8vh;
+  /* background: linear-gradient(to right, var(--primary), var(--secondary)); */
+  background-color: var(--gray);
 
   display: flex;
   justify-content: center;
@@ -156,13 +185,13 @@ export const SendMessageContainer = styled.form`
     > input {
       transition: border 0.1s, border-color 4s;
       padding: 0 25px;
-      color: var(--white);
+      color: var(--font);
       font-size: 32px;
       width: 100%;
       height: 90%;
       border-radius: 50px;
       border: none;
-      background-color: #00000050;
+      background-color: #ffffff50;
 
       /* :focus {
         border-color: white;
@@ -170,37 +199,45 @@ export const SendMessageContainer = styled.form`
       } */
 
       /* Mudar a cor do placeholder em todos os navegadores*/
-      ::-webkit-input-placeholder {
+
+      /* ::-webkit-input-placeholder {
         color: #ffffff90;
       }
 
       :-moz-placeholder {
-        /* Firefox 18- */
+        
         color: #ffffff90;
       }
 
       ::-moz-placeholder {
-        /* Firefox 19+ */
+        
         color: #ffffff90;
       }
 
       :-ms-input-placeholder {
         color: #ffffff90;
-      }
+      } */
     }
 
     > button {
       position: absolute;
       right: 0;
 
-      width: 75px;
-      height: 75px;
+      width: 60px;
+      height: 60px;
       border-radius: 50px;
       border: none;
-      background-color: #ffffff30;
-      background-image: url(${Send});
+
+      /* padding: 15px; */
+      > img {
+        width: 75%;
+        height: 75%;
+      }
+      /* background-color: #ffffff30;
       background-position: center;
-      background-repeat: no-repeat;
+      background-repeat: no-repeat; */
+
+      background: linear-gradient(to right, var(--primary), var(--secondary));
     }
   }
 `;

@@ -6,12 +6,16 @@ import {
   YourMessage,
   OtherUserMessage,
   SendMessageContainer,
+  Overlay,
 } from "./styles";
 import Return from "../../assets/return.svg";
 import Profile from "../../assets/perfil.png";
 import Plus from "../../assets/plus_icon.svg";
-import { useState } from "react";
+import Send from "../../assets/send.svg";
+
+import { useEffect, useState } from "react";
 import { getUser } from "../../services/security";
+import { useHistory, useParams } from "react-router";
 
 function Chat({ message, signedUser }) {
   return (
@@ -19,7 +23,6 @@ function Chat({ message, signedUser }) {
       {message.messageAuthor === signedUser.user.name ? (
         <YourMessage>
           <p>{message.messageDescription}</p>
-          <img src={Profile} />
         </YourMessage>
       ) : (
         <OtherUserMessage>
@@ -54,56 +57,61 @@ function Chat({ message, signedUser }) {
 // }
 
 function Contact() {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      messageAuthor: "Marcio Herobrine",
-      messageDescription: "Olá",
-    },
-    {
-      id: 2,
-      messageAuthor: "Outro Fulano",
-      messageDescription: "Tudo bem?",
-    },
-    {
-      id: 3,
-      messageAuthor: "Outro Fulano",
-      messageDescription: "Qual é o serviço?",
-    },
-    {
-      id: 3,
-      messageAuthor: "Marcio Herobrine",
-      messageDescription: "Minha geladeira quebrou",
-    },
-    {
-      id: 3,
-      messageAuthor: "Marcio Herobrine",
-      messageDescription: "Tem como fazer algo?",
-    },
-    {
-      id: 3,
-      messageAuthor: "Outro Fulano",
-      messageDescription: "...",
-    },
-    {
-      id: 3,
-      messageAuthor: "Outro Fulano",
-      messageDescription: "Qual é o problema?",
-    },
-    {
-      id: 3,
-      messageAuthor: "Marcio Herobrine",
-      messageDescription: "Não liga mais",
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
 
-  const [newMessage, setNewMessage] = useState();
+  const [newMessage, setNewMessage] = useState("");
+
+  let { freelancer, client } = useParams();
 
   const signedUser = getUser();
 
-  const handleMessage = (e) => {
-    setNewMessage(newMessage, e.target.value);
-  };
+  const history = useHistory();
+
+  useEffect(() => {
+    setMessages([
+      {
+        id: 1,
+        messageAuthor: "Marcio Herobrine",
+        messageDescription: "Olá",
+      },
+      {
+        id: 2,
+        messageAuthor: "Manoel Ketchup",
+        messageDescription: "Tudo bem?",
+      },
+      {
+        id: 3,
+        messageAuthor: "Manoel Ketchup",
+        messageDescription:
+          "Nam hendrerit augue in mi ultricies pretium. In ac convallis quam. Sed in nunc erat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur cursus mollis tellus quis elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit.  ",
+      },
+      {
+        id: 3,
+        messageAuthor: "Marcio Herobrine",
+        messageDescription: "Minha geladeira quebrou",
+      },
+      {
+        id: 3,
+        messageAuthor: "Marcio Herobrine",
+        messageDescription: "Tem como fazer algo?",
+      },
+      {
+        id: 3,
+        messageAuthor: "Manoel Ketchup",
+        messageDescription: "...",
+      },
+      {
+        id: 3,
+        messageAuthor: "Manoel Ketchup",
+        messageDescription: "Qual é o problema?",
+      },
+      {
+        id: 3,
+        messageAuthor: "Marcio Herobrine",
+        messageDescription: "Não liga mais",
+      },
+    ]);
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -113,19 +121,31 @@ function Contact() {
       messageDescription: newMessage,
     };
 
-    setMessages(...messages, messageAdded);
+    setMessages([...messages, messageAdded]);
 
     setNewMessage("");
     console.log(messages);
   };
 
+  if (signedUser.user.name !== freelancer && signedUser.user.id != client) {
+    history.replace("/");
+    // console.log(
+    //   `O ${signedUser.user.name} não é igual ao ${freelancer} e o id ${signedUser.user.id} não é igual ao ${client}`
+    // );
+  }
+
   return (
-    <>
+    <Overlay>
       <MainContainer>
         <ProfileBar>
-          <img src={Return} />
+          <img
+            src={Return}
+            onClick={() => {
+              history.replace("/feed");
+            }}
+          />
           <label>
-            <h1>Fulano de Tal</h1>
+            <h1>Flávinho Pneu</h1>
             <h2>Profissional</h2>
           </label>
         </ProfileBar>
@@ -151,15 +171,17 @@ function Contact() {
             <input
               placeholder="Mande alguma coisa!"
               value={newMessage}
-              onChange={handleMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
               required
             />
-            <button onClick={() => console.log(signedUser.user.name)}></button>
+            <button onClick={() => console.log(signedUser.user.name)}>
+              <img src={Send} />
+            </button>
           </label>
           {/* </form> */}
         </SendMessageContainer>
       </MainContainer>
-    </>
+    </Overlay>
   );
 }
 
