@@ -4,25 +4,47 @@ import {
   ProfileContent,
   ProfilePicture,
   ProfilePosts,
+  SecondaryLine,
+  Card,
 } from "./styles";
 import Settings from "../../assets/settings_icon.svg";
 import Profile from "../../assets/perfil.png";
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useHistory } from "react-router";
+import { getUser } from "../../services/security";
 
 function User({ user }) {
+  const signedUser = getUser();
+
+  const history = useHistory();
+
   return (
     <>
       <ProfileContent>
-        <img src={Settings} />
+        {signedUser.user.id == user.id ? <img src={Settings} /> : ""}
+
         <div>
           <h1>{user.name}</h1>
-          <h2>{user.address}</h2>
+          <h2>Barueri - SP</h2>
         </div>
-        <label>Entrar em contato</label>
+
+        {signedUser.user.id == user.id ? (
+          ""
+        ) : (
+          <button
+            onClick={() =>
+              history.push(`/contact/${user.id}/${signedUser.user.id}`)
+            }
+          >
+            Entrar em contato
+          </button>
+        )}
       </ProfileContent>
-      <ProfilePosts></ProfilePosts>
+      <SecondaryLine />
+      <ProfilePosts>
+        <Card></Card>
+      </ProfilePosts>
     </>
   );
 }
@@ -40,7 +62,7 @@ function UserScreen() {
       setSuccess(true);
       console.log(response.data);
     } catch (error) {
-      // alert(error);
+      alert(error);
     }
   };
 

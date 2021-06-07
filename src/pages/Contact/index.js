@@ -143,9 +143,10 @@ function Contact() {
             onClick={() => {
               history.replace("/feed");
             }}
+            alt="Return"
           />
           <label>
-            <h1>Flávinho Pneu</h1>
+            <h1>Flavin Pneu</h1>
             <h2>Profissional</h2>
           </label>
         </ProfileBar>

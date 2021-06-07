@@ -269,7 +269,7 @@ export const ImageTitle = styled.div`
     flex-direction: column;
     justify-content: flex-end;
     > h1 {
-      background-color: rosybrown;
+      /* background-color: rosybrown; */
       text-align: start;
       font-size: 28px;
       font-weight: 500;
@@ -283,7 +283,7 @@ export const ImageTitle = styled.div`
     }
 
     > h4 {
-      background-color: plum;
+      /* background-color: plum; */
       font-weight: 500;
       text-transform: capitalize;
       color: var(--white);

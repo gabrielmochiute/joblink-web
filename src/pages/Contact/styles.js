@@ -4,13 +4,9 @@ import ChatBackground from "../../assets/ChatBackground.svg";
 export const MainAnimation = keyframes`
   0%{
     opacity: 0;
-    position: absolute;
-    top: -500px;
   }
   100% {
     opacity: 1;
-    position: absolute;
-    top: 0px;
   }
 `;
 
@@ -29,7 +25,7 @@ export const Overlay = styled.div`
 
 export const MainContainer = styled.div`
   box-shadow: 5px 5px 5px 5px #00000040;
-  animation: ${MainAnimation} 0.6s ease-out;
+  animation: ${MainAnimation} 0.9s ease-in;
 
   width: 90vw;
   height: 90vh;

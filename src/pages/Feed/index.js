@@ -54,7 +54,11 @@ function ServiceCards({ post, history, setMessage, services }) {
       setContact("Aceito!");
       // alert("sucesso");
     } catch (error) {
-      setMessage({ title: "Ops...", description: "Algo falhou :(" });
+      setMessage({
+        title: "Ops...",
+        description: error.response.data.Unauthorized,
+      });
+      console.log();
     }
     // console.log(signedUser);
   };
