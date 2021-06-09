@@ -83,12 +83,12 @@ function Contact() {
         id: 3,
         messageAuthor: "Manoel Ketchup",
         messageDescription:
-          "Nam hendrerit augue in mi ultricies pretium. In ac convallis quam. Sed in nunc erat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur cursus mollis tellus quis elementum. Lorem ipsum dolor sit amet, consectetur adipiscing elit.  ",
+          "Nam hendrerit augue in mi ultricies pretium. In ac convallis quam. Sed in nunc erat. ",
       },
       {
         id: 3,
         messageAuthor: "Marcio Herobrine",
-        messageDescription: "Minha geladeira quebrou",
+        messageDescription: "Meu carro quebrou",
       },
       {
         id: 3,
@@ -146,8 +146,8 @@ function Contact() {
             alt="Return"
           />
           <label>
-            <h1>Flavin Pneu</h1>
-            <h2>Profissional</h2>
+            <h1>Roberto Almeida Santos</h1>
+            <h2>Cliente</h2>
           </label>
         </ProfileBar>
         <GradientLine />

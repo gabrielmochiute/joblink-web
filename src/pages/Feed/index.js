@@ -86,7 +86,7 @@ function ServiceCards({ post, history, setMessage, services }) {
       ) {
         switch (s.progress) {
           case 1:
-            progress = "Em andamento";
+            // progress = "Em andamento";
             break;
           default:
             progress = "";
