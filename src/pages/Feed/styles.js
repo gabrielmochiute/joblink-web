@@ -138,8 +138,10 @@ export const FeedContainer = styled.article`
   transition: 0.9s;
 
   display: flex;
-  justify-content: flex-start;
-  align-content: space-between;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 30px;
   align-items: stretch;
   flex-wrap: wrap;
@@ -151,8 +153,6 @@ export const FeedContainer = styled.article`
   grid-auto-rows: auto; */
 
   @media screen and (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
   }
 `;
 
@@ -160,14 +160,14 @@ export const ServiceCard = styled.div`
   animation: ${CardAnimation} 0.4s ease-in;
 
   position: relative;
-  transition: 2s;
+  transition: 0.2s ease-out;
   background-image: url(${Waves});
   background-position: top;
   background-repeat: no-repeat;
   background-size: contain;
   background-color: white;
 
-  width: 600px;
+  width: 900px;
   height: fit-content;
 
   @media screen and (max-width: 768px) {
@@ -192,7 +192,7 @@ export const ServiceCard = styled.div`
     width: 90%;
     height: fit-content;
     text-align: justify;
-    font-size: 18px;
+    font-size: 28px;
     margin-bottom: 15px;
     font-weight: 500;
     color: var(--font);
@@ -201,8 +201,10 @@ export const ServiceCard = styled.div`
     border-radius: 15px;
   }
   > label {
-    width: 90%;
+    width: fit-content;
     height: fit-content;
+    align-self: flex-end;
+    margin-right: 15px;
 
     display: flex;
     justify-content: flex-end;
@@ -252,11 +254,11 @@ export const ServiceCard = styled.div`
 export const ImageTitle = styled.div`
   display: flex;
   justify-content: space-evenly;
-  align-items: flex-start;
-  width: 100%;
+  width: 90%;
+  /* background-color: black; */
   height: fit-content;
   border-radius: 15px 15px 0px 0px;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
   margin-top: 50px;
   gap: 15px;
 
@@ -264,14 +266,12 @@ export const ImageTitle = styled.div`
 
   > label {
     flex: 5;
-    width: 70%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
     > h1 {
       /* background-color: rosybrown; */
       text-align: start;
-      font-size: 28px;
+      font-size: 48px;
       font-weight: 500;
       @media screen and (max-width: 768px) {
         font-size: 24px;
@@ -287,7 +287,7 @@ export const ImageTitle = styled.div`
       font-weight: 500;
       text-transform: capitalize;
       color: var(--white);
-      font-size: 18px;
+      font-size: 24px;
 
       @media screen and (max-width: 768px) {
         font-size: 12px;
@@ -303,7 +303,6 @@ export const ImageTitle = styled.div`
   > div {
     /* background-color: purple; */
     /* height: 100%; */
-    width: 20%;
     flex: 1;
     display: flex;
     align-items: center;
@@ -358,4 +357,25 @@ export const CardImage = styled.img`
   border: solid var(--gray) 3px;
   height: fit-content;
   margin-bottom: 15px;
+`;
+
+export const AddPostButton = styled.button`
+  width: 75px;
+  height: 75px;
+  background: var(--secondary);
+  position: fixed;
+  z-index: 100;
+  bottom: 15px;
+  right: 15px;
+  font-size: 64px;
+  font-weight: 200;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  cursor: pointer;
+
+  :hover {
+    background: var(--primary);
+  }
 `;

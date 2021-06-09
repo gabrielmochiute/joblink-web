@@ -6,6 +6,7 @@ import {
   ProfilePosts,
   SecondaryLine,
   Card,
+  PublishType,
 } from "./styles";
 import Settings from "../../assets/settings_icon.svg";
 import Profile from "../../assets/perfil.png";
@@ -14,10 +15,38 @@ import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
 import { getUser } from "../../services/security";
 
+function Notifications() {
+  return <Card></Card>;
+}
+
 function User({ user }) {
   const signedUser = getUser();
 
+  const [pendeciesCards, setPendeciesCards] = useState({
+    whereUserIsFreelancer: [],
+    whereUserIsPostOwner: [],
+  });
+
   const history = useHistory();
+
+  const [publishType, setPublishType] = useState("publish");
+
+  const loadNotifications = async () => {
+    // try {
+    //   const response = await api.get("/notifications");
+    //   console.log(response.data);
+    //   setPendeciesCards([
+    //     ...pendeciesCards,
+    //     (whereUserIsPostOwner: response.data),
+    //   ]);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
+
+  useEffect(() => {
+    loadNotifications();
+  }, []);
 
   return (
     <>
@@ -41,9 +70,19 @@ function User({ user }) {
           </button>
         )}
       </ProfileContent>
+      <PublishType>
+        <h1 onClick={() => setPublishType("publish")}>Publicações</h1>
+        {signedUser.user.id == user.id && (
+          <h1 onClick={() => setPublishType("pendencies")}>Pendências</h1>
+        )}
+      </PublishType>
       <SecondaryLine />
       <ProfilePosts>
-        <Card></Card>
+        {publishType === "publish" ? (
+          <Card></Card>
+        ) : (
+          "pendeciesCards.map((c) => <Notifications />)"
+        )}
       </ProfilePosts>
     </>
   );

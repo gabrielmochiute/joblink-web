@@ -142,3 +142,27 @@ export const Card = styled.div`
   background-color: var(--white);
   box-shadow: 0px 0px 5px 2px #00000050;
 `;
+
+export const PublishType = styled.div`
+  width: 100%;
+  /* background-color: blue; */
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  > h1 {
+    font-weight: 400;
+    transition: 0.3s ease-out;
+    user-select: none;
+    cursor: pointer;
+
+    :hover {
+      transform: scale(1.2);
+      color: var(--secondary);
+    }
+
+    :active {
+      transform: scale(1.1);
+    }
+  }
+`;
