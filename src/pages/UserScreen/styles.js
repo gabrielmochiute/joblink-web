@@ -143,6 +143,62 @@ export const Card = styled.div`
   box-shadow: 0px 0px 5px 2px #00000050;
 `;
 
+export const CardOwner = styled.div`
+  width: 700px;
+  height: 800px;
+
+  position: relative;
+  transition: 2s;
+  background-image: url(${Waves});
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: white;
+
+  background-color: var(--white);
+  box-shadow: 0px 0px 5px 2px #00000050;
+
+  #titleImage {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: var(--white);
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+    > h1 {
+      font-weight: 400;
+      text-align: center;
+    }
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+      margin-left: 15px;
+    }
+  }
+
+  #yourPost {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    > h1 {
+      color: var(--font);
+      font-weight: 400;
+    }
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px;
+      margin-left: 15px;
+    }
+  }
+`;
+
 export const PublishType = styled.div`
   width: 100%;
   /* background-color: blue; */

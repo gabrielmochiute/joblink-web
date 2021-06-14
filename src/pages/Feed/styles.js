@@ -36,8 +36,8 @@ export const NavigationBar = styled.nav`
     width: 75px;
     height: inherit;
     /* border-radius: 50px; */
-    position: absolute;
-    right: 0;
+    /* position: absolute; */
+    /* right: 0; */
 
     @media screen and (max-width: 768px) {
       display: none;
@@ -55,6 +55,7 @@ export const NavigationBar = styled.nav`
       height: 60px;
       margin-right: 15px;
       border-radius: 50px;
+      cursor: pointer;
     }
   }
 
@@ -140,19 +141,43 @@ export const FeedContainer = styled.article`
   display: flex;
   justify-content: center;
   align-content: center;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
   gap: 30px;
   align-items: stretch;
   flex-wrap: wrap;
-  /* flex-direction: column; */
 
+  font-size: 32px;
+  color: var(--font);
+  /* flex-direction: column; */
   /* display: grid;
   grid-template-columns: 2fr 2fr;
   grid-template-rows: 2fr 2fr;
   grid-auto-rows: auto; */
-
   @media screen and (max-width: 768px) {
+  }
+`;
+
+export const OverlayCard = styled.div`
+  display: none;
+
+  width: 100%;
+  height: 100%;
+  background-color: #00000080;
+  position: absolute;
+  border-radius: 15px;
+  /* z-index: 999; */
+  color: var(--white);
+  text-align: center;
+  /* display: flex; */
+  align-items: center;
+
+  user-select: none;
+  > h1 {
+    width: 100%;
+    background-color: #000000;
+    padding: 15px;
+    font-weight: 400;
   }
 `;
 

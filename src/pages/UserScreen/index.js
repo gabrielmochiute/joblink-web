@@ -7,6 +7,7 @@ import {
   SecondaryLine,
   Card,
   PublishType,
+  CardOwner,
 } from "./styles";
 import Settings from "../../assets/settings_icon.svg";
 import Profile from "../../assets/perfil.png";
@@ -15,8 +16,20 @@ import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
 import { getUser } from "../../services/security";
 
-function Notifications() {
-  return <Card></Card>;
+function Notifications({ card }) {
+  return (
+    <CardOwner>
+      <div id="titleImage">
+        <img src={Profile} alt="Foto de perfil" />
+        <h1>{card.User.name} se interessou no seu pedido</h1>
+      </div>
+
+      <div id="yourPost">
+        <img src={Profile} alt="Foto de perfil" />
+        <h1>Por Você as xx:xx em xx/xx/xxxx</h1>
+      </div>
+    </CardOwner>
+  );
 }
 
 function User({ user }) {
@@ -32,16 +45,16 @@ function User({ user }) {
   const [publishType, setPublishType] = useState("publish");
 
   const loadNotifications = async () => {
-    // try {
-    //   const response = await api.get("/notifications");
-    //   console.log(response.data);
-    //   setPendeciesCards([
-    //     ...pendeciesCards,
-    //     (whereUserIsPostOwner: response.data),
-    //   ]);
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      const response = await api.get("/notifications");
+      console.log(response.data);
+      setPendeciesCards({
+        ...pendeciesCards,
+        whereUserIsPostOwner: response.data.pendencies.whereUserIsPostOwner,
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -81,7 +94,11 @@ function User({ user }) {
         {publishType === "publish" ? (
           <Card></Card>
         ) : (
-          "pendeciesCards.map((c) => <Notifications />)"
+          <>
+            {pendeciesCards.whereUserIsPostOwner.map((m) => (
+              <Notifications card={m} />
+            ))}
+          </>
         )}
       </ProfilePosts>
     </>

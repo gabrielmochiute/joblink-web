@@ -17,6 +17,7 @@ import Check from "../../components/Check";
 import { useEffect, useRef, useState } from "react";
 import Request from "../../assets/requisitar.jpg";
 import Announcement from "../../assets/anunciar.jpg";
+import { api } from "../../services/api";
 
 function Urgency({ handleInput }) {
   return (
@@ -86,7 +87,7 @@ function TitleAndDescription({ handleInput, form }) {
   );
 }
 
-function Type() {
+function Type({ setForm, form }) {
   const requestContainer = useRef();
   const announcementContainer = useRef();
 
@@ -94,9 +95,11 @@ function Type() {
     if (option === "request") {
       requestContainer.current.style.background = "var(--primary)";
       announcementContainer.current.style.background = "none";
+      setForm({ ...form, is_announcement: false });
     } else {
       announcementContainer.current.style.background = "var(--primary)";
       requestContainer.current.style.background = "none";
+      setForm({ ...form, is_announcement: true });
     }
   };
 
@@ -129,13 +132,22 @@ function Type() {
 function Post() {
   const history = useHistory();
 
+  const signedUser = getUser();
+
   const [step, setStep] = useState(1);
+
+  useEffect(() => {
+    if (!signedUser.isFreelancer) setStep(2);
+    setForm({ ...form, is_announcement: false });
+  }, []);
 
   const [form, setForm] = useState({
     urgency: "",
     title: "",
     description: "",
-    user_id: "",
+    attendance: "false",
+    category: "1",
+    is_announcement: "",
   });
 
   const user = getUser();
@@ -147,11 +159,19 @@ function Post() {
     history.replace("/");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (step < 3) return setStep(step + 1);
 
     // alert(step);
+
+    try {
+      const response = await api.post("/posts", form);
+
+      history.push("/feed");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleInput = (e) => {
@@ -168,7 +188,7 @@ function Post() {
             {step === 2 && (
               <TitleAndDescription handleInput={handleInput} form={form} />
             )}
-            {step === 1 && <Type />}
+            {step === 1 && <Type setForm={setForm} form={form} />}
             <Next>
               <Steps>
                 <span
