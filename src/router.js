@@ -40,7 +40,7 @@ function Router() {
           <UserScreen />
         </PrivateRoute>
 
-        <PrivateRoute path="/contact/:freelancer/:client">
+        <PrivateRoute path="/contact/:idChat">
           <Contact />
         </PrivateRoute>
 

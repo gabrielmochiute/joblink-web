@@ -11,11 +11,12 @@ import {
   TitleDescriptionContainer,
   StepsButtons,
   ContainerImage,
+  TypePostContainer,
 } from "./styles";
 import Check from "../../components/Check";
-import { useState } from "react";
-import PlaceholderImage from "../../assets/placeholder_image.svg";
-import Input from "../../components/input";
+import { useEffect, useRef, useState } from "react";
+import Request from "../../assets/requisitar.jpg";
+import Announcement from "../../assets/anunciar.jpg";
 
 function Urgency({ handleInput }) {
   return (
@@ -85,14 +86,42 @@ function TitleAndDescription({ handleInput, form }) {
   );
 }
 
-function Upload() {
+function Type() {
+  const requestContainer = useRef();
+  const announcementContainer = useRef();
+
+  const selected = (option) => {
+    if (option === "request") {
+      requestContainer.current.style.background = "var(--primary)";
+      announcementContainer.current.style.background = "none";
+    } else {
+      announcementContainer.current.style.background = "var(--primary)";
+      requestContainer.current.style.background = "none";
+    }
+  };
+
   return (
     <>
-      <ContainerImage>
-        <input id="idUpload" type="file" />
-        <img src={PlaceholderImage} alt="Imagem para a postagem" />
-        <label htmlFor="idUpload">Escolha uma imagem</label>
-      </ContainerImage>
+      <TypePostContainer>
+        <div>
+          <h1>Requisitar</h1>
+          <img
+            src={Request}
+            alt="Imagem de requisição"
+            ref={requestContainer}
+            onClick={() => selected("request")}
+          />
+        </div>
+        <div>
+          <h1>Anunciar</h1>
+          <img
+            src={Announcement}
+            alt="Imagem de anunciamento"
+            ref={announcementContainer}
+            onClick={() => selected("announcement")}
+          />
+        </div>
+      </TypePostContainer>
     </>
   );
 }
@@ -135,11 +164,11 @@ function Post() {
         <Container>
           <h1>Qual é a urgência do seu serviço?</h1>
           <Forms onSubmit={handleSubmit} onChange={console.log(form)}>
-            {step === 1 && <Urgency handleInput={handleInput} />}
+            {step === 3 && <Urgency handleInput={handleInput} />}
             {step === 2 && (
               <TitleAndDescription handleInput={handleInput} form={form} />
             )}
-            {step === 3 && <Upload />}
+            {step === 1 && <Type />}
             <Next>
               <Steps>
                 <span

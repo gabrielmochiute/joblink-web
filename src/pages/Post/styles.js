@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Overlay = styled.div`
   min-width: 100vw;
@@ -15,26 +15,38 @@ export const Overlay = styled.div`
   align-items: center;
 `;
 
+const ContainerAnimation = keyframes`
+  0%{
+    top: -450px;
+    opacity: 0;
+    /* transform: scale(0.5); */
+  }
+  100%{
+    top: 0px;
+    opacity: 1;
+    /* transform: scale(1); */
+  }
+
+`;
+
 export const Container = styled.article`
-  width: 95vw;
-  min-height: 90vh;
+  animation: ${ContainerAnimation} 0.3s;
+  position: relative;
+
+  width: 750px;
+  min-height: 550px;
   background-color: white;
   overflow: hidden;
-  position: absolute;
-
-  padding-top: 50px;
-  padding-left: 5vw;
-  padding-right: 5vw;
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
   flex-direction: column;
 
   > h1 {
-    font-size: 4vh;
+    font-size: 32px;
     text-transform: uppercase;
-    border-bottom: solid 2px black;
+    border-bottom: solid 1px #00000060;
+    margin-top: 35px;
   }
 `;
 
@@ -43,7 +55,7 @@ export const Forms = styled.form`
   width: 100%;
   /* background-color: blueviolet; */
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   flex-direction: column;
   align-items: center;
 `;
@@ -62,10 +74,11 @@ export const CheckList = styled.div`
 `;
 
 export const Next = styled.div`
+  position: absolute;
+  bottom: 0px;
+
   width: 100%;
-  height: 10vh;
-  /* background-color: blue; */
-  margin-top: 50px;
+  height: 50px;
   padding: 0 15px;
 
   display: flex;
@@ -74,9 +87,8 @@ export const Next = styled.div`
 `;
 
 export const Steps = styled.div`
-  min-width: 15vw;
+  width: 200px;
   height: inherit;
-  /* background-color: blue; */
 
   display: flex;
   justify-content: space-between;
@@ -162,6 +174,44 @@ export const StepsButtons = styled.div`
 
     :hover {
       cursor: pointer;
+    }
+  }
+`;
+
+export const TypePostContainer = styled.div`
+  width: 100%;
+  min-height: 100px;
+  /* background-color: brown; */
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 15px;
+
+  > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    > h1 {
+      font-weight: 600;
+      user-select: none;
+    }
+
+    > img {
+      width: 100%;
+      box-shadow: 5px 5px 5px #00000050;
+      cursor: pointer;
+      transition: 0.9s;
+      padding: 2px;
+
+      :hover {
+        background: var(--primary);
+      }
+
+      :active {
+        background: var(--secondary);
+      }
     }
   }
 `;

@@ -24,10 +24,6 @@ import Lottie from "react-lottie";
 import ReactDom from "react-dom";
 import Alert from "../../components/Alert";
 
-function Li() {
-  return <li></li>;
-}
-
 function Register() {
   const history = useHistory();
 

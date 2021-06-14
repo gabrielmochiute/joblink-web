@@ -150,13 +150,7 @@ function ServiceCards({ post, history, setMessage, services, signedUser }) {
           caso seja ele tem a opção de entrar em contato com o profissional que aceitou sua postage*/}
           {signedUser.user.id === post.User.id ? (
             //Mandando o usuário para a tela de chat caso ele clique no botão
-            <button
-              onClick={() =>
-                history.push(
-                  `/contact/${acceptedService.User.name}/${post.User.id}`
-                )
-              }
-            >
+            <button onClick={() => history.push(`/contact/2`)}>
               Entrar em contato com o
               {post.is_announcement === 0 ? " cliente" : " profissional"}
             </button>

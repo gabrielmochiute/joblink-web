@@ -61,7 +61,7 @@ function Contact() {
 
   const [newMessage, setNewMessage] = useState("");
 
-  let { freelancer, client } = useParams();
+  let { idChat } = useParams();
 
   const signedUser = getUser();
 
@@ -127,12 +127,12 @@ function Contact() {
     console.log(messages);
   };
 
-  if (signedUser.user.name !== freelancer && signedUser.user.id != client) {
-    history.replace("/");
-    // console.log(
-    //   `O ${signedUser.user.name} não é igual ao ${freelancer} e o id ${signedUser.user.id} não é igual ao ${client}`
-    // );
-  }
+  // if (signedUser.user.name !== freelancer && signedUser.user.id != client) {
+  //   history.replace("/");
+  //   // console.log(
+  //   //   `O ${signedUser.user.name} não é igual ao ${freelancer} e o id ${signedUser.user.id} não é igual ao ${client}`
+  //   // );
+  // }
 
   return (
     <Overlay>
