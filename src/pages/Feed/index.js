@@ -17,7 +17,7 @@ import HighUrgencyImage from "../../assets/highUrgency.svg";
 import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router";
 import { getUser, signOut } from "../../services/security";
-
+import { format } from "date-fns"
 import SignOut from "../../assets/sign_out.svg";
 import Logo from "../../assets/logo_branca.png";
 import Alert from "../../components/Alert";
@@ -140,7 +140,7 @@ function ServiceCards({ post, history, setMessage, services, signedUser }) {
             </div>
             <label>
               <h4 onClick={sendToUserPage}>
-                por {post.User.name} as XX/XX/XXXX
+              por {post.User.name === signedUser.user.name ? "Você" : post.User.name} às {format(new Date(post.updatedAt), "dd/MM/yyyy 'às' HH:mm")}
               </h4>
               <h1>{post.title}</h1>
             </label>
