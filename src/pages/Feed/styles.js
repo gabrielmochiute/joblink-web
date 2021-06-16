@@ -192,8 +192,9 @@ export const ServiceCard = styled.div`
   background-size: contain;
   background-color: white;
 
-  width: 900px;
-  height: fit-content;
+  width: 50%;
+  min-height: 350px;
+  overflow: hidden;
 
   @media screen and (max-width: 768px) {
     width: 500px;
@@ -201,8 +202,6 @@ export const ServiceCard = styled.div`
   @media screen and (max-width: 468px) {
     width: 300px;
   }
-
-  height: fit-content;
 
   box-shadow: 5px 5px 10px #00000020;
   border-radius: 15px;
@@ -214,14 +213,20 @@ export const ServiceCard = styled.div`
   /* background-color: black; */
 
   > p {
-    width: 90%;
+    width: 85%;
     height: fit-content;
     text-align: justify;
-    font-size: 28px;
-    margin-bottom: 15px;
+    font-size: 38px;
+
+    @media screen and (max-width: 768px) {
+      font-size: 18px;
+      width: 85%;
+    }
+
+    margin-bottom: 25px;
     font-weight: 500;
     color: var(--font);
-    /* background-color: var(--white); */
+    /* background-color: red; */
     padding: 0 10%;
     border-radius: 15px;
   }
@@ -283,6 +288,10 @@ export const ImageTitle = styled.div`
   /* background-color: black; */
   height: fit-content;
   border-radius: 15px 15px 0px 0px;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 20px;
+    margin-top: 5px;
+  }
   margin-bottom: 80px;
   margin-top: 50px;
   gap: 15px;
@@ -299,7 +308,7 @@ export const ImageTitle = styled.div`
       font-size: 48px;
       font-weight: 500;
       @media screen and (max-width: 768px) {
-        font-size: 24px;
+        font-size: 36px;
       }
       color: var(--white);
       overflow: hidden;

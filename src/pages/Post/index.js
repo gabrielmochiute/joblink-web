@@ -184,8 +184,8 @@ function Post() {
         <Container>
           <h1>Qual é a urgência do seu serviço?</h1>
           <Forms onSubmit={handleSubmit} onChange={console.log(form)}>
-            {step === 3 && <Urgency handleInput={handleInput} />}
-            {step === 2 && (
+            {step === 2 && <Urgency handleInput={handleInput} />}
+            {step === 3 && (
               <TitleAndDescription handleInput={handleInput} form={form} />
             )}
             {step === 1 && <Type setForm={setForm} form={form} />}

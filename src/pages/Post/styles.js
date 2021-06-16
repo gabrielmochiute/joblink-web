@@ -65,6 +65,7 @@ export const CheckList = styled.div`
   width: inherit;
   min-height: 50vh;
   overflow: hidden;
+  margin-left: 25px;
 
   display: flex;
   align-items: flex-start;
