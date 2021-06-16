@@ -9,6 +9,15 @@ export const Banner = styled.div`
   justify-content: center;
   align-items: flex-end;
   position: relative;
+
+  #chatImage {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+  }
 `;
 
 export const ErrorScreen = styled.div`
@@ -122,6 +131,7 @@ export const ProfilePosts = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  gap: 25px;
 
   padding-top: 15px;
   /* background-color: blue; */
@@ -159,6 +169,7 @@ export const CardOwner = styled.div`
   box-shadow: 0px 0px 5px 2px #00000050;
 
   padding-bottom: 25px;
+  margin-top: 25px;
 
   #titleImage {
     display: flex;
