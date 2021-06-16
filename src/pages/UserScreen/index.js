@@ -10,7 +10,10 @@ import {
   CardOwner,
 } from "./styles";
 import Settings from "../../assets/settings_icon.svg";
+import Accept from "../../assets/accept.svg";
+import Reject from "../../assets/reject.svg";
 import Profile from "../../assets/perfil.png";
+
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
@@ -27,6 +30,17 @@ function Notifications({ card }) {
       <div id="yourPost">
         <img src={Profile} alt="Foto de perfil" />
         <h1>Por Você as xx:xx em xx/xx/xxxx</h1>
+      </div>
+      <p>"{card.Post.description}"</p>
+      <div id="acceptButton">
+        <label id="reject">
+          <img src={Reject} alt="Imagem de rejeitar" />
+          <button>Recusar</button>
+        </label>
+        <label id="accept">
+          <img src={Accept} alt="Imagem de aceitar" />
+          <button onClick={() => alert("Teste")}>Aceitar</button>
+        </label>
       </div>
     </CardOwner>
   );
