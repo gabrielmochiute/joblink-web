@@ -9,6 +9,15 @@ export const Banner = styled.div`
   justify-content: center;
   align-items: flex-end;
   position: relative;
+
+  #chatImage {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+  }
 `;
 
 export const ErrorScreen = styled.div`
@@ -122,6 +131,7 @@ export const ProfilePosts = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  gap: 25px;
 
   padding-top: 15px;
   /* background-color: blue; */
@@ -145,7 +155,7 @@ export const Card = styled.div`
 
 export const CardOwner = styled.div`
   width: 700px;
-  height: 800px;
+  height: fit-content;
 
   position: relative;
   transition: 2s;
@@ -157,6 +167,9 @@ export const CardOwner = styled.div`
 
   background-color: var(--white);
   box-shadow: 0px 0px 5px 2px #00000050;
+
+  padding-bottom: 25px;
+  margin-top: 25px;
 
   #titleImage {
     display: flex;
@@ -195,6 +208,53 @@ export const CardOwner = styled.div`
       height: 100px;
       border-radius: 100px;
       margin-left: 15px;
+    }
+  }
+
+  > p {
+    padding-left: 15%;
+    padding-right: 10%;
+    margin-top: 25px;
+    width: 100%;
+    align-self: center;
+    text-align: justify;
+    font-size: 26px;
+    color: var(--font);
+  }
+
+  #acceptButton {
+    margin-top: 30px;
+    width: 100%;
+    height: fit-content;
+
+    display: flex;
+    justify-content: flex-end;
+    /* background-color: brown; */
+
+    > label {
+      padding: 0px 15px;
+      border-radius: 50px;
+      margin-right: 25px;
+      > button {
+        font-size: 18px;
+        font-weight: 300;
+        text-transform: uppercase;
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
+    }
+
+    #reject {
+      > button {
+        color: var(--font);
+      }
+    }
+
+    #accept {
+      background: var(--secondary);
+      > button {
+      }
     }
   }
 `;

@@ -10,37 +10,73 @@ import {
   CardOwner,
 } from "./styles";
 import Settings from "../../assets/settings_icon.svg";
+import Accept from "../../assets/accept.svg";
+import Reject from "../../assets/reject.svg";
+import Chat from "../../assets/chat.svg";
 import Profile from "../../assets/perfil.png";
+
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
 import { getUser } from "../../services/security";
+import { format } from "date-fns";
+import Alert from "../../components/Alert";
 
-function Notifications({ card }) {
+function Notifications({ card, setMessage }) {
+  const acceptService = async () => {
+    try {
+      const response = await api.post(`/createChat/service/${card.id}`);
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      setMessage({
+        title: "Algo deu errado...",
+        description: error.response.data.Unauthorized,
+      });
+    }
+  };
+
   return (
-    <CardOwner>
-      <div id="titleImage">
-        <img src={Profile} alt="Foto de perfil" />
-        <h1>{card.User.name} se interessou no seu pedido</h1>
-      </div>
+    <>
+      {!card.is_accepted && (
+        <CardOwner>
+          <div id="titleImage">
+            <img src={Profile} alt="Foto de perfil" />
+            <h1>{card.User.name} se interessou no seu pedido</h1>
+          </div>
 
-      <div id="yourPost">
-        <img src={Profile} alt="Foto de perfil" />
-        <h1>Por Você as xx:xx em xx/xx/xxxx</h1>
-      </div>
-    </CardOwner>
+          <div id="yourPost">
+            <img src={Profile} alt="Foto de perfil" />
+            <h1>
+              Por Você{" "}
+              {format(new Date(card.updatedAt), "dd/MM/yyyy 'às' HH:mm")}
+            </h1>
+          </div>
+          <p>"{card.Post.description}"</p>
+          <div id="acceptButton">
+            <label id="reject">
+              <img src={Reject} alt="Imagem de rejeitar" />
+              <button>Recusar</button>
+            </label>
+            <label id="accept">
+              <img src={Accept} alt="Imagem de aceitar" />
+              <button onClick={acceptService}>Aceitar</button>
+            </label>
+          </div>
+        </CardOwner>
+      )}
+    </>
   );
 }
 
-function User({ user }) {
+function User({ user, setMessage, history }) {
   const signedUser = getUser();
 
   const [pendeciesCards, setPendeciesCards] = useState({
     whereUserIsFreelancer: [],
     whereUserIsPostOwner: [],
   });
-
-  const history = useHistory();
 
   const [publishType, setPublishType] = useState("publish");
 
@@ -96,7 +132,7 @@ function User({ user }) {
         ) : (
           <>
             {pendeciesCards.whereUserIsPostOwner.map((m) => (
-              <Notifications card={m} />
+              <Notifications card={m} key={m.id} setMessage={setMessage} />
             ))}
           </>
         )}
@@ -108,7 +144,10 @@ function User({ user }) {
 function UserScreen() {
   const [user, setUser] = useState([]);
   const [success, setSuccess] = useState(false);
-  let { id, type } = useParams();
+  const [message, setMessage] = useState("");
+  const history = useHistory();
+
+  const { id, type } = useParams();
 
   const getUser = async () => {
     try {
@@ -128,12 +167,21 @@ function UserScreen() {
 
   return (
     <>
+      <Alert message={message} type="error" handleClose={setMessage} />
       {success ? (
         <>
           <Banner>
             <ProfilePicture src={user.image ? user.image : Profile} />
+            <img
+              src={Chat}
+              alt="Icone de chat"
+              id="chatImage"
+              onClick={() => {
+                history.push("/contact");
+              }}
+            />
           </Banner>
-          <User user={user} />
+          <User user={user} setMessage={setMessage} history={history} />
         </>
       ) : (
         <>
