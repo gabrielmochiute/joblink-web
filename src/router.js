@@ -49,7 +49,7 @@ function Router() {
           <Teste />
         </Route>
 
-        <PrivateRoute path="/chat">
+        <PrivateRoute path="/contact">
           <Contact />
         </PrivateRoute>
 

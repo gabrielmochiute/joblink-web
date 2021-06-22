@@ -14,7 +14,7 @@ export const Overlay = styled.div`
 `;
 
 export const ModalContainer = styled.section`
-  width: 500px;
+  width: 1100px;
   height: 600px;
   margin-top: 15px;
 

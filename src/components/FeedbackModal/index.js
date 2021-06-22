@@ -1,14 +1,14 @@
 import { ModalContainer, Overlay } from "./styles";
 
-function Modal({ title, children, handleClose }) {
+function FeedbackModal({ title, children, handleClose }) {
   return (
     <Overlay>
       <ModalContainer>
-        <span onClick={handleClose}>&times;</span>
+        {/* <span onClick={handleClose}>&times;</span> */}
         {children}
       </ModalContainer>
     </Overlay>
   );
 }
 
-export default Modal;
+export default FeedbackModal;
