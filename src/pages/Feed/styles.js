@@ -287,13 +287,15 @@ export const AddPostButton = styled.button`
   z-index: 100;
   bottom: 15px;
   right: 15px;
+  display: flex;
   font-size: 64px;
   font-weight: 200;
-  display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50px;
   cursor: pointer;
+  text-align: center;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 
   :hover {
     background: var(--primary);

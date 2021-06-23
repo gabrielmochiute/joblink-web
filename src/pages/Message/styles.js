@@ -283,7 +283,7 @@ export const PriceModal = styled.div`
     }
   }
 
-  > div {
+  > form {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -347,7 +347,7 @@ export const PriceModal = styled.div`
   }
 `;
 
-export const Feedback = styled.div`
+export const Feedback = styled.form`
   width: 100%;
   height: 100%;
 
@@ -368,7 +368,7 @@ export const Feedback = styled.div`
 
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
 
     > h1 {
       margin-top: 20px;
@@ -396,8 +396,10 @@ export const Feedback = styled.div`
       > input {
         border: none;
         border-bottom: solid 2px var(--secondary);
+        background: none;
 
-        font-size: 24px;
+        font-size: 20px;
+        padding: 5px 10px;
       }
     }
 
@@ -424,8 +426,8 @@ export const Feedback = styled.div`
 
     #warning {
       position: absolute;
-      bottom: 15px;
-      left: 15px;
+      bottom: 0px;
+      left: 0px;
 
       display: flex;
       color: var(--white);
@@ -448,8 +450,8 @@ export const Feedback = styled.div`
 
     > h1 {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 0px;
+      right: 0px;
       color: var(--secondary);
       text-transform: uppercase;
       font-style: italic;
@@ -460,8 +462,8 @@ export const Feedback = styled.div`
       background: none;
       border: none;
       position: absolute;
-      bottom: 15px;
-      right: 15px;
+      bottom: 0px;
+      right: 0px;
       color: var(--secondary);
       text-transform: uppercase;
 

@@ -6,8 +6,9 @@ import Profile from "../../assets/perfil.png";
 import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { useHistory } from "react-router-dom";
+import { getUser } from "../../services/security";
 
-function Chat({ chat, history }) {
+function Chat({ chat, history, signedUser }) {
   return (
     <>
       <ContactBox>
@@ -15,7 +16,11 @@ function Chat({ chat, history }) {
           <label>
             <img src={Profile} alt="Imagem de perfil" />
             <div>
-              <h1>{chat.Service.User.name}</h1>
+              {/* <h1>
+                {chat.Service.User.id != signedUser.user.id
+                  ? chat.Service.User.name
+                  : chat.Service.Post.User.name}
+              </h1> */}
               <h2>Profissional</h2>
             </div>
           </label>
@@ -41,7 +46,7 @@ function Contact() {
   const [postMessages, setPostMessages] = useState([]);
 
   const history = useHistory();
-
+  const signedUser = getUser();
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -55,18 +60,21 @@ function Contact() {
     try {
       const response = await api.get("/chats");
 
-      setServiceMessages(response.data.queryChatsByPosts);
+      setServiceMessages(response.data.queryChatsByService);
+      setPostMessages(response.data.queryChatsByPosts);
 
       console.log({ Resposta: response.data });
     } catch (error) {
       console.error(error);
     }
   };
-  console.log({ "Variável de estado": serviceMessages });
 
   useEffect(() => {
     loadChats();
   }, []);
+
+  console.log("service", serviceMessages);
+  console.log("post", postMessages);
 
   return (
     <>
@@ -79,7 +87,20 @@ function Contact() {
             <div />
           </label>
           {serviceMessages.map((c) => (
-            <Chat chat={c} history={history} />
+            <Chat
+              key={c.id}
+              chat={c}
+              history={history}
+              signedUser={signedUser}
+            />
+          ))}
+          {postMessages.map((c) => (
+            <Chat
+              key={c.id}
+              chat={c}
+              history={history}
+              signedUser={signedUser}
+            />
           ))}
         </MessagesContainer>
       </Overlay>

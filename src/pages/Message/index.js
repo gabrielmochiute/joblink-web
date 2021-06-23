@@ -43,28 +43,6 @@ function Chat({ message, signedUser }) {
   );
 }
 
-// function SignedUserMessage({ message }) {
-//   return (
-//     <>
-//       <YourMessage>
-//         <p>{message}</p>
-//         <img src={Profile} />
-//       </YourMessage>
-//     </>
-//   );
-// }
-
-// function DestinyUserMessage({ message }) {
-//   return (
-//     <>
-//       <OtherUserMessage>
-//         <img src={Profile} />
-//         <p>{message}</p>
-//       </OtherUserMessage>
-//     </>
-//   );
-// }
-
 function Message() {
   const [reload, setReload] = useState(null);
 
@@ -74,7 +52,18 @@ function Message() {
 
   const [showModal, setShowModal] = useState(false);
 
+  const [showFeedback, setShowFeedback] = useState(false);
+
+  const [isThisFreelancer, setIsThisFreelancer] = useState(false);
+
   const [chat, setChat] = useState([]);
+
+  const [feedback, setFeedBack] = useState({
+    rating: "",
+    description: "",
+  });
+
+  const [price, setPrice] = useState("");
 
   const { idChat } = useParams();
 
@@ -82,35 +71,11 @@ function Message() {
 
   const history = useHistory();
 
-  useEffect(() => {
-    loadChat();
-    loadMessages();
-    // reloadMessages();
-  }, [reload]);
-
   const reloadMessages = () => {
     setTimeout(() => {
       handleReload();
       reloadMessages();
     }, 5000);
-  };
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
-  const feedbackDefaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: feedbackAnimationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
   };
 
   const handleReload = () => {
@@ -121,11 +86,19 @@ function Message() {
     try {
       const response = await api.get(`/chats`);
 
-      const thisChat = response.data.queryChatsByPosts.map((c) => {
-        if (c.id == idChat) {
-          return c;
-        }
+      let thisChat = "";
+
+      thisChat = response.data.queryChatsByPosts.map((c) => {
+        if (c.id == idChat) return c;
       });
+
+      if (thisChat == "")
+        thisChat = response.data.queryChatsByService.map((c) => {
+          return c;
+        });
+
+      if (signedUser.user.id === thisChat[0].Service.Post.User.id)
+        setIsThisFreelancer(true);
 
       setChat(thisChat[0]);
       console.log(thisChat[0]);
@@ -169,12 +142,68 @@ function Message() {
     }
   };
 
-  // if (signedUser.user.name !== freelancer && signedUser.user.id != client) {
-  //   history.replace("/");
-  //   // console.log(
-  //   //   `O ${signedUser.user.name} não é igual ao ${freelancer} e o id ${signedUser.user.id} não é igual ao ${client}`
-  //   // );
-  // }
+  useEffect(() => {
+    loadMessages();
+    loadChat();
+    // reloadMessages();
+  }, [reload]);
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  const feedbackDefaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: feedbackAnimationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  console.log(price);
+
+  const feedbackSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await api.put(
+        `/feedback/post/${chat.Service.Post.id}/service/${chat.Service.id}`,
+        {
+          rating: feedback.rating,
+          feedback: feedback.description,
+        }
+      );
+
+      setShowFeedback(undefined);
+
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSetPriceSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await api.put(
+        `/post/${chat.Service.Post.id}/service/${chat.Service.id}`,
+        {
+          service_cost: price,
+        }
+      );
+
+      setShowModal(false);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Overlay>
@@ -187,62 +216,81 @@ function Message() {
               <h1>Verifique se o cliente está de acordo!</h1>
             </label>
 
-            <div>
+            <form onSubmit={handleSetPriceSubmit}>
               <label>
-                <h1>Preço estipulado R$:</h1>
-                <input type="number" placeholder="00,00" />
+                <h1>Preço estipulado R$: </h1>
+                <input
+                  type="number"
+                  placeholder="00,00"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  required
+                />
               </label>
               <button>Enviar</button>
-            </div>
+            </form>
           </PriceModal>
         </Modal>
       )}
 
-      <FeedbackModal>
-        <Feedback>
-          <div id="textContainer">
-            <h1>
-              Deixe seu <span>Feedback!</span>
-            </h1>
-            <h4>Selecione a avaliação do serviço</h4>
-            <div id="stars">
-              <ul>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-              </ul>
-              <h4>4,5</h4>
-            </div>
+      {showFeedback && (
+        <FeedbackModal>
+          <Feedback onSubmit={feedbackSubmit}>
+            <div id="textContainer">
+              <h1>
+                Deixe seu <span>Feedback!</span>
+              </h1>
+              <h4>Selecione a avaliação do serviço</h4>
+              <div id="stars">
+                <ul
+                  onChange={(e) =>
+                    setFeedBack({ ...feedback, rating: e.target.value })
+                  }
+                >
+                  <input name="ratingStars" value="1" type="radio" required />
+                  <input name="ratingStars" value="2" type="radio" required />
+                  <input name="ratingStars" value="3" type="radio" required />
+                  <input name="ratingStars" value="4" type="radio" required />
+                  <input name="ratingStars" value="5" type="radio" required />
+                </ul>
+                <h4>{feedback.rating}</h4>
+              </div>
 
-            <div id="inputFeedback">
-              <h2>Comentário</h2>
-              <input
-                type="text"
-                placeholder="Deixe seu comentário (obrigatório)"
+              <div id="inputFeedback">
+                <h2>Comentário</h2>
+                <input
+                  onChange={(e) =>
+                    setFeedBack({
+                      ...feedback,
+                      description: e.target.value,
+                    })
+                  }
+                  value={feedback.description}
+                  type="text"
+                  placeholder="Deixe seu comentário (obrigatório)"
+                />
+              </div>
+              <div id="warning">
+                <img src={Alert} alt="Imagem de aviso" />
+                <p>
+                  Atenção! É importante que seu feedback seja sincero pro nosso
+                  sistema pois isso afeta diretamente a reputação de o
+                  profissionais na nossa plataforma
+                </p>
+              </div>
+            </div>
+            <div id="imageContainer">
+              <h1>Feedback</h1>
+              <Lottie
+                options={feedbackDefaultOptions}
+                width="100%"
+                height="300px"
               />
+              <button>enviar</button>
             </div>
-            <div id="warning">
-              <img src={Alert} alt="Imagem de aviso" />
-              <p>
-                Atenção! É importante que seu feedback seja sincero pro nosso
-                sistema pois isso afeta diretamente a reputação de o
-                profissionais na nossa plataforma
-              </p>
-            </div>
-          </div>
-          <div id="imageContainer">
-            <h1>Feedback</h1>
-            <Lottie
-              options={feedbackDefaultOptions}
-              width="100%"
-              height="300px"
-            />
-            <button>enviar</button>
-          </div>
-        </Feedback>
-      </FeedbackModal>
+          </Feedback>
+        </FeedbackModal>
+      )}
 
       <MainContainer>
         <ProfileBar>
@@ -262,36 +310,38 @@ function Message() {
             </h1>
             <h2>Cliente</h2>
           </label>
-          <h3
-            onClick={() => {
-              setShowModal(true);
-            }}
-          >
-            Estipular o preço
-          </h3>
+          {isThisFreelancer ? (
+            <h3
+              onClick={() => {
+                setShowModal(true);
+              }}
+            >
+              Estipular o preço
+            </h3>
+          ) : (
+            <h3
+              onClick={() => {
+                if (window.confirm("Tem certeza?")) setShowFeedback(true);
+              }}
+            >
+              Finalizar serviço e dar feedback
+            </h3>
+          )}
         </ProfileBar>
         <GradientLine />
 
         <MessagesContainer>
-          {/* <SignedUserMessage message="Teste 1" />
-          <SignedUserMessage message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt massa venenatis neque pretium, eget consequat felis commodo. Nam diam nulla, suscipit iaculis tincidunt eget, scelerisque ac ex. Sed sed pretium diam, lacinia maximus odio. Nulla facilisi. Duis ut elit et risus egestas rutrum lacinia non diam. Integer tristique ac justo id maximus. Etiam quis tortor quis velit placerat feugiat eget porta ligula. Maecenas convallis tortor id elementum pellentesque. Nullam ullamcorper augue quis turpis ornare viverra." />
-          <DestinyUserMessage message="Teste 1" />
-          <SignedUserMessage message="Teste 3" />
-          <DestinyUserMessage message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt massa venenatis neque pretiumLorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt massa venenatis neque pretium" />
-          <DestinyUserMessage message="Nulla in dictum quam. Aliquam erat volutpat. Ut maximus ultrices magna, ut gravida metus posuere porta. Phasellus luctus fringilla augue, nec dictum purus aliquam at." /> */}
-
           {messages.map((m) => (
             <Chat message={m} signedUser={signedUser} key={m.id} />
           ))}
 
-          {messages == [] && (
+          {messages == "" && (
             <h1>Parece que você ainda não tem nenhuma mensagem</h1>
           )}
         </MessagesContainer>
 
         <SendMessageContainer onSubmit={handleSubmit}>
-          {/* <form > */}
-          <img src={Plus} />
+          <img src={Plus} alt="Botão de mais" />
           <label>
             <input
               placeholder="Mande alguma coisa!"
@@ -300,10 +350,9 @@ function Message() {
               required
             />
             <button>
-              <img src={Send} />
+              <img src={Send} alt="Botão enviar" />
             </button>
           </label>
-          {/* </form> */}
         </SendMessageContainer>
       </MainContainer>
     </Overlay>

@@ -1,6 +1,6 @@
 import { ModalContainer, Overlay } from "./styles";
 
-function FeedbackModal({ title, children, handleClose }) {
+function FeedbackModal({ children, handleClose }) {
   return (
     <Overlay>
       <ModalContainer>

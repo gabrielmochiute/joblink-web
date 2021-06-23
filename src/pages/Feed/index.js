@@ -15,8 +15,10 @@ import { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router";
 import { getUser } from "../../services/security";
 import { format } from "date-fns";
+
 import Alert from "../../components/Alert";
 import NavBar from "../../components/NavBar";
+import Recommendations from "../../components/Recommendations";
 
 function ServiceCards({ post, history, setMessage, services, signedUser }) {
   const cardRef = useRef();
@@ -230,6 +232,7 @@ function Feed() {
     <>
       <Alert message={message} type="error" handleClose={setMessage} />
       <NavBar />
+      <Recommendations />
       <FeedContainer>
         {empty}
         {cards.map((p) => (
