@@ -2,7 +2,7 @@ import { ModalContainer, Overlay } from "./styles";
 
 function Modal({ children, handleClose }) {
   return (
-    <Overlay onClick={handleClose}>
+    <Overlay>
       <ModalContainer>
         <span onClick={handleClose}>&times;</span>
         {children}

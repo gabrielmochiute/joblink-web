@@ -114,8 +114,15 @@ function Register() {
           return alert("As senhas precisam ser iguais");
 
         try {
-          const { cpf, name, email, password, gender, address, profession } =
-            register;
+          const {
+            cpf,
+            name,
+            email,
+            password,
+            gender,
+            address,
+            profession,
+          } = register;
 
           const response = await api.post("/freelancers", {
             cpf,
@@ -270,7 +277,7 @@ function Register() {
                   <Input
                     id="address"
                     label="Endereço*"
-                    type="text"
+                    type="local"
                     handler={handleInput}
                     value={register.address}
                     required

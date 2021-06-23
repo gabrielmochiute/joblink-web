@@ -35,7 +35,7 @@ function Chat({ message, signedUser }) {
         </YourMessage>
       ) : (
         <OtherUserMessage>
-          <img src={Profile} />
+          <img src={Profile} alt="Foto da pessoa" />
           <p>{message.message_description}</p>
         </OtherUserMessage>
       )}
@@ -74,7 +74,7 @@ function Message() {
   const reloadMessages = () => {
     setTimeout(() => {
       handleReload();
-      reloadMessages();
+      // reloadMessages();
     }, 5000);
   };
 
@@ -84,24 +84,11 @@ function Message() {
 
   const loadChat = async () => {
     try {
-      const response = await api.get(`/chats`);
+      const response = await api.get(`/chats/${idChat}`);
+      setChat(response.data[0]);
 
-      let thisChat = "";
-
-      thisChat = response.data.queryChatsByPosts.map((c) => {
-        if (c.id == idChat) return c;
-      });
-
-      if (thisChat == "")
-        thisChat = response.data.queryChatsByService.map((c) => {
-          return c;
-        });
-
-      if (signedUser.user.id === thisChat[0].Service.Post.User.id)
+      if (signedUser.user.id == response.data[0].Service.User.id)
         setIsThisFreelancer(true);
-
-      setChat(thisChat[0]);
-      console.log(thisChat[0]);
     } catch (error) {
       console.error(error);
     }
@@ -144,8 +131,8 @@ function Message() {
 
   useEffect(() => {
     loadMessages();
-    loadChat();
     // reloadMessages();
+    loadChat();
   }, [reload]);
 
   const defaultOptions = {
@@ -166,7 +153,7 @@ function Message() {
     },
   };
 
-  console.log(price);
+  console.log(chat);
 
   const feedbackSubmit = async (e) => {
     e.preventDefault();
@@ -204,6 +191,8 @@ function Message() {
       console.error(error);
     }
   };
+
+  console.log(chat);
 
   return (
     <Overlay>

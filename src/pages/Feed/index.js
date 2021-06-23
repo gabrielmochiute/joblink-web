@@ -232,7 +232,7 @@ function Feed() {
     <>
       <Alert message={message} type="error" handleClose={setMessage} />
       <NavBar />
-      <Recommendations />
+      {/* <Recommendations /> */}
       <FeedContainer>
         {empty}
         {cards.map((p) => (
