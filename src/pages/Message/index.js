@@ -87,8 +87,10 @@ function Message() {
       const response = await api.get(`/chats/${idChat}`);
       setChat(response.data[0]);
 
-      if (signedUser.user.id == response.data[0].Service.User.id)
-        setIsThisFreelancer(true);
+      if (response.data[0].Service.Post.is_announcement == 1) {
+        if (signedUser.user.id == response.data[0].Service.Post.User.id)
+          setIsThisFreelancer(true);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -186,6 +188,8 @@ function Message() {
       );
 
       setShowModal(false);
+
+      alert(`O serviço agora custa ${price}`);
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -193,6 +197,18 @@ function Message() {
   };
 
   console.log(chat);
+
+  const payment = async () => {
+    try {
+      const response = await api.put(
+        `/payment/post/${chat.Service.Post.id}/service/${chat.Service.id}`
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <Overlay>
@@ -308,13 +324,14 @@ function Message() {
               Estipular o preço
             </h3>
           ) : (
-            <h3
-              onClick={() => {
-                if (window.confirm("Tem certeza?")) setShowFeedback(true);
-              }}
-            >
-              Finalizar serviço e dar feedback
-            </h3>
+            // <h3
+            //   onClick={() => {
+            //     if (window.confirm("Tem certeza?")) setShowFeedback(true);
+            //   }}
+            // >
+            //   Finalizar serviço e dar feedback
+            // </h3>
+            <h3 onClick={payment}>Pagar</h3>
           )}
         </ProfileBar>
         <GradientLine />

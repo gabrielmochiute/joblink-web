@@ -102,7 +102,7 @@ export const ServiceCard = styled.div`
     width: 85%;
     height: fit-content;
     text-align: justify;
-    font-size: 38px;
+    font-size: 34px;
 
     @media screen and (max-width: 768px) {
       font-size: 18px;
@@ -170,7 +170,7 @@ export const ServiceCard = styled.div`
 export const ImageTitle = styled.div`
   display: flex;
   justify-content: space-evenly;
-  width: 90%;
+  width: 100%;
   /* background-color: black; */
   height: fit-content;
   border-radius: 15px 15px 0px 0px;
@@ -178,8 +178,8 @@ export const ImageTitle = styled.div`
     margin-bottom: 20px;
     margin-top: 5px;
   }
-  margin-bottom: 80px;
-  margin-top: 50px;
+  margin-bottom: 60px;
+  margin-top: 40px;
   gap: 15px;
 
   /* background-color: pink; */
@@ -191,7 +191,7 @@ export const ImageTitle = styled.div`
     > h1 {
       /* background-color: rosybrown; */
       text-align: start;
-      font-size: 48px;
+      font-size: 34px;
       font-weight: 500;
       @media screen and (max-width: 768px) {
         font-size: 36px;
@@ -222,13 +222,14 @@ export const ImageTitle = styled.div`
   }
   > div {
     /* background-color: purple; */
-    /* height: 100%; */
-    flex: 1;
+    height: 100px;
+    width: 100px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     flex-direction: column;
     text-align: start;
+    margin-left: 5px;
     > img {
       width: 100%;
       height: 100%;
