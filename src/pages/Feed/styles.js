@@ -269,6 +269,7 @@ export const Urgency = styled.div`
 
   > h2 {
     text-transform: uppercase;
+    font-size: 34px;
   }
 `;
 

@@ -74,7 +74,7 @@ function Message() {
   const reloadMessages = () => {
     setTimeout(() => {
       handleReload();
-      // reloadMessages();
+      reloadMessages();
     }, 5000);
   };
 
@@ -87,10 +87,10 @@ function Message() {
       const response = await api.get(`/chats/${idChat}`);
       setChat(response.data[0]);
 
-      if (response.data[0].Service.Post.is_announcement == 1) {
-        if (signedUser.user.id == response.data[0].Service.Post.User.id)
-          setIsThisFreelancer(true);
-      }
+      // if (response.data[0].Service.Post.is_announcement == 1) {
+      if (signedUser.user.id != response.data[0].Service.Post.User.id)
+        setIsThisFreelancer(true);
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -133,7 +133,7 @@ function Message() {
 
   useEffect(() => {
     loadMessages();
-    // reloadMessages();
+    reloadMessages();
     loadChat();
   }, [reload]);
 
@@ -198,11 +198,18 @@ function Message() {
 
   console.log(chat);
 
-  const payment = async () => {
+  const payment = async (history) => {
     try {
       const response = await api.put(
         `/payment/post/${chat.Service.Post.id}/service/${chat.Service.id}`
       );
+
+      const redirect = response.data.preference.body.init_point;
+
+      window.open(`${redirect}`, "Mercado pago", "width=1200,height=1000");
+      // history.push();
+
+      // window.href(`${redirect}`);
 
       console.log(response);
     } catch (error) {
@@ -331,7 +338,7 @@ function Message() {
             // >
             //   Finalizar serviço e dar feedback
             // </h3>
-            <h3 onClick={payment}>Pagar</h3>
+            <h3 onClick={() => payment(history)}>Pagar</h3>
           )}
         </ProfileBar>
         <GradientLine />

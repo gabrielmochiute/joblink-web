@@ -147,7 +147,7 @@ function ServiceCards({ post, history, setMessage, services, signedUser }) {
                 {post.User.name === signedUser.user.name
                   ? "Você"
                   : post.User.name}{" "}
-                às {format(new Date(post.updatedAt), "dd/MM/yyyy 'às' HH:mm")}
+                em {format(new Date(post.updatedAt), "dd/MM/yyyy 'às' HH:mm")}
               </h4>
               <h1>{post.title}</h1>
             </label>
