@@ -11,14 +11,14 @@ export const Container = styled.div`
   /* border-left: solid 2px var(--secondary); */
   > input {
     background-color: blue;
-    width: 2vw;
+    width: 35px;
     height: inherit;
     /* position: absolute; */
     /* border-radius: 100px; */
   }
 
   > label {
-    font-size: 3.5vh;
+    font-size: 22px;
     width: fit-content;
     padding-left: 15px;
     height: inherit;

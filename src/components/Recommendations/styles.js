@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Overlay = styled.div`
-  position: absolute;
+  position: fixed;
   width: 100vw;
   height: 100vh;
 
@@ -9,17 +9,14 @@ export const Overlay = styled.div`
 
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   z-index: 99;
-
-  transition: 0.6s;
 `;
 
 export const ModalContainer = styled.section`
   z-index: 100;
-  width: 500px;
+  width: 1200px;
   height: 600px;
-  margin-top: 15px;
 
   overflow-x: auto;
 
@@ -30,17 +27,18 @@ export const ModalContainer = styled.section`
 
   transition: 0.9s;
 
-  > span {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 38px;
-    cursor: pointer;
-    transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    z-index: 19;
-    :hover {
-      color: var(--secondary);
-    }
+  #firstColumn {
+    width: 50%;
+    height: 100%;
+    background-color: gray;
+  }
+  #secondColumn {
+    width: 50%;
+    height: 100%;
+    background-color: aqua;
   }
 `;

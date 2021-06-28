@@ -12,11 +12,13 @@ import {
   StepsButtons,
   ContainerImage,
   TypePostContainer,
+  SelectContainer,
 } from "./styles";
 import Check from "../../components/Check";
 import { useEffect, useRef, useState } from "react";
 import Request from "../../assets/requisitar.jpg";
 import Announcement from "../../assets/anunciar.jpg";
+import Loading from "../../components/Loading";
 import { api } from "../../services/api";
 
 function Urgency({ handleInput }) {
@@ -75,7 +77,11 @@ function TitleAndDescription({ handleInput, form }) {
       <TitleDescriptionContainer>
         <label>Digite o titulo do seu serviço.</label>
         <input id="title" onChange={handleInput} value={form.title} required />
-        <label>Descreva que tipo de serviço você precisa.</label>
+        <label>
+          {form.is_announcement
+            ? "Descreva o que você faz"
+            : "Descreva o que você quer"}
+        </label>
         <textarea
           id="description"
           value={form.description}
@@ -129,7 +135,39 @@ function Type({ setForm, form }) {
   );
 }
 
+function Select({ categories }) {
+  return (
+    <SelectContainer>
+      <select>
+        <option>Selecione a categoria do seu serviço aqui</option>
+        {categories.map((c) => (
+          <option key={c.id} value={c.id}>
+            {c.name}
+          </option>
+        ))}
+      </select>
+    </SelectContainer>
+  );
+}
+
 function Post() {
+  const [categories, setCategories] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  const loadCategories = async () => {
+    try {
+      const response = await api.get("/professions");
+
+      setCategories(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
   const history = useHistory();
 
   const signedUser = getUser();
@@ -161,15 +199,18 @@ function Post() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (step < 3) return setStep(step + 1);
+    if (step < 4) return setStep(step + 1);
+    setIsLoading(true);
 
     // alert(step);
 
     try {
       const response = await api.post("/posts", form);
 
+      setIsLoading(false);
       history.push("/feed");
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
   };
@@ -181,35 +222,40 @@ function Post() {
   return (
     <>
       <Overlay>
+        {isLoading && <Loading />}
         <Container>
           <h1>Qual é a urgência do seu serviço?</h1>
           <Forms onSubmit={handleSubmit} onChange={console.log(form)}>
+            {step === 1 && <Type setForm={setForm} form={form} />}
             {step === 2 && <Urgency handleInput={handleInput} />}
-            {step === 3 && (
+            {step === 3 && <Select categories={categories} />}
+            {step === 4 && (
               <TitleAndDescription handleInput={handleInput} form={form} />
             )}
-            {step === 1 && <Type setForm={setForm} form={form} />}
             <Next>
               <Steps>
                 <span
-                  style={
-                    step >= 1
-                      ? {
-                          background:
-                            "linear-gradient(to right, var(--darkGray), var(--darkGray))",
-                        }
-                      : {}
-                  }
+                // style={
+                //   step >= 1
+                //     ? {
+                //         background:
+                //           "linear-gradient(to right, var(--darkGray), var(--darkGray))",
+                //       }
+                //     : {}
+                // }
                 />
-                <div
-                  style={
-                    step >= 1
-                      ? { background: "var(--primary)" }
-                      : { background: "var(--darkGray)" }
-                  }
-                >
-                  1
-                </div>
+                {signedUser.isFreelancer && (
+                  <div
+                    style={
+                      step >= 1
+                        ? { background: "var(--primary)" }
+                        : { background: "var(--darkGray)" }
+                    }
+                  >
+                    1
+                  </div>
+                )}
+
                 <div
                   style={
                     step >= 2
@@ -228,6 +274,16 @@ function Post() {
                 >
                   3
                 </div>
+
+                <div
+                  style={
+                    step >= 4
+                      ? { background: "var(--primary)" }
+                      : { background: "var(--darkGray)" }
+                  }
+                >
+                  4
+                </div>
                 {/* <StepsButtons>
                   {step >= 2 && <span>BACK</span>} */}
 
@@ -235,10 +291,10 @@ function Post() {
               </Steps>
               <StepsButtons>
                 {step >= 2 && (
-                  <span onClick={() => setStep(step - 1)}>BACK</span>
+                  <span onClick={() => setStep(step - 1)}>Voltar</span>
                 )}
                 <button>
-                  <span>{step < 3 ? "next" : "enviar"}</span>
+                  <span>{step < 4 ? "avançar" : "enviar"}</span>
                 </button>
               </StepsButtons>
             </Next>

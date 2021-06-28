@@ -4,7 +4,10 @@ function Loading() {
   return (
     <>
       <LoadingBar>
-        <Bar></Bar>
+        <h1>Carregando...</h1>
+        <div id="line-base">
+          <div id="line"></div>
+        </div>
       </LoadingBar>
     </>
   );
