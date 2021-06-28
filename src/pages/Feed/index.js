@@ -18,9 +18,17 @@ import { format } from "date-fns";
 
 import Alert from "../../components/Alert";
 import NavBar from "../../components/NavBar";
+import Loading from "../../components/Loading";
 import Recommendations from "../../components/Recommendations";
 
-function ServiceCards({ post, history, setMessage, services, signedUser }) {
+function ServiceCards({
+  post,
+  history,
+  setMessage,
+  services,
+  signedUser,
+  setIsLoading,
+}) {
   const cardRef = useRef();
 
   const [typeUser, setTypeUser] = useState("clients");
@@ -46,6 +54,8 @@ function ServiceCards({ post, history, setMessage, services, signedUser }) {
   console.log({ card: post.id, serviço: services });
 
   const startService = async () => {
+    setIsLoading(true);
+
     try {
       const response = await api.post(`/post/${post.id}/service`);
 
@@ -55,9 +65,11 @@ function ServiceCards({ post, history, setMessage, services, signedUser }) {
         title: "Sucesso",
         description: `O usuário já foi notificado sobre sua solicitação!`,
       });
+      setIsLoading(false);
       setContact("Aceito!");
       // alert("sucesso");
     } catch (error) {
+      setIsLoading(false);
       setMessage({
         title: "Ops...",
         description: error.response.data.Unauthorized,
@@ -193,10 +205,12 @@ function Feed() {
   const [services, setServices] = useState([]);
 
   const [empty, setIsEmpty] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const signedUser = getUser();
 
   const loadCards = async () => {
+    setIsLoading(true);
     try {
       const response = await api.get("/feed");
 
@@ -208,8 +222,10 @@ function Feed() {
       }
 
       setCards([...response.data]);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
     }
   };
 
@@ -232,7 +248,9 @@ function Feed() {
     <>
       <Alert message={message} type="error" handleClose={setMessage} />
       <NavBar />
-      {/* <Recommendations /> */}
+      {isLoading && <Loading />}
+
+      <Recommendations />
       <FeedContainer>
         {empty}
         {cards.map((p) => (
@@ -243,6 +261,7 @@ function Feed() {
             setMessage={setMessage}
             services={services}
             signedUser={signedUser}
+            setIsLoading={setIsLoading}
           />
         ))}
 

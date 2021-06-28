@@ -1,12 +1,14 @@
 import animationData from "../../lotties/lottie-train-background.json";
 import Lottie from "react-lottie";
 import { ContactBox, MessagesContainer, Overlay } from "./styles";
-import NavBar from "../../components/NavBar";
 import Profile from "../../assets/perfil.png";
 import { useEffect, useState } from "react";
 import { api } from "../../services/api";
 import { useHistory } from "react-router-dom";
 import { getUser } from "../../services/security";
+
+import NavBar from "../../components/NavBar";
+import Loading from "../../components/Loading";
 
 function Chat({ chat, history, signedUser }) {
   return (
@@ -44,6 +46,7 @@ function Chat({ chat, history, signedUser }) {
 function Contact() {
   const [serviceMessages, setServiceMessages] = useState([]);
   const [postMessages, setPostMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
   const signedUser = getUser();
@@ -57,15 +60,18 @@ function Contact() {
   };
 
   const loadChats = async () => {
+    setIsLoading(true);
+
     try {
       const response = await api.get("/chats");
 
-      setServiceMessages(response.data.queryChatsByService);
-      setPostMessages(response.data.queryChatsByPosts);
-
+      setServiceMessages(...serviceMessages, response.data.queryChatsByService);
+      setPostMessages(...serviceMessages, response.data.queryChatsByPosts);
+      setIsLoading(false);
       console.log({ Resposta: response.data });
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -79,6 +85,7 @@ function Contact() {
   return (
     <>
       <Overlay>
+        {isLoading && <Loading />}
         <NavBar />
         <Lottie options={defaultOptions} id="lottie" height="400px" />
         <MessagesContainer>

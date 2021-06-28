@@ -87,10 +87,10 @@ function Message() {
       const response = await api.get(`/chats/${idChat}`);
       setChat(response.data[0]);
 
-      // if (response.data[0].Service.Post.is_announcement == 1) {
-      if (signedUser.user.id != response.data[0].Service.Post.User.id)
-        setIsThisFreelancer(true);
-      // }
+      if (response.data[0].Service.Post.is_announcement == 1) {
+        if (signedUser.user.id == response.data[0].Service.Post.User.id)
+          setIsThisFreelancer(true);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -133,7 +133,7 @@ function Message() {
 
   useEffect(() => {
     loadMessages();
-    reloadMessages();
+    // reloadMessages();
     loadChat();
   }, [reload]);
 

@@ -170,6 +170,7 @@ export const StepsButtons = styled.div`
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      font-size: 28px;
       color: black;
       transition: all 0.9s;
     }
@@ -189,7 +190,7 @@ export const StepsButtons = styled.div`
   }
 
   > span {
-    font-size: 34px;
+    font-size: 22px;
     user-select: none;
     transition: 0.5s;
 

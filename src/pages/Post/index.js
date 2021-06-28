@@ -18,6 +18,7 @@ import Check from "../../components/Check";
 import { useEffect, useRef, useState } from "react";
 import Request from "../../assets/requisitar.jpg";
 import Announcement from "../../assets/anunciar.jpg";
+import Loading from "../../components/Loading";
 import { api } from "../../services/api";
 
 function Urgency({ handleInput }) {
@@ -76,7 +77,11 @@ function TitleAndDescription({ handleInput, form }) {
       <TitleDescriptionContainer>
         <label>Digite o titulo do seu serviço.</label>
         <input id="title" onChange={handleInput} value={form.title} required />
-        <label>Descreva que tipo de serviço você precisa.</label>
+        <label>
+          {form.is_announcement
+            ? "Descreva o que você faz"
+            : "Descreva o que você quer"}
+        </label>
         <textarea
           id="description"
           value={form.description}
@@ -148,6 +153,8 @@ function Select({ categories }) {
 function Post() {
   const [categories, setCategories] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const loadCategories = async () => {
     try {
       const response = await api.get("/professions");
@@ -193,14 +200,17 @@ function Post() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (step < 4) return setStep(step + 1);
+    setIsLoading(true);
 
     // alert(step);
 
     try {
       const response = await api.post("/posts", form);
 
+      setIsLoading(false);
       history.push("/feed");
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
   };
@@ -212,6 +222,7 @@ function Post() {
   return (
     <>
       <Overlay>
+        {isLoading && <Loading />}
         <Container>
           <h1>Qual é a urgência do seu serviço?</h1>
           <Forms onSubmit={handleSubmit} onChange={console.log(form)}>
@@ -280,10 +291,10 @@ function Post() {
               </Steps>
               <StepsButtons>
                 {step >= 2 && (
-                  <span onClick={() => setStep(step - 1)}>BACK</span>
+                  <span onClick={() => setStep(step - 1)}>Voltar</span>
                 )}
                 <button>
-                  <span>{step < 4 ? "next" : "enviar"}</span>
+                  <span>{step < 4 ? "avançar" : "enviar"}</span>
                 </button>
               </StepsButtons>
             </Next>

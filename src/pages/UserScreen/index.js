@@ -19,18 +19,22 @@ import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
 import { getUser } from "../../services/security";
 import { format } from "date-fns";
+
+import Loading from "../../components/Loading";
 import Alert from "../../components/Alert";
 import NavBar from "../../components/NavBar";
 
-function Notifications({ card, setMessage, history }) {
+function Notifications({ card, setMessage, history, setIsloading }) {
   const acceptService = async () => {
+    setIsloading(true);
     try {
       const response = await api.post(`/createChat/service/${card.id}`);
-
+      setIsloading(false);
       history.push("/contact");
       console.log(response);
     } catch (error) {
       console.log(error);
+      setIsloading(false);
       setMessage({
         title: "Algo deu errado...",
         description: error.response.data.Unauthorized,
@@ -71,7 +75,7 @@ function Notifications({ card, setMessage, history }) {
   );
 }
 
-function User({ user, setMessage, history }) {
+function User({ user, setMessage, history, setIsloading }) {
   const signedUser = getUser();
 
   const [pendeciesCards, setPendeciesCards] = useState({
@@ -82,6 +86,7 @@ function User({ user, setMessage, history }) {
   const [publishType, setPublishType] = useState("publish");
 
   const loadNotifications = async () => {
+    setIsloading(true);
     try {
       const response = await api.get("/notifications");
       console.log(response.data);
@@ -89,8 +94,10 @@ function User({ user, setMessage, history }) {
         ...pendeciesCards,
         whereUserIsPostOwner: response.data.pendencies.whereUserIsPostOwner,
       });
+      setIsloading(false);
     } catch (error) {
       console.error(error);
+      setIsloading(false);
     }
   };
 
@@ -138,6 +145,7 @@ function User({ user, setMessage, history }) {
                 key={m.id}
                 setMessage={setMessage}
                 history={history}
+                setIsloading={setIsloading}
               />
             ))}
           </>
@@ -150,20 +158,24 @@ function User({ user, setMessage, history }) {
 function UserScreen() {
   const [user, setUser] = useState([]);
   const [success, setSuccess] = useState(false);
+  const [isLoading, setIsloading] = useState(false);
   const [message, setMessage] = useState("");
   const history = useHistory();
 
   const { id, type } = useParams();
 
   const getUser = async () => {
+    setIsloading(true);
+
     try {
       const response = await api.get(`/${type}/${id}`);
 
       setUser(response.data);
       setSuccess(true);
-      console.log(response.data);
+      setIsloading(false);
     } catch (error) {
       alert(error);
+      setIsloading(false);
     }
   };
 
@@ -173,6 +185,7 @@ function UserScreen() {
 
   return (
     <>
+      {isLoading && <Loading />}
       <Alert message={message} type="error" handleClose={setMessage} />
       {success ? (
         <>
@@ -180,7 +193,12 @@ function UserScreen() {
           <Banner>
             <ProfilePicture src={user.image ? user.image : Profile} />
           </Banner>
-          <User user={user} setMessage={setMessage} history={history} />
+          <User
+            user={user}
+            setMessage={setMessage}
+            history={history}
+            setIsloading={setIsloading}
+          />
         </>
       ) : (
         <>
