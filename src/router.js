@@ -8,6 +8,7 @@ import UserScreen from "./pages/UserScreen";
 import Teste from "./pages/Teste";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
+import Message from "./pages/Message";
 
 function PrivateRoute({ children, ...rest }) {
   if (isSignedIn()) {
@@ -41,12 +42,16 @@ function Router() {
         </PrivateRoute>
 
         <PrivateRoute path="/contact/:idChat">
-          <Contact />
+          <Message />
         </PrivateRoute>
 
         <Route path="/teste">
           <Teste />
         </Route>
+
+        <PrivateRoute path="/contact">
+          <Contact />
+        </PrivateRoute>
 
         <Route path="/">
           <Home />

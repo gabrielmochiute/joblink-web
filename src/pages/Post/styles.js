@@ -35,12 +35,15 @@ export const Container = styled.article`
 
   width: 750px;
   min-height: 550px;
-  background-color: white;
   overflow: hidden;
+
+  background-color: var(--white);
 
   display: flex;
   align-items: center;
   flex-direction: column;
+
+  padding: 15px;
 
   > h1 {
     font-size: 32px;
@@ -51,7 +54,7 @@ export const Container = styled.article`
 `;
 
 export const Forms = styled.form`
-  height: 100%;
+  /* height: 100%; */
   width: 100%;
   /* background-color: blueviolet; */
   display: flex;
@@ -63,15 +66,29 @@ export const Forms = styled.form`
 export const CheckList = styled.div`
   /* background-color: blue; */
   width: inherit;
-  min-height: 50vh;
-  overflow: hidden;
   margin-left: 25px;
 
   display: flex;
   align-items: flex-start;
   justify-content: space-evenly;
   flex-direction: column;
+  gap: 25px;
+
   /* margin-top: 100px; */
+`;
+
+export const SelectContainer = styled.div`
+  > select {
+    width: 600px;
+    height: 30px;
+    margin-top: 15px;
+    background: none;
+    box-shadow: none;
+    outline: none;
+
+    border-bottom: solid 2px var(--secondary);
+    color: var(--font);
+  }
 `;
 
 export const Next = styled.div`
@@ -79,7 +96,7 @@ export const Next = styled.div`
   bottom: 0px;
 
   width: 100%;
-  height: 50px;
+  height: fit-content;
   padding: 0 15px;
 
   display: flex;
@@ -92,14 +109,17 @@ export const Steps = styled.div`
   height: inherit;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   transition: 2s;
 
+  margin-bottom: 15px;
+
   > span {
-    width: 15vw;
+    width: 200px;
     height: 5px;
     position: absolute;
+    /* background-color: brown; */
     /* background: linear-gradient(
       to right,
       var(--primary) 50%,
@@ -120,9 +140,9 @@ export const Steps = styled.div`
     /* padding-top: 5px; */
 
     /* box-shadow: 1px 1px 5px black; */
-    background-color: var(--darkGray);
+    /* background-color: var(--darkGray); */
     text-align: center;
-    font-size: 5vh;
+    font-size: 34px;
     color: #ffffff;
   }
 `;
@@ -150,6 +170,7 @@ export const StepsButtons = styled.div`
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      font-size: 28px;
       color: black;
       transition: all 0.9s;
     }
@@ -169,7 +190,7 @@ export const StepsButtons = styled.div`
   }
 
   > span {
-    font-size: 4vh;
+    font-size: 22px;
     user-select: none;
     transition: 0.5s;
 
@@ -226,14 +247,14 @@ export const TitleDescriptionContainer = styled.div`
   padding: 0px 2vw;
 
   > label {
-    font-size: 3vh;
+    font-size: 28px;
   }
 
   > textarea,
   input {
     width: 100%;
 
-    font-size: 3vh;
+    font-size: 30px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 
@@ -248,7 +269,7 @@ export const TitleDescriptionContainer = styled.div`
   }
 
   > textarea {
-    min-height: 30vh;
+    min-height: 200px;
     overflow: auto;
     margin-bottom: 8px;
     resize: none;

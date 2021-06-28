@@ -1,239 +1,116 @@
-import styled, { keyframes } from "styled-components";
-import ChatBackground from "../../assets/ChatBackground.svg";
-
-export const MainAnimation = keyframes`
-  0%{
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
+import styled from "styled-components";
 
 export const Overlay = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background-image: url(${ChatBackground});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-`;
-
-export const MainContainer = styled.div`
-  box-shadow: 5px 5px 5px 5px #00000040;
-  animation: ${MainAnimation} 0.9s ease-in;
-
-  width: 90vw;
-  height: 90vh;
-  background-color: var(--white);
-  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  flex-direction: column;
-`;
-
-export const ProfileBar = styled.nav`
-  width: 100%;
-  height: 15vh;
-  overflow: hidden;
-  /* background-color: burlywood; */
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 20px;
-  padding: 0px 25px;
-  margin-bottom: 15px;
-
-  > img {
-    width: 50px;
-    height: 50px;
-    background-color: var(--gray);
-    border-radius: 100%;
-    padding: 8px;
-    cursor: pointer;
-  }
-
-  > label {
-    > h1 {
-      color: var(--primary);
-      font-size: 26px;
-      font-weight: 500;
-    }
-
-    > h2 {
-      color: var(--secondary);
-      font-weight: 500;
-      font-size: 20px;
-    }
-  }
-`;
-
-export const GradientLine = styled.div`
-  width: 94%;
-  height: 3px;
-  background: linear-gradient(to right, var(--primary), var(--secondary));
-  border-radius: 25px;
-  margin: 0 auto;
+  gap: 15px;
 `;
 
 export const MessagesContainer = styled.div`
   width: 100%;
-  min-height: 300px;
-  max-height: 80vh;
-  overflow: auto;
-  padding: 15px 3%;
-`;
-
-export const YourMessage = styled.div`
-  width: fit-content;
-  min-height: 60px;
-  margin-left: auto;
-  margin-bottom: 15px;
+  height: 500px;
+  /* background-color: brown; */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: baseline;
+  flex-direction: column;
+
+  padding: 0px 2%;
+
+  display: flex;
+  flex-direction: column;
   gap: 15px;
-  align-items: flex-start;
-  background: linear-gradient(to right, var(--primary), var(--secondary));
-  border-radius: 50px 50px 0px 50px;
-
-  > p {
-    min-width: 100px;
-    max-width: 600px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    padding: 15px 25px;
-    overflow: hidden;
-    color: var(--white);
-    text-align: justify;
-    font-weight: 350;
-    font-size: 26px;
-  }
-`;
-
-export const OtherUserMessage = styled.div`
-  width: fit-content;
-  min-height: 60px;
-  overflow: hidden;
-  margin-right: auto;
-  margin-bottom: 15px;
-  border-radius: 15px;
-  display: flex;
-  gap: 15px;
-  justify-content: space-between;
-  align-items: center;
-
-  > p {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    min-width: 200px;
-    max-width: 600px;
-
-    padding: 15px 25px;
-
-    min-height: 50px;
-    border-radius: 50px;
-    overflow: hidden;
-    background-color: var(--gray);
-    color: var(--font);
-    text-align: justify;
-    font-weight: 350;
-    font-size: 26px;
-  }
-
-  > img {
-    width: 60px;
-    height: 60px;
-    border-radius: 100%;
-  }
-`;
-
-export const SendMessageContainer = styled.form`
-  width: 100%;
-  height: 8vh;
-  /* background: linear-gradient(to right, var(--primary), var(--secondary)); */
-  background-color: var(--gray);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 25px;
-  > img {
-    width: 60px;
-  }
 
   > label {
-    width: 90%;
-    height: 90%;
-    position: relative;
-
+    width: fit-content;
     display: flex;
-    align-items: center;
+    flex-direction: column;
 
-    > input {
-      transition: border 0.1s, border-color 4s;
-      padding: 0 25px;
-      color: var(--font);
-      font-size: 32px;
-      width: 100%;
-      height: 90%;
-      border-radius: 50px;
-      border: none;
-      background-color: #ffffff50;
-
-      /* :focus {
-        border-color: white;
-        border: solid 3px;
-      } */
-
-      /* Mudar a cor do placeholder em todos os navegadores*/
-
-      /* ::-webkit-input-placeholder {
-        color: #ffffff90;
-      }
-
-      :-moz-placeholder {
-        
-        color: #ffffff90;
-      }
-
-      ::-moz-placeholder {
-        
-        color: #ffffff90;
-      }
-
-      :-ms-input-placeholder {
-        color: #ffffff90;
-      } */
+    > h1 {
+      font-weight: 400;
+      color: var(--secondary);
     }
 
-    > button {
-      position: absolute;
-      right: 0;
+    > div {
+      width: 50%;
+      height: 2px;
+      background-color: var(--secondary);
+    }
+  }
+`;
 
-      width: 60px;
-      height: 60px;
-      border-radius: 50px;
-      border: none;
+export const ContactBox = styled.div`
+  width: 100%;
+  min-height: 225px;
+  overflow: hidden;
+  background-color: var(--secondary);
 
-      /* padding: 15px; */
+  border-radius: 25px;
+  color: var(--white);
+
+  display: flex;
+  justify-content: space-between;
+
+  padding: 15px 25px;
+
+  #titleName {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    > label {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+
       > img {
-        width: 75%;
-        height: 75%;
+        width: 125px;
+        height: 125px;
+        border-radius: 100%;
       }
-      /* background-color: #ffffff30;
-      background-position: center;
-      background-repeat: no-repeat; */
+      > div {
+        > h1 {
+          font-size: 44px;
+          font-weight: 400;
+        }
 
-      background: linear-gradient(to right, var(--primary), var(--secondary));
+        > h2 {
+          font-size: 36px;
+          font-weight: 300;
+        }
+      }
+    }
+
+    > h2 {
+      font-weight: 400;
+    }
+  }
+
+  #contactButton {
+    height: 100%;
+
+    display: flex;
+    align-items: flex-end;
+    > button {
+      background: none;
+      border: none;
+      border-bottom: 2px solid var(--white);
+      font-size: 18px;
+      text-transform: uppercase;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      font-weight: 600;
+      letter-spacing: 2px;
+      border-radius: 0px;
+
+      :hover {
+        background-color: var(--white);
+        color: var(--secondary);
+        border-radius: 15px;
+      }
     }
   }
 `;

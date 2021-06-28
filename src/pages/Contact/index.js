@@ -1,188 +1,117 @@
-import {
-  GradientLine,
-  MainContainer,
-  MessagesContainer,
-  ProfileBar,
-  YourMessage,
-  OtherUserMessage,
-  SendMessageContainer,
-  Overlay,
-} from "./styles";
-import Return from "../../assets/return.svg";
+import animationData from "../../lotties/lottie-train-background.json";
+import Lottie from "react-lottie";
+import { ContactBox, MessagesContainer, Overlay } from "./styles";
 import Profile from "../../assets/perfil.png";
-import Plus from "../../assets/plus_icon.svg";
-import Send from "../../assets/send.svg";
-
 import { useEffect, useState } from "react";
+import { api } from "../../services/api";
+import { useHistory } from "react-router-dom";
 import { getUser } from "../../services/security";
-import { useHistory, useParams } from "react-router";
 
-function Chat({ message, signedUser }) {
+import NavBar from "../../components/NavBar";
+import Loading from "../../components/Loading";
+
+function Chat({ chat, history, signedUser }) {
   return (
     <>
-      {message.messageAuthor === signedUser.user.name ? (
-        <YourMessage>
-          <p>{message.messageDescription}</p>
-        </YourMessage>
-      ) : (
-        <OtherUserMessage>
-          <img src={Profile} />
-          <p>{message.messageDescription}</p>
-        </OtherUserMessage>
-      )}
+      <ContactBox>
+        <div id="titleName">
+          <label>
+            <img src={Profile} alt="Imagem de perfil" />
+            <div>
+              {/* <h1>
+                {chat.Service.User.id != signedUser.user.id
+                  ? chat.Service.User.name
+                  : chat.Service.Post.User.name}
+              </h1> */}
+              <h2>Profissional</h2>
+            </div>
+          </label>
+          <h2>{`De "${chat.Service.Post.title}"`}</h2>
+        </div>
+        <div id="contactButton">
+          <button
+            type="button"
+            onClick={() => {
+              history.push(`/contact/${chat.id}`);
+            }}
+          >
+            Contato
+          </button>
+        </div>
+      </ContactBox>
     </>
   );
 }
 
-// function SignedUserMessage({ message }) {
-//   return (
-//     <>
-//       <YourMessage>
-//         <p>{message}</p>
-//         <img src={Profile} />
-//       </YourMessage>
-//     </>
-//   );
-// }
-
-// function DestinyUserMessage({ message }) {
-//   return (
-//     <>
-//       <OtherUserMessage>
-//         <img src={Profile} />
-//         <p>{message}</p>
-//       </OtherUserMessage>
-//     </>
-//   );
-// }
-
 function Contact() {
-  const [messages, setMessages] = useState([]);
-
-  const [newMessage, setNewMessage] = useState("");
-
-  let { idChat } = useParams();
-
-  const signedUser = getUser();
+  const [serviceMessages, setServiceMessages] = useState([]);
+  const [postMessages, setPostMessages] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
-
-  useEffect(() => {
-    setMessages([
-      {
-        id: 1,
-        messageAuthor: "Marcio Herobrine",
-        messageDescription: "Olá",
-      },
-      {
-        id: 2,
-        messageAuthor: "Manoel Ketchup",
-        messageDescription: "Tudo bem?",
-      },
-      {
-        id: 3,
-        messageAuthor: "Manoel Ketchup",
-        messageDescription:
-          "Nam hendrerit augue in mi ultricies pretium. In ac convallis quam. Sed in nunc erat. ",
-      },
-      {
-        id: 3,
-        messageAuthor: "Marcio Herobrine",
-        messageDescription: "Meu carro quebrou",
-      },
-      {
-        id: 3,
-        messageAuthor: "Marcio Herobrine",
-        messageDescription: "Tem como fazer algo?",
-      },
-      {
-        id: 3,
-        messageAuthor: "Manoel Ketchup",
-        messageDescription: "...",
-      },
-      {
-        id: 3,
-        messageAuthor: "Manoel Ketchup",
-        messageDescription: "Qual é o problema?",
-      },
-      {
-        id: 3,
-        messageAuthor: "Marcio Herobrine",
-        messageDescription: "Não liga mais",
-      },
-    ]);
-  }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const messageAdded = {
-      id: 1,
-      messageAuthor: signedUser.user.name,
-      messageDescription: newMessage,
-    };
-
-    setMessages([...messages, messageAdded]);
-
-    setNewMessage("");
-    console.log(messages);
+  const signedUser = getUser();
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
-  // if (signedUser.user.name !== freelancer && signedUser.user.id != client) {
-  //   history.replace("/");
-  //   // console.log(
-  //   //   `O ${signedUser.user.name} não é igual ao ${freelancer} e o id ${signedUser.user.id} não é igual ao ${client}`
-  //   // );
-  // }
+  const loadChats = async () => {
+    setIsLoading(true);
+
+    try {
+      const response = await api.get("/chats");
+
+      setServiceMessages(...serviceMessages, response.data.queryChatsByService);
+      setPostMessages(...serviceMessages, response.data.queryChatsByPosts);
+      setIsLoading(false);
+      console.log({ Resposta: response.data });
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadChats();
+  }, []);
+
+  console.log("service", serviceMessages);
+  console.log("post", postMessages);
 
   return (
-    <Overlay>
-      <MainContainer>
-        <ProfileBar>
-          <img
-            src={Return}
-            onClick={() => {
-              history.replace("/feed");
-            }}
-            alt="Return"
-          />
-          <label>
-            <h1>Roberto Almeida Santos</h1>
-            <h2>Cliente</h2>
-          </label>
-        </ProfileBar>
-        <GradientLine />
-
+    <>
+      <Overlay>
+        {isLoading && <Loading />}
+        <NavBar />
+        <Lottie options={defaultOptions} id="lottie" height="400px" />
         <MessagesContainer>
-          {/* <SignedUserMessage message="Teste 1" />
-          <SignedUserMessage message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt massa venenatis neque pretium, eget consequat felis commodo. Nam diam nulla, suscipit iaculis tincidunt eget, scelerisque ac ex. Sed sed pretium diam, lacinia maximus odio. Nulla facilisi. Duis ut elit et risus egestas rutrum lacinia non diam. Integer tristique ac justo id maximus. Etiam quis tortor quis velit placerat feugiat eget porta ligula. Maecenas convallis tortor id elementum pellentesque. Nullam ullamcorper augue quis turpis ornare viverra." />
-          <DestinyUserMessage message="Teste 1" />
-          <SignedUserMessage message="Teste 3" />
-          <DestinyUserMessage message="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt massa venenatis neque pretiumLorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt massa venenatis neque pretium" />
-          <DestinyUserMessage message="Nulla in dictum quam. Aliquam erat volutpat. Ut maximus ultrices magna, ut gravida metus posuere porta. Phasellus luctus fringilla augue, nec dictum purus aliquam at." /> */}
-
-          {messages.map((m) => (
-            <Chat message={m} signedUser={signedUser} />
+          <label>
+            <h1>Suas conversas</h1>
+            <div />
+          </label>
+          {serviceMessages.map((c) => (
+            <Chat
+              key={c.id}
+              chat={c}
+              history={history}
+              signedUser={signedUser}
+            />
+          ))}
+          {postMessages.map((c) => (
+            <Chat
+              key={c.id}
+              chat={c}
+              history={history}
+              signedUser={signedUser}
+            />
           ))}
         </MessagesContainer>
-
-        <SendMessageContainer onSubmit={handleSubmit}>
-          {/* <form > */}
-          <img src={Plus} />
-          <label>
-            <input
-              placeholder="Mande alguma coisa!"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              required
-            />
-            <button onClick={() => console.log(signedUser.user.name)}>
-              <img src={Send} />
-            </button>
-          </label>
-          {/* </form> */}
-        </SendMessageContainer>
-      </MainContainer>
-    </Overlay>
+      </Overlay>
+    </>
   );
 }
 

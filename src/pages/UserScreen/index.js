@@ -10,29 +10,72 @@ import {
   CardOwner,
 } from "./styles";
 import Settings from "../../assets/settings_icon.svg";
+import Accept from "../../assets/accept.svg";
+import Reject from "../../assets/reject.svg";
 import Profile from "../../assets/perfil.png";
+
 import { api } from "../../services/api";
 import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
 import { getUser } from "../../services/security";
+import { format } from "date-fns";
 
-function Notifications({ card }) {
+import Loading from "../../components/Loading";
+import Alert from "../../components/Alert";
+import NavBar from "../../components/NavBar";
+
+function Notifications({ card, setMessage, history, setIsloading }) {
+  const acceptService = async () => {
+    setIsloading(true);
+    try {
+      const response = await api.post(`/createChat/service/${card.id}`);
+      setIsloading(false);
+      history.push("/contact");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      setIsloading(false);
+      setMessage({
+        title: "Algo deu errado...",
+        description: error.response.data.Unauthorized,
+      });
+    }
+  };
+
   return (
-    <CardOwner>
-      <div id="titleImage">
-        <img src={Profile} alt="Foto de perfil" />
-        <h1>{card.User.name} se interessou no seu pedido</h1>
-      </div>
+    <>
+      {!card.is_accepted && (
+        <CardOwner>
+          <div id="titleImage">
+            <img src={Profile} alt="Foto de perfil" />
+            <h1>{card.User.name} se interessou no seu pedido</h1>
+          </div>
 
-      <div id="yourPost">
-        <img src={Profile} alt="Foto de perfil" />
-        <h1>Por Você as xx:xx em xx/xx/xxxx</h1>
-      </div>
-    </CardOwner>
+          <div id="yourPost">
+            <img src={Profile} alt="Foto de perfil" />
+            <h1>
+              Por Você{" "}
+              {format(new Date(card.updatedAt), "dd/MM/yyyy 'às' HH:mm")}
+            </h1>
+          </div>
+          <p>"{card.Post.description}"</p>
+          <div id="acceptButton">
+            <label id="reject">
+              <img src={Reject} alt="Imagem de rejeitar" />
+              <button>Recusar</button>
+            </label>
+            <label id="accept">
+              <img src={Accept} alt="Imagem de aceitar" />
+              <button onClick={acceptService}>Aceitar</button>
+            </label>
+          </div>
+        </CardOwner>
+      )}
+    </>
   );
 }
 
-function User({ user }) {
+function User({ user, setMessage, history, setIsloading }) {
   const signedUser = getUser();
 
   const [pendeciesCards, setPendeciesCards] = useState({
@@ -40,11 +83,10 @@ function User({ user }) {
     whereUserIsPostOwner: [],
   });
 
-  const history = useHistory();
-
   const [publishType, setPublishType] = useState("publish");
 
   const loadNotifications = async () => {
+    setIsloading(true);
     try {
       const response = await api.get("/notifications");
       console.log(response.data);
@@ -52,8 +94,10 @@ function User({ user }) {
         ...pendeciesCards,
         whereUserIsPostOwner: response.data.pendencies.whereUserIsPostOwner,
       });
+      setIsloading(false);
     } catch (error) {
       console.error(error);
+      setIsloading(false);
     }
   };
 
@@ -96,7 +140,13 @@ function User({ user }) {
         ) : (
           <>
             {pendeciesCards.whereUserIsPostOwner.map((m) => (
-              <Notifications card={m} />
+              <Notifications
+                card={m}
+                key={m.id}
+                setMessage={setMessage}
+                history={history}
+                setIsloading={setIsloading}
+              />
             ))}
           </>
         )}
@@ -108,17 +158,24 @@ function User({ user }) {
 function UserScreen() {
   const [user, setUser] = useState([]);
   const [success, setSuccess] = useState(false);
-  let { id, type } = useParams();
+  const [isLoading, setIsloading] = useState(false);
+  const [message, setMessage] = useState("");
+  const history = useHistory();
+
+  const { id, type } = useParams();
 
   const getUser = async () => {
+    setIsloading(true);
+
     try {
       const response = await api.get(`/${type}/${id}`);
 
       setUser(response.data);
       setSuccess(true);
-      console.log(response.data);
+      setIsloading(false);
     } catch (error) {
       alert(error);
+      setIsloading(false);
     }
   };
 
@@ -128,12 +185,20 @@ function UserScreen() {
 
   return (
     <>
+      {isLoading && <Loading />}
+      <Alert message={message} type="error" handleClose={setMessage} />
       {success ? (
         <>
+          <NavBar />
           <Banner>
             <ProfilePicture src={user.image ? user.image : Profile} />
           </Banner>
-          <User user={user} />
+          <User
+            user={user}
+            setMessage={setMessage}
+            history={history}
+            setIsloading={setIsloading}
+          />
         </>
       ) : (
         <>

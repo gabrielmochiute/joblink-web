@@ -21,7 +21,6 @@ import { signIn } from "../../services/security";
 import Check from "../../components/Check";
 import animationData from "../../lotties/lottie-register.json";
 import Lottie from "react-lottie";
-import ReactDom from "react-dom";
 import Alert from "../../components/Alert";
 
 function Register() {
@@ -33,7 +32,7 @@ function Register() {
 
   const [isFreelancer, setIsFreelancer] = useState(false);
 
-  const squaresRef = useRef();
+  const [categories, setCategories] = useState([]);
 
   const [register, setRegister] = useState({
     cpf: "",
@@ -115,8 +114,15 @@ function Register() {
           return alert("As senhas precisam ser iguais");
 
         try {
-          const { cpf, name, email, password, gender, address, profession } =
-            register;
+          const {
+            cpf,
+            name,
+            email,
+            password,
+            gender,
+            address,
+            profession,
+          } = register;
 
           const response = await api.post("/freelancers", {
             cpf,
@@ -191,8 +197,21 @@ function Register() {
     }
   };
 
+  const loadCategories = async () => {
+    try {
+      const response = await api.get("/professions");
+
+      setCategories(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  console.log(register);
+
   useEffect(() => {
     createSquare();
+    loadCategories();
   }, []);
 
   return (
@@ -258,7 +277,7 @@ function Register() {
                   <Input
                     id="address"
                     label="Endereço*"
-                    type="text"
+                    type="local"
                     handler={handleInput}
                     value={register.address}
                     required
@@ -326,9 +345,10 @@ function Register() {
                   <h1>Selecione o seu tipo de trabalho</h1>
                   <select id="profession" onChange={handleInput}>
                     <option>Tipo de trabalho</option>
-                    <option value="mecanico">Mecânico</option>
-                    <option value="tecnico">técnico</option>
-                    <option value="advogado">advogado</option>
+
+                    {categories.map((c) => (
+                      <option value={c.id}>{c.name}</option>
+                    ))}
                   </select>
                   <Input
                     id="yearsExperience"
@@ -337,7 +357,7 @@ function Register() {
                   />
 
                   <Input
-                    id="yearsExperience"
+                    id="formation"
                     label="Formação (opcional)"
                     type="text"
                   />
