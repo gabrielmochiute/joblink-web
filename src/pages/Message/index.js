@@ -133,7 +133,7 @@ function Message() {
 
   useEffect(() => {
     loadMessages();
-    // reloadMessages();
+    reloadMessages();
     loadChat();
   }, [reload]);
 
