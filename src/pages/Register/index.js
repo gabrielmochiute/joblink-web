@@ -11,7 +11,9 @@ import {
   Squares,
 } from "./styles";
 import React, { useEffect, useRef, useState } from "react";
+import InputMask from "react-input-mask";
 import { Link, useHistory } from "react-router-dom";
+import { cpf } from "cpf-cnpj-validator";
 
 import Input from "../../components/input";
 import banner from "../../assets/banner.jpg";
@@ -72,6 +74,10 @@ function Register() {
       const formatedBirthDate = register.birthDate.split("-", 3);
       const newBirthDate = `${formatedBirthDate[2]}/${formatedBirthDate[1]}/${formatedBirthDate[0]}`;
 
+      const validatedCpf = cpf.isValid(register.cpf);
+
+      if (!validatedCpf) return alert("Cpf inválido");
+
       if (confirmPassword !== register.password)
         return alert("As senhas precisam ser iguais");
 
@@ -114,15 +120,8 @@ function Register() {
           return alert("As senhas precisam ser iguais");
 
         try {
-          const {
-            cpf,
-            name,
-            email,
-            password,
-            gender,
-            address,
-            profession,
-          } = register;
+          const { cpf, name, email, password, gender, address, profession } =
+            register;
 
           const response = await api.post("/freelancers", {
             cpf,
@@ -214,6 +213,13 @@ function Register() {
     loadCategories();
   }, []);
 
+  const onlyNumbers = (str) => str.replace(/[^0-9]/g, "");
+
+  const handleCpf = (e) => {
+    // const formatedCpf = cpf.format(e.target.value);
+    setRegister({ ...register, cpf: onlyNumbers(e.target.value) });
+  };
+
   return (
     <>
       <Overlay>
@@ -259,14 +265,23 @@ function Register() {
                     required
                   ></Input>
                   <InputRow>
-                    <Input
+                    {/* <Input
                       id="cpf"
                       label="CPF*"
+                      mask="99.999.999/9999-99"
                       type="text"
                       value={register.cpf}
-                      handler={handleInput}
+                      handler={handleCpf}
                       required
-                    ></Input>
+                    /> */}
+                    <InputMask
+                      placeholder="CPF(999.999.999-99)*"
+                      id="cpf"
+                      name="cpf"
+                      mask="999.999.999-99"
+                      value={register.cpf}
+                      onChange={handleCpf}
+                    />
                     <select id="gender" onChange={handleInput}>
                       <option>Selecione seu sexo*</option>
                       <option value="M">Masculino</option>
@@ -365,10 +380,9 @@ function Register() {
               )}
               <span>
                 <ButtonNext disabled={step !== 1 && handleButton()}>
-                  Next &rarr;
+                  Próximo &rarr;
                 </ButtonNext>
               </span>
-              ;
             </RegisterForm>
           </RegisterContainer>
         </ModalContainer>

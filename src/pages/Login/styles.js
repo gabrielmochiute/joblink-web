@@ -152,6 +152,7 @@ export const FormLogin = styled.form`
     font-weight: bold;
     z-index: 19;
     position: relative;
+    color: var(--font);
   }
 
   > span {
@@ -222,7 +223,7 @@ export const InputContainerHolder = styled.div`
 
   > div {
     > input {
-      box-shadow: 2px 5px 10px #00000040;
+      box-shadow: 0px 2px 10px #00000040;
       border-radius: 15px;
     }
   }

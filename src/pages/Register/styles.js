@@ -30,20 +30,21 @@ export const ModalContainer = styled.section`
   animation: ${RegisterAnimation} 0.5s;
   width: 90%;
   height: 90%;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 
   z-index: 19;
 
-  overflow-x: auto;
+  overflow: auto;
 
   background-color: white;
-  box-shadow: 2px 5px 10px #00000060;
-  border-radius: 4px;
+  box-shadow: 2px 5px 15px #00000020;
+  border-radius: 15px;
 
   position: relative;
+
+  /* border: 1px solid var(--secondary); */
 `;
 
 export const BannerRegister = styled.div`
@@ -92,11 +93,11 @@ export const BannerRegister = styled.div`
     text-align: center;
     color: transparent;
     font-weight: 600;
-    font-size: 28px;
+    font-size: 32px;
     margin-top: 15px;
     text-transform: uppercase;
     user-select: none;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     background-image: linear-gradient(
       to right,
       var(--primary),
@@ -120,7 +121,8 @@ export const RegisterContainer = styled.div`
   flex-direction: column;
   align-items: center;
 
-  background-image: linear-gradient(to right, var(--secondary), var(--primary));
+  /* background-image: linear-gradient(to right, var(--secondary), var(--primary)); */
+  background: var(--font);
   > h1 {
     margin-top: 30px;
     color: white;
@@ -135,7 +137,7 @@ export const RegisterForm = styled.form`
   height: 100%;
 
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
 
@@ -153,7 +155,7 @@ export const RegisterForm = styled.form`
       Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     background-color: #ededed;
     width: 80%;
-    height: 50px;
+    height: 40px;
     font-size: 16px;
     border-radius: 30px;
   }
@@ -166,6 +168,31 @@ export const RegisterForm = styled.form`
     justify-content: flex-end;
     align-items: center;
   }
+
+  > div {
+    height: 40px;
+
+    > input:focus {
+      border: 2px solid black;
+    }
+
+    > input:not(:placeholder-shown) + label,
+    > input:focus + label {
+      color: var(--white);
+    }
+
+    > div {
+      height: 40px;
+
+      > input:not(:placeholder-shown) + label,
+      > input:focus + label {
+        color: var(--white);
+      }
+      > input:focus {
+        border: 2px solid var(--darkGray);
+      }
+    }
+  }
 `;
 
 export const InputRow = styled.div`
@@ -175,15 +202,29 @@ export const InputRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 15px;
   div {
     width: 48%;
+  }
+
+  #cpf {
+    width: 50%;
+    height: 50px;
+    font-size: 18px;
+    border-radius: 15px;
+    position: relative;
+    border: none;
+    color: var(--font);
+    background-color: var(--gray);
+    margin: none;
+    padding: 0px 15px;
+    font-weight: 400;
   }
 
   > select {
     width: 48%;
     height: 50px;
 
-    margin-top: 15px;
     border: 0;
     border-radius: 15px;
     padding-left: 15px;
@@ -197,7 +238,7 @@ export const InputRow = styled.div`
 `;
 
 export const ButtonNext = styled.button`
-  width: 130px;
+  width: fit-content;
   height: 50px;
   color: white;
   font-size: 26px;
