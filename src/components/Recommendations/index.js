@@ -17,9 +17,18 @@ function Recommendations({ children, handleClose }) {
     <Overlay>
       <ModalContainer>
         <div id="firstColumn">
-          <Lottie options={defaultOptions} height="300px" width="300px" />
+          <div id="yourPost">
+            <h1>Sua Postagem!</h1>
+            <div id="post"></div>
+          </div>
+          <div id="lottie">
+            <Lottie options={defaultOptions} width="50%" height="75%" />
+          </div>
         </div>
-        <div id="secondColumn"></div>
+        <div id="secondColumn">
+          <h1>rECOMENDAÇÕES</h1>
+          <div id="recommendations"></div>
+        </div>
       </ModalContainer>
     </Overlay>
   );

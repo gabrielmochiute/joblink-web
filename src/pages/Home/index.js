@@ -26,6 +26,7 @@ import Facebook from "../../assets/facebook.png";
 import Twitter from "../../assets/twitter.png";
 import Instagram from "../../assets/instagram.png";
 import LogoServiceLeaders from "../../assets/logo_service.svg";
+import Recommendations from "../../components/Recommendations";
 
 import animationData from "../../lotties/lottie-home.json";
 
@@ -41,6 +42,7 @@ function Home() {
 
   return (
     <>
+      <Recommendations />
       <MainContainer>
         <Introduction>
           <div className="joblink">
