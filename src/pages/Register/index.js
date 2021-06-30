@@ -36,6 +36,10 @@ function Register() {
 
   const [categories, setCategories] = useState([]);
 
+  const clientImageRef = useRef();
+
+  const freelancerImageRef = useRef();
+
   const [register, setRegister] = useState({
     cpf: "",
     name: "",
@@ -120,8 +124,15 @@ function Register() {
           return alert("As senhas precisam ser iguais");
 
         try {
-          const { cpf, name, email, password, gender, address, profession } =
-            register;
+          const {
+            cpf,
+            name,
+            email,
+            password,
+            gender,
+            address,
+            profession,
+          } = register;
 
           const response = await api.post("/freelancers", {
             cpf,
@@ -218,6 +229,16 @@ function Register() {
   const handleCpf = (e) => {
     // const formatedCpf = cpf.format(e.target.value);
     setRegister({ ...register, cpf: onlyNumbers(e.target.value) });
+  };
+
+  const chooseType = (type) => {
+    if (type === "client") {
+      clientImageRef.current.style.border = "solid 3px var(--primary)";
+      freelancerImageRef.current.style.border = "none";
+    } else {
+      freelancerImageRef.current.style.border = "solid 3px var(--primary)";
+      clientImageRef.current.style.border = "none";
+    }
   };
 
   return (
@@ -335,7 +356,12 @@ function Register() {
                       />
                       <h2>Cliente</h2>
                       <label htmlFor="client">
-                        <img src={banner} alt="Cliente" />
+                        <img
+                          src={banner}
+                          alt="Cliente"
+                          ref={clientImageRef}
+                          onClick={() => chooseType("client")}
+                        />
                       </label>
                     </li>
                     <li>
@@ -349,7 +375,12 @@ function Register() {
                       />
                       <h2>Profissional</h2>
                       <label htmlFor="freelancer">
-                        <img src={freelancer} alt="Cliente" />
+                        <img
+                          src={freelancer}
+                          alt="Cliente"
+                          onClick={() => chooseType("freelancer")}
+                          ref={freelancerImageRef}
+                        />
                       </label>
                     </li>
                   </ul>

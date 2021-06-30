@@ -42,7 +42,7 @@ function Home() {
 
   return (
     <>
-      <Recommendations />
+      {/* <Recommendations /> */}
       <MainContainer>
         <Introduction>
           <div className="joblink">

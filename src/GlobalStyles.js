@@ -47,18 +47,22 @@ export const GlobalStyles = createGlobalStyle`
 
 
   button {
-    padding:10px;
-    font-weight:bold;
-    color: var(--light);
-    background-image: linear-gradient(to right, var(--secondary), var(--primary));
+    
+    font-weight:400;
+    text-transform: uppercase;
+    color: var(--white);
     border: 1px solid var(--light);
     border-radius:4px;
     cursor: pointer;
     transition: all .2s ease-in;
+    background: var(--secondary);
+    border: solid 1.5px var(--secondary);
 
-    /* :hover{
-      background-image: linear-gradient(to right ,var(--secondary),var(--secondary));
-    } */
+    :hover{
+      background: var(--white);
+      color: var(--secondary);
+      
+    }
     :active{
       transform:scale(0.95);
     }
