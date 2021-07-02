@@ -18,11 +18,14 @@ import { useState } from "react";
 import { api } from "../../services/api";
 import { signIn } from "../../services/security";
 import Alert from "../../components/Alert";
+import Loading from "../../components/Loading";
 
 function Login() {
   const history = useHistory();
 
   const [message, setMessage] = useState();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [login, setLogin] = useState({
     email: "",
@@ -32,6 +35,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
     try {
       const response = await api.post("/sessions", login);
 
@@ -39,10 +43,12 @@ function Login() {
 
       //Implementar a autorização
 
+      setIsLoading(false);
       history.push("/feed");
     } catch (error) {
       console.error(error);
       // alert(error.response.data.error);
+      setIsLoading(false);
       setMessage({ title: "Ops...", description: error.response.data.error });
     }
 
@@ -64,6 +70,7 @@ function Login() {
 
   return (
     <>
+      {isLoading && <Loading />}
       <Overlay>
         <Alert message={message} type="error" handleClose={setMessage} />
         {/* <LoadingBar /> */}

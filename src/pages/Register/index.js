@@ -24,11 +24,14 @@ import Check from "../../components/Check";
 import animationData from "../../lotties/lottie-register.json";
 import Lottie from "react-lottie";
 import Alert from "../../components/Alert";
+import Loading from "../../components/Loading";
 
 function Register() {
   const history = useHistory();
 
   const [message, setMessage] = useState();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [step, setStep] = useState(1);
 
@@ -85,6 +88,7 @@ function Register() {
       if (confirmPassword !== register.password)
         return alert("As senhas precisam ser iguais");
 
+      setIsLoading(true);
       try {
         const { cpf, name, email, password, gender, address } = register;
 
@@ -104,10 +108,11 @@ function Register() {
 
         //Implementar a autorização
 
+        setIsLoading(false);
         history.push("/feed");
       } catch (error) {
         console.error(error);
-
+        setIsLoading(true);
         setMessage({
           title: "Ops...",
           description: "CPF ou E-mail já cadastrados ou inválidos",
@@ -123,16 +128,10 @@ function Register() {
         if (confirmPassword !== register.password)
           return alert("As senhas precisam ser iguais");
 
+        setIsLoading(true);
         try {
-          const {
-            cpf,
-            name,
-            email,
-            password,
-            gender,
-            address,
-            profession,
-          } = register;
+          const { cpf, name, email, password, gender, address, profession } =
+            register;
 
           const response = await api.post("/freelancers", {
             cpf,
@@ -149,10 +148,12 @@ function Register() {
 
           signIn(response.data);
 
+          setIsLoading(false);
           history.push("/feed");
         } catch (error) {
           console.error(error);
 
+          setIsLoading(false);
           setMessage({
             title: "Ops...",
             description: "CPF ou E-mail já cadastrados ou inválidos",
@@ -243,6 +244,7 @@ function Register() {
 
   return (
     <>
+      {isLoading && <Loading />}
       <Overlay>
         <Alert message={message} type="error" handleClose={setMessage} />
         <ModalContainer>

@@ -250,7 +250,7 @@ function Feed() {
       <NavBar />
       {isLoading && <Loading />}
 
-      <Recommendations />
+      {/* <Recommendations /> */}
       <FeedContainer>
         {empty}
         {cards.map((p) => (
