@@ -19,6 +19,7 @@ import { useEffect, useRef, useState } from "react";
 import Request from "../../assets/requisitar.jpg";
 import Announcement from "../../assets/anunciar.jpg";
 import Loading from "../../components/Loading";
+import Recommendations from "../../components/Recommendations";
 import { api } from "../../services/api";
 
 function Urgency({ handleInput }) {
@@ -135,13 +136,13 @@ function Type({ setForm, form }) {
   );
 }
 
-function Select({ categories }) {
+function Select({ categories, handleInput }) {
   return (
     <SelectContainer>
-      <select>
+      <select id="category" onChange={handleInput}>
         <option>Selecione a categoria do seu serviço aqui</option>
         {categories.map((c) => (
-          <option key={c.id} value={c.id}>
+          <option id={c.id} key={c.id} value={c.id}>
             {c.name}
           </option>
         ))}
@@ -151,9 +152,30 @@ function Select({ categories }) {
 }
 
 function Post() {
+  const history = useHistory();
+
+  const signedUser = getUser();
+
   const [categories, setCategories] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  const [postId, setPostId] = useState();
+
+  const [showRecommendations, setShowRecommendations] = useState(false);
+
+  const [step, setStep] = useState(1);
+
+  const [nearFreelancers, setNearFreelancers] = useState([]);
+
+  const [form, setForm] = useState({
+    urgency: "",
+    title: "",
+    description: "",
+    attendance: "false",
+    category: "1",
+    is_announcement: "",
+  });
 
   const loadCategories = async () => {
     try {
@@ -167,35 +189,9 @@ function Post() {
 
   useEffect(() => {
     loadCategories();
-  }, []);
-  const history = useHistory();
-
-  const signedUser = getUser();
-
-  const [step, setStep] = useState(1);
-
-  useEffect(() => {
     if (!signedUser.isFreelancer) setStep(2);
     setForm({ ...form, is_announcement: false });
   }, []);
-
-  const [form, setForm] = useState({
-    urgency: "",
-    title: "",
-    description: "",
-    attendance: "false",
-    category: "1",
-    is_announcement: "",
-  });
-
-  const user = getUser();
-  console.log(user);
-
-  const handleSignOut = () => {
-    signOut();
-
-    history.replace("/");
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -207,10 +203,25 @@ function Post() {
     try {
       const response = await api.post("/posts", form);
 
+      setPostId(response.data.post.id);
+      getNearFreelancers();
+      setShowRecommendations(true);
       setIsLoading(false);
-      history.push("/feed");
+
+      console.log(response);
+      //   history.push("/feed");
     } catch (error) {
       setIsLoading(false);
+      console.error(error);
+    }
+  };
+
+  const getNearFreelancers = async () => {
+    try {
+      const response = await api.get("/getNearFreelancers");
+
+      setNearFreelancers([...nearFreelancers, ...response.data]);
+    } catch (error) {
       console.error(error);
     }
   };
@@ -221,14 +232,34 @@ function Post() {
 
   return (
     <>
+      {showRecommendations && (
+        <Recommendations
+          postTitle={form.title}
+          postDescription={form.description}
+          freelancers={nearFreelancers}
+          handleClose={() => history.push("/feed")}
+          postCategory={form.category}
+          postId={postId}
+        />
+      )}
       <Overlay>
         {isLoading && <Loading />}
         <Container>
-          <h1>Qual é a urgência do seu serviço?</h1>
+          <h1>
+            {step === 1
+              ? "Anúncio ou requisição?"
+              : step === 2
+              ? "Qual é a urgência do seu serviço?"
+              : step === 3
+              ? "Selecione a categoria do seu serviço"
+              : "Descreva o tipo de serviço você precisa"}
+          </h1>
           <Forms onSubmit={handleSubmit} onChange={console.log(form)}>
             {step === 1 && <Type setForm={setForm} form={form} />}
             {step === 2 && <Urgency handleInput={handleInput} />}
-            {step === 3 && <Select categories={categories} />}
+            {step === 3 && (
+              <Select categories={categories} handleInput={handleInput} />
+            )}
             {step === 4 && (
               <TitleAndDescription handleInput={handleInput} form={form} />
             )}
@@ -252,7 +283,7 @@ function Post() {
                         : { background: "var(--darkGray)" }
                     }
                   >
-                    1
+                    {signedUser.isFreelancer && "1"}
                   </div>
                 )}
 
@@ -263,7 +294,7 @@ function Post() {
                       : { background: "var(--darkGray)" }
                   }
                 >
-                  2
+                  {signedUser.isFreelancer ? "2" : "1"}
                 </div>
                 <div
                   style={
@@ -272,7 +303,7 @@ function Post() {
                       : { background: "var(--darkGray)" }
                   }
                 >
-                  3
+                  {signedUser.isFreelancer ? "3" : "2"}
                 </div>
 
                 <div
@@ -282,7 +313,7 @@ function Post() {
                       : { background: "var(--darkGray)" }
                   }
                 >
-                  4
+                  {signedUser.isFreelancer ? "4" : "3"}
                 </div>
                 {/* <StepsButtons>
                   {step >= 2 && <span>BACK</span>} */}

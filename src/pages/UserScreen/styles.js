@@ -282,3 +282,116 @@ export const PublishType = styled.div`
     }
   }
 `;
+
+export const ClientCard = styled.div`
+  width: 500px;
+  height: fit-content;
+
+  position: relative;
+  transition: 0.3s;
+  background-image: url(${Waves});
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  background-color: var(--white);
+  box-shadow: 0px 0px 5px 2px #00000050;
+
+  padding-bottom: 25px;
+  padding-top: 25px;
+  margin-top: 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  @media screen and (max-width: 1300px) {
+    gap: 0px;
+  }
+  > p {
+    margin-top: 15px;
+    width: 100%;
+    text-align: justify;
+    padding: 0px 10%;
+    font-size: 22px;
+    color: var(--font);
+
+    @media screen and (max-width: 768px) {
+      font-size: 12px;
+    }
+  }
+
+  #titleImage {
+    width: 100%;
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+    color: var(--white);
+    margin-bottom: 50px;
+    margin-top: 10px;
+    gap: 10px;
+
+    img {
+      width: 70px;
+      height: 70px;
+      border-radius: 100px;
+      margin-left: 15px;
+    }
+
+    #titlePost {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+      > h1 {
+        font-weight: 600;
+        font-size: 28px;
+      }
+
+      > h2 {
+        font-weight: 400;
+        font-size: 18px;
+      }
+    }
+  }
+
+  #acceptButton {
+    margin-top: 30px;
+    width: 100%;
+    height: fit-content;
+
+    display: flex;
+    justify-content: flex-end;
+    /* background-color: brown; */
+
+    > label {
+      padding: 0px 15px;
+      border-radius: 50px;
+      margin-right: 25px;
+      > button {
+        font-size: 18px;
+        font-weight: 300;
+        text-transform: uppercase;
+        background: none;
+        border: none;
+        box-shadow: none;
+      }
+    }
+
+    #reject {
+      > button {
+        color: var(--font);
+      }
+    }
+
+    #accept {
+      background: var(--secondary);
+      > button {
+        :hover {
+          color: var(--darkGray);
+        }
+      }
+    }
+  }
+`;

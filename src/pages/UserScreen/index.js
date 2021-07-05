@@ -8,6 +8,7 @@ import {
   Card,
   PublishType,
   CardOwner,
+  ClientCard,
 } from "./styles";
 import Settings from "../../assets/settings_icon.svg";
 import Accept from "../../assets/accept.svg";
@@ -94,6 +95,10 @@ function User({ user, setMessage, history, setIsloading }) {
         ...pendeciesCards,
         whereUserIsPostOwner: response.data.pendencies.whereUserIsPostOwner,
       });
+      setPendeciesCards({
+        ...pendeciesCards,
+        whereUserIsFreelancer: response.data.pendencies.whereUserIsFreelancer,
+      });
       setIsloading(false);
     } catch (error) {
       console.error(error);
@@ -101,9 +106,28 @@ function User({ user, setMessage, history, setIsloading }) {
     }
   };
 
+  console.log(pendeciesCards);
+
   useEffect(() => {
     loadNotifications();
   }, []);
+
+  const acceptService = async (id) => {
+    setIsloading(true);
+    try {
+      const response = await api.post(`/createChat/service/${id}`);
+      setIsloading(false);
+      history.push("/contact");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      setIsloading(false);
+      setMessage({
+        title: "Algo deu errado...",
+        description: error.response.data.Unauthorized,
+      });
+    }
+  };
 
   return (
     <>
@@ -147,6 +171,28 @@ function User({ user, setMessage, history, setIsloading }) {
                 history={history}
                 setIsloading={setIsloading}
               />
+            ))}
+            {pendeciesCards.whereUserIsFreelancer.map((m) => (
+              <ClientCard>
+                <div id="titleImage">
+                  <img src={Profile} alt="Foto de perfil" />
+                  <div id="titlePost">
+                    <h2>Por {m.Post.User.name}</h2>
+                    <h1>Desejo solicitar serviços seus</h1>
+                  </div>
+                </div>
+                <p>“{m.Post.description}”</p>
+                <div id="acceptButton">
+                  <label id="reject">
+                    <img src={Reject} alt="Imagem de rejeitar" />
+                    <button>Recusar</button>
+                  </label>
+                  <label id="accept">
+                    <img src={Accept} alt="Imagem de aceitar" />
+                    <button onClick={() => acceptService(m.id)}>Aceitar</button>
+                  </label>
+                </div>
+              </ClientCard>
             ))}
           </>
         )}

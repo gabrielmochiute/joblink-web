@@ -67,6 +67,25 @@ export const ModalContainer = styled.section`
           font-size: 14px;
         }
       }
+
+      > h2 {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        /* width: 70%; */
+        margin-left: 15px;
+        margin-bottom: 15px;
+        color: var(--white);
+        font-weight: 600;
+        font-size: 38px;
+        @media screen and (max-width: 1440px) {
+          font-size: 24px;
+        }
+
+        @media screen and (max-width: 768px) {
+          font-size: 14px;
+        }
+      }
     }
   }
   #secondColumn {
@@ -82,10 +101,27 @@ export const ModalContainer = styled.section`
     /* background-color: var(--darkGray); */
 
     position: relative;
+    > span {
+      position: absolute;
+      right: 5px;
+      top: 0px;
+      font-size: 44px;
+      color: var(--secondary);
+
+      transition: 0.3s;
+      :hover {
+        color: var(--font);
+        cursor: pointer;
+      }
+
+      :active {
+        color: var(--darkGray);
+      }
+    }
     > h1 {
       position: absolute;
       top: 5px;
-      right: 15px;
+      right: 30px;
 
       width: 80%;
       text-align: end;
@@ -161,8 +197,9 @@ export const CardOwner = styled.div`
   }
 
   #titleImage {
+    width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: baseline;
     align-items: center;
     color: var(--white);
     margin-bottom: 50px;
@@ -182,7 +219,7 @@ export const CardOwner = styled.div`
       align-items: flex-start;
       flex-direction: column;
       > h1 {
-        font-weight: 400;
+        font-weight: 600;
         font-size: 18px;
       }
 
@@ -210,7 +247,7 @@ export const CardRecommendation = styled.div`
 
   #firstCardColumn,
   #secondCardColumn {
-    width: 50%;
+    /* width: 50%; */
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -220,6 +257,9 @@ export const CardRecommendation = styled.div`
 
   #firstCardColumn {
     justify-content: center;
+    align-items: flex-start;
+    margin-left: 15px;
+    /* background-color: antiquewhite; */
     > img {
       width: 75px;
       height: 75px;
@@ -227,13 +267,22 @@ export const CardRecommendation = styled.div`
       border: solid 1px #00000050;
     }
     > h1 {
-      font-weight: 300;
+      font-weight: 400;
+      font-size: 20px;
+    }
+    > h2 {
+      font-weight: 400;
+      font-size: 18px;
     }
   }
 
   #secondCardColumn {
     justify-content: space-between;
+    align-items: flex-end;
+    margin-right: 15px;
     padding: 15px 0px;
+    /* background-color: aqua; */
+
     #rating {
       display: flex;
       align-items: center;
@@ -241,11 +290,13 @@ export const CardRecommendation = styled.div`
       > h1 {
         font-size: 36px;
         font-weight: 300;
+        text-transform: capitalize;
       }
 
       > img {
         width: 40px;
         height: 40px;
+        text-transform: capitalize;
       }
     }
 

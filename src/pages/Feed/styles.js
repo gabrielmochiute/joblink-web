@@ -205,7 +205,7 @@ export const ImageTitle = styled.div`
     > h4 {
       /* background-color: plum; */
       font-weight: 500;
-      text-transform: capitalize;
+      /* text-transform: capitalize; */
       color: var(--white);
       font-size: 24px;
 

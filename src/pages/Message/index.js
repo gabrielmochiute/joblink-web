@@ -46,6 +46,8 @@ function Chat({ message, signedUser }) {
 function Message() {
   const [reload, setReload] = useState(null);
 
+  const [contactName, setContactName] = useState("");
+
   const [messages, setMessages] = useState([]);
 
   const [newMessage, setNewMessage] = useState("");
@@ -87,10 +89,15 @@ function Message() {
       const response = await api.get(`/chats/${idChat}`);
       setChat(response.data[0]);
 
-      if (response.data[0].Service.Post.is_announcement == 1) {
-        if (signedUser.user.id == response.data[0].Service.Post.User.id)
-          setIsThisFreelancer(true);
+      // if (response.data[0].Service.Post.is_announcement == 0) {
+      if (signedUser.user.id != response.data[0].Service.Post.User.id) {
+        setIsThisFreelancer(true);
+        setContactName(response.data[0].Service.Post.User.name);
       }
+      // } else {
+      //   if (signedUser.user.id == response.data[0].Service.Post.User.id)
+      //     setIsThisFreelancer(true);
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -107,6 +114,7 @@ function Message() {
     }
   };
 
+  console.log(isThisFreelancer);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -315,12 +323,10 @@ function Message() {
           />
           <label>
             <h1>
-              {/* {signedUser.user.id === chat.Service.User.id
-                ? chat.Service.User.name
-                : chat.Service.Post.User.name} */}
-              Roberto
+              {signedUser.user.isFreelancer ? "Cliente" : "Profissional"}
+              {/* {contactName} */}
             </h1>
-            <h2>Cliente</h2>
+            {/* <h2>Cliente</h2> */}
           </label>
           {isThisFreelancer ? (
             <h3

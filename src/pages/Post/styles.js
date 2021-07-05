@@ -162,6 +162,7 @@ export const StepsButtons = styled.div`
     font-weight: 600;
     transition: 0.8s;
     text-transform: uppercase;
+    margin-right: 5px;
 
     > span {
       position: relative;
