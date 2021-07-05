@@ -18,11 +18,11 @@ function Chat({ chat, history, signedUser }) {
           <label>
             <img src={Profile} alt="Imagem de perfil" />
             <div>
-              {/* <h1>
+              <h1>
                 {chat.Service.User.id != signedUser.user.id
                   ? chat.Service.User.name
-                  : chat.Service.Post.User.name}
-              </h1> */}
+                  : chat.Service.Post.Name}
+              </h1>
               <h2>Profissional</h2>
             </div>
           </label>
@@ -46,6 +46,7 @@ function Chat({ chat, history, signedUser }) {
 function Contact() {
   const [serviceMessages, setServiceMessages] = useState([]);
   const [postMessages, setPostMessages] = useState([]);
+  const [types, setTypes] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
@@ -90,25 +91,32 @@ function Contact() {
         <Lottie options={defaultOptions} id="lottie" height="400px" />
         <MessagesContainer>
           <label>
-            <h1>Suas conversas</h1>
-            <div />
+            <div>
+              <h1>Suas conversas</h1>
+              <div />
+            </div>
+            <div id="type">
+              <button onClick={() => setTypes(0)}>Seus serviços</button>
+              <button onClick={() => setTypes(1)}>Suas postagens</button>
+            </div>
           </label>
-          {serviceMessages.map((c) => (
-            <Chat
-              key={c.id}
-              chat={c}
-              history={history}
-              signedUser={signedUser}
-            />
-          ))}
-          {postMessages.map((c) => (
-            <Chat
-              key={c.id}
-              chat={c}
-              history={history}
-              signedUser={signedUser}
-            />
-          ))}
+          {types === 0
+            ? serviceMessages.map((c) => (
+                <Chat
+                  key={c.id}
+                  chat={c}
+                  history={history}
+                  signedUser={signedUser}
+                />
+              ))
+            : postMessages.map((c) => (
+                <Chat
+                  key={c.id}
+                  chat={c}
+                  history={history}
+                  signedUser={signedUser}
+                />
+              ))}
         </MessagesContainer>
       </Overlay>
     </>

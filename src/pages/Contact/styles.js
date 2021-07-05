@@ -15,8 +15,8 @@ export const MessagesContainer = styled.div`
   height: 500px;
   /* background-color: brown; */
   display: flex;
-  justify-content: baseline;
-  flex-direction: column;
+  /* justify-content: baseline; */
+  flex-direction: column-reverse;
 
   padding: 0px 2%;
 
@@ -25,19 +25,32 @@ export const MessagesContainer = styled.div`
   gap: 15px;
 
   > label {
-    width: fit-content;
+    width: 100%;
     display: flex;
-    flex-direction: column;
-
-    > h1 {
-      font-weight: 400;
-      color: var(--secondary);
-    }
-
+    justify-content: space-between;
     > div {
-      width: 50%;
-      height: 2px;
-      background-color: var(--secondary);
+      > h1 {
+        font-weight: 400;
+        color: var(--secondary);
+      }
+
+      > div {
+        width: 50%;
+        height: 2px;
+        background-color: var(--secondary);
+      }
+    }
+    #type {
+      width: fit-content;
+      display: flex;
+      /* background-color: #ff3; */
+      gap: 15px;
+      > button {
+        /* display: block; */
+        width: 100px;
+        padding: 5px 0px;
+        /* margin-left: 15px; */
+      }
     }
   }
 `;

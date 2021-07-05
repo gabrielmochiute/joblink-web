@@ -94,11 +94,11 @@ function User({ user, setMessage, history, setIsloading }) {
       setPendeciesCards({
         ...pendeciesCards,
         whereUserIsPostOwner: response.data.pendencies.whereUserIsPostOwner,
-      });
-      setPendeciesCards({
-        ...pendeciesCards,
         whereUserIsFreelancer: response.data.pendencies.whereUserIsFreelancer,
       });
+      // setPendeciesCards({
+      //   ...pendeciesCards,
+      // });
       setIsloading(false);
     } catch (error) {
       console.error(error);
