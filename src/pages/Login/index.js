@@ -11,7 +11,7 @@ import {
 import Input from "../../components/input";
 import banner from "../../assets/bannerLogin.jpg";
 import Lottie from "react-lottie";
-import animationData from "../../lotties/lottie-login.json";
+import animationData from "../../lotties/lottie-newlogin.json";
 
 import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -105,7 +105,7 @@ function Login() {
           </FormLogin>
           <BannerLogin>
             {/* <img src={banner} /> */}
-            <Lottie options={defaultOptions} />
+            <Lottie options={defaultOptions} width="100%" height="85%" />
             {/* <a href='https://br.freepik.com/vetores/desenho-animado'>Desenho animado vetor criado por vectorjuice - br.freepik.com</a> */}
           </BannerLogin>
         </ModalContainer>

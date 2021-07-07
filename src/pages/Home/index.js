@@ -26,7 +26,12 @@ import Facebook from "../../assets/facebook.png";
 import Twitter from "../../assets/twitter.png";
 import Instagram from "../../assets/instagram.png";
 import LogoServiceLeaders from "../../assets/logo_service.svg";
-import Recommendations from "../../components/Recommendations";
+import Wifi from "../../assets/wifi.svg";
+import Law from "../../assets/law.svg";
+import Plumbing from "../../assets/plumbing.svg";
+import Brick from "../../assets/brick.svg";
+import Car from "../../assets/car.svg";
+import Painter from "../../assets/paint.svg";
 
 import animationData from "../../lotties/lottie-home.json";
 
@@ -47,8 +52,8 @@ function Home() {
         <Introduction>
           <div className="joblink">
             <h1>O seu serviço bem aqui</h1>
-            <h2> experimente o joblink!</h2>
-            <h3>Entre no joblink e começe agora.</h3>
+            <h2> experimente o Joblink!</h2>
+            <h3>Entre no joblink e comece agora.</h3>
             <label>
               <Link to="/register">
                 <button>Tente agora</button>
@@ -81,37 +86,37 @@ function Home() {
         </About>
         <GradientLine />
         <OurServices>
-          <h1>Tipos de serviços que oferecemos</h1>
+          <h1>Tipos de profissionais que oferecemos</h1>
           <div>
             <Cards>
-              <img src={Service} />
-              <h1>Consertos em geral</h1>
-              <p>Consertos de eletrônicos, carros, máquinas e etc</p>
+              <img src={Painter} alt="Imagem representando o serviço" />
+              <h1>Pintores</h1>
+              {/* <p>Consertos de eletrônicos, carros, máquinas e etc</p> */}
             </Cards>
             <Cards>
-              <img src={Service} />
-              <h1>Consertos em geral</h1>
-              <p>Consertos de eletrônicos, carros, máquinas e etc</p>
+              <img src={Wifi} alt="Imagem representando o serviço" />
+              <h1>Técnico de redes</h1>
+              {/* <p>Manutenção de redes, </p> */}
             </Cards>
             <Cards>
-              <img src={Service} />
-              <h1>Consertos em geral</h1>
-              <p>Consertos de eletrônicos, carros, máquinas e etc</p>
+              <img src={Law} alt="Imagem representando o serviço" />
+              <h1>Advogados</h1>
+              {/* <p>Consertos de eletrônicos, carros, máquinas e etc</p> */}
             </Cards>
             <Cards>
-              <img src={Service} />
-              <h1>Consertos em geral</h1>
-              <p>Consertos de eletrônicos, carros, máquinas e etc</p>
+              <img src={Plumbing} alt="Imagem representando o serviço" />
+              <h1>Encanadores</h1>
+              {/* <p>Consertos de eletrônicos, carros, máquinas e etc</p> */}
             </Cards>
             <Cards>
-              <img src={Service} />
-              <h1>Consertos em geral</h1>
-              <p>Consertos de eletrônicos, carros, máquinas e etc</p>
+              <img src={Brick} alt="Imagem representando o serviço" />
+              <h1>Pedreiros</h1>
+              {/* <p>Consertos de eletrônicos, carros, máquinas e etc</p> */}
             </Cards>
             <Cards>
-              <img src={Service} />
-              <h1>Consertos em geral</h1>
-              <p>Consertos de eletrônicos, carros, máquinas e etc</p>
+              <img src={Car} alt="Imagem representando o serviço" />
+              <h1>Mecânicos</h1>
+              {/* <p>Consertos de eletrônicos, carros, máquinas e etc</p> */}
             </Cards>
           </div>
         </OurServices>

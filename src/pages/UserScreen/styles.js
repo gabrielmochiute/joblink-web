@@ -10,13 +10,33 @@ export const Banner = styled.div`
   align-items: flex-end;
   position: relative;
 
-  #chatImage {
-    width: 150px;
-    height: 150px;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    cursor: pointer;
+  > div {
+    z-index: 20;
+    position: relative;
+    > input {
+      display: none;
+    }
+
+    > label {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      width: 50px;
+      height: 50px;
+      background-color: var(--secondary);
+      border: solid 2px #00000020;
+      border-radius: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      color: var(--white);
+      > img {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
 `;
 
@@ -29,6 +49,7 @@ export const ErrorScreen = styled.div`
   align-items: center;
   flex-direction: column;
   color: var(--white);
+
   > h1 {
     font-weight: 100;
     font-size: 42px;
@@ -48,10 +69,10 @@ export const ProfilePicture = styled.img`
   height: 250px;
   border-radius: 100%;
   border: solid 3px var(--white);
-  position: absolute;
-  bottom: -100px;
   box-shadow: 0px 5px 5px #00000060;
   z-index: 19;
+  position: absolute;
+  bottom: -100px;
 `;
 
 export const ProfileContent = styled.div`

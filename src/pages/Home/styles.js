@@ -230,13 +230,16 @@ export const Cards = styled.div`
   flex-direction: column;
 
   > img {
-    width: 90%;
+    width: 250px;
+    height: 250px;
   }
 
   > h1 {
     font-weight: 500;
     margin-bottom: 25px;
     color: var(--font);
+    border-bottom: solid 2px var(--primary);
+    padding-bottom: 15px;
   }
 
   > p {

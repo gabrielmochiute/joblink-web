@@ -46,6 +46,7 @@ export const ProfileBar = styled.nav`
   align-items: center;
   gap: 20px;
   position: relative;
+  border-bottom: solid 2px var(--secondary);
 
   > img {
     width: 50px;
@@ -71,25 +72,53 @@ export const ProfileBar = styled.nav`
   }
 
   > h3 {
-    color: var(--secondary);
+    color: var(--white);
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 0px;
+    bottom: 5px;
     font-weight: 500;
     text-transform: uppercase;
     cursor: pointer;
     transition: 0.2s;
-    padding: 5px 10px;
+    padding: 0px 15px;
+    background-color: #95c6f7;
+    border-radius: 75px;
 
+    display: flex;
+    align-items: center;
+    gap: 5px;
     :hover {
       color: var(--white);
-      background-color: var(--secondary);
-      border-radius: 50px;
+      background-color: #4b9ff3;
     }
 
     :active {
       background-color: var(--white);
     }
+  }
+
+  > h4 {
+    color: var(--secondary);
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: 0.2s;
+    padding: 5px 10px;
+    user-select: none;
+  }
+
+  > h5 {
+    color: var(--secondary);
+    position: absolute;
+    right: 200px;
+    bottom: 0px;
+    font-weight: 500;
+    text-transform: uppercase;
+    transition: 0.2s;
+    padding: 5px 10px;
+    user-select: none;
   }
 `;
 
@@ -179,9 +208,9 @@ export const OtherUserMessage = styled.div`
 
 export const SendMessageContainer = styled.form`
   width: 100%;
-  height: 8vh;
+  height: 15vh;
   /* background: linear-gradient(to right, var(--primary), var(--secondary)); */
-  background-color: var(--gray);
+  /* background-color: var(--gray); */
 
   display: flex;
   justify-content: center;
@@ -192,8 +221,9 @@ export const SendMessageContainer = styled.form`
   }
 
   > label {
-    width: 90%;
-    height: 90%;
+    border-top: solid 2px var(--secondary);
+    width: 95%;
+    height: 100%;
     position: relative;
 
     display: flex;
@@ -203,58 +233,41 @@ export const SendMessageContainer = styled.form`
       transition: border 0.1s, border-color 4s;
       padding: 0 25px;
       color: var(--font);
-      font-size: 32px;
+      font-size: 28px;
       width: 100%;
       height: 90%;
       border-radius: 50px;
       border: none;
       background-color: #ffffff50;
 
-      /* :focus {
-        border-color: white;
-        border: solid 3px;
-      } */
+      transition: 0.6s;
 
-      /* Mudar a cor do placeholder em todos os navegadores*/
-
-      /* ::-webkit-input-placeholder {
-        color: #ffffff90;
+      :focus {
+        background-color: #00000010;
+        border-radius: 50px;
       }
-
-      :-moz-placeholder {
-        
-        color: #ffffff90;
-      }
-
-      ::-moz-placeholder {
-        
-        color: #ffffff90;
-      }
-
-      :-ms-input-placeholder {
-        color: #ffffff90;
-      } */
     }
 
     > button {
       position: absolute;
-      right: 0;
+      right: 5px;
 
-      width: 60px;
-      height: 60px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      width: 50px;
+      height: 50px;
       border-radius: 50px;
       border: none;
 
+      :hover {
+        background: var(--secondary);
+      }
+
       /* padding: 15px; */
       > img {
-        width: 75%;
-        height: 75%;
+        width: 50%;
+        height: 50%;
+        /* background-color: blue; */
       }
-      /* background-color: #ffffff30;
-      background-position: center;
-      background-repeat: no-repeat; */
-
-      background: linear-gradient(to right, var(--primary), var(--secondary));
     }
   }
 `;

@@ -105,6 +105,11 @@ export const ModalContainer = styled.section`
 `;
 
 export const BannerLogin = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
   transition: 0.7s;
   width: 55vw;
   height: 100%;
@@ -114,24 +119,10 @@ export const BannerLogin = styled.div`
   visibility: visible;
   opacity: 100;
 
-  /* display: flex; */
-
   @media screen and (max-width: 768px) {
     visibility: hidden;
     opacity: 0;
     position: absolute;
-  }
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  flex-direction: column;
-
-  > img {
-    width: 100%;
-    height: 100%;
-  }
-  > a {
-    position: relative;
   }
 `;
 

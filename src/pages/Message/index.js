@@ -15,7 +15,7 @@ import animationData from "../../lotties/lottie-pay.json";
 import feedbackAnimationData from "../../lotties/lottie-feedback.json";
 import Return from "../../assets/return.svg";
 import Profile from "../../assets/perfil.png";
-import Plus from "../../assets/plus_icon.svg";
+import Mercado from "../../assets/mercado.png";
 import Alert from "../../assets/alertWhite.svg";
 import Send from "../../assets/send.svg";
 import Modal from "../../components/Modal";
@@ -26,7 +26,7 @@ import { getUser } from "../../services/security";
 import { useHistory, useParams } from "react-router";
 import { api } from "../../services/api";
 
-function Chat({ message, signedUser }) {
+function Chat({ message, signedUser, chat }) {
   return (
     <>
       {message.message_author === signedUser.user.id ? (
@@ -35,7 +35,14 @@ function Chat({ message, signedUser }) {
         </YourMessage>
       ) : (
         <OtherUserMessage>
-          <img src={Profile} alt="Foto da pessoa" />
+          <img
+            src={chat.map((c) =>
+              c.Service.Post.User.id === signedUser.user.id
+                ? c.Service.User.image || Profile
+                : c.Service.Post.User.image || Profile
+            )}
+            alt="Foto da pessoa"
+          />
           <p>{message.message_description}</p>
         </OtherUserMessage>
       )}
@@ -44,9 +51,11 @@ function Chat({ message, signedUser }) {
 }
 
 function Message() {
-  const [reload, setReload] = useState(null);
+  const signedUser = getUser();
 
-  const [contactName, setContactName] = useState("");
+  const history = useHistory();
+
+  const [reload, setReload] = useState(null);
 
   const [messages, setMessages] = useState([]);
 
@@ -60,40 +69,58 @@ function Message() {
 
   const [chat, setChat] = useState([]);
 
-  const [feedback, setFeedBack] = useState({
-    rating: "",
-    description: "",
-  });
-
   const [price, setPrice] = useState("");
 
   const { idChat } = useParams();
 
-  const signedUser = getUser();
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
-  const history = useHistory();
+  const [feedback, setFeedBack] = useState({
+    rating: "",
+    description: "",
+  });
+  const feedbackDefaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: feedbackAnimationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  useEffect(() => {
+    loadMessages();
+    reloadMessages();
+    loadChat();
+  }, [reload]);
 
   const reloadMessages = () => {
     setTimeout(() => {
       handleReload();
-      reloadMessages();
     }, 5000);
   };
 
   const handleReload = () => {
+    setChat([]);
     setReload(Math.random());
   };
 
   const loadChat = async () => {
     try {
       const response = await api.get(`/chats/${idChat}`);
-      setChat(response.data[0]);
+      setChat([...chat, ...response.data]);
 
       // if (response.data[0].Service.Post.is_announcement == 0) {
-      if (signedUser.user.id != response.data[0].Service.Post.User.id) {
-        setIsThisFreelancer(true);
-        setContactName(response.data[0].Service.Post.User.name);
-      }
+      // if (signedUser.user.id != response.data[0].Service.Post.User.id) {
+      //   setIsThisFreelancer(true);
+      // }
       // } else {
       //   if (signedUser.user.id == response.data[0].Service.Post.User.id)
       //     setIsThisFreelancer(true);
@@ -108,19 +135,17 @@ function Message() {
       const response = await api.get(`/chat/${idChat}/messages`);
 
       setMessages(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  console.log(isThisFreelancer);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const response = await api.post(
-        `/service/${chat.Service.id}/chat/${idChat}/message`,
+        `/service/${chat[0].Service.id}/chat/${idChat}/message`,
         { description: newMessage }
       );
 
@@ -133,34 +158,9 @@ function Message() {
       setMessages([...messages, messageAdded]);
 
       setNewMessage("");
-      console.log(messages);
     } catch (error) {
       console.error(error);
     }
-  };
-
-  useEffect(() => {
-    loadMessages();
-    reloadMessages();
-    loadChat();
-  }, [reload]);
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
-  const feedbackDefaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: feedbackAnimationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
   };
 
   console.log(chat);
@@ -170,7 +170,7 @@ function Message() {
 
     try {
       const response = await api.put(
-        `/feedback/post/${chat.Service.Post.id}/service/${chat.Service.id}`,
+        `/feedback/post/${chat[0].Service.Post.id}/service/${chat.Service.id}`,
         {
           rating: feedback.rating,
           feedback: feedback.description,
@@ -178,8 +178,6 @@ function Message() {
       );
 
       setShowFeedback(undefined);
-
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -187,13 +185,17 @@ function Message() {
 
   const handleSetPriceSubmit = async (e) => {
     e.preventDefault();
+
+    const postId = chat.map((c) => {
+      return c.Service.Post.id;
+    });
+    const serviceId = chat.map((c) => {
+      return c.Service.id;
+    });
     try {
-      const response = await api.put(
-        `/post/${chat.Service.Post.id}/service/${chat.Service.id}`,
-        {
-          service_cost: price,
-        }
-      );
+      const response = await api.put(`/post/${postId}/service/${serviceId}`, {
+        service_cost: price,
+      });
 
       setShowModal(false);
 
@@ -204,22 +206,15 @@ function Message() {
     }
   };
 
-  console.log(chat);
-
   const payment = async (history) => {
     try {
       const response = await api.put(
-        `/payment/post/${chat.Service.Post.id}/service/${chat.Service.id}`
+        `/payment/post/${chat[0].Service.Post.id}/service/${chat.Service.id}`
       );
 
       const redirect = response.data.preference.body.init_point;
 
       window.open(`${redirect}`, "Mercado pago", "width=1200,height=1000");
-      // history.push();
-
-      // window.href(`${redirect}`);
-
-      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -323,12 +318,21 @@ function Message() {
           />
           <label>
             <h1>
-              {signedUser.user.isFreelancer ? "Cliente" : "Profissional"}
-              {/* {contactName} */}
+              {chat.map((c) =>
+                c.Service.Post.User.id === signedUser.user.id
+                  ? c.Service.User.name
+                  : c.Service.Post.User.name
+              )}
             </h1>
-            {/* <h2>Cliente</h2> */}
+            <h2>
+              {chat.map((c) =>
+                c.Service.Post.User.id === signedUser.user.id
+                  ? "Profissional"
+                  : "Cliente"
+              )}
+            </h2>
           </label>
-          {isThisFreelancer ? (
+          {/* {isThisFreelancer ? (
             <h3
               onClick={() => {
                 setShowModal(true);
@@ -345,13 +349,37 @@ function Message() {
             //   Finalizar serviço e dar feedback
             // </h3>
             <h3 onClick={() => payment(history)}>Pagar</h3>
+          )} */}
+          {chat.map((c) =>
+            c.Service.Post.User.id === signedUser.user.id ? (
+              c.Service.service_cost != null ? (
+                <>
+                  <h5>Preço Total do Serviço R$ {c.Service.service_cost}</h5>
+                  <h3 onClick={() => payment(history)}>
+                    Pagar
+                    <img src={Mercado} alt="Imagem do Mercado Pago" />
+                  </h3>
+                </>
+              ) : (
+                <h4>O Profissional ainda não definiu o preço do serviço</h4>
+              )
+            ) : (
+              <h3
+                onClick={() => {
+                  setShowModal(true);
+                }}
+              >
+                Estipular o preço
+                <img src={Mercado} alt="Imagem do Mercado Pago" />
+              </h3>
+            )
           )}
         </ProfileBar>
-        <GradientLine />
+        {/* <GradientLine /> */}
 
         <MessagesContainer>
           {messages.map((m) => (
-            <Chat message={m} signedUser={signedUser} key={m.id} />
+            <Chat message={m} signedUser={signedUser} key={m.id} chat={chat} />
           ))}
 
           {messages == "" && (
@@ -360,7 +388,7 @@ function Message() {
         </MessagesContainer>
 
         <SendMessageContainer onSubmit={handleSubmit}>
-          <img src={Plus} alt="Botão de mais" />
+          {/* <img src={Plus} alt="Botão de mais" /> */}
           <label>
             <input
               placeholder="Mande alguma coisa!"

@@ -221,19 +221,18 @@ export const ImageTitle = styled.div`
     }
   }
   > div {
-    /* background-color: purple; */
-    height: 100px;
-    width: 100px;
+    height: 75px;
+    width: 75px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     flex-direction: column;
     text-align: start;
-    margin-left: 5px;
+    margin-left: 15px;
     > img {
+      border: solid 1px #00000040;
       width: 100%;
       height: 100%;
-      margin-bottom: 15px;
       cursor: pointer;
       @media screen and (max-width: 768px) {
         width: 70px;
@@ -246,7 +245,7 @@ export const ImageTitle = styled.div`
 `;
 
 export const Urgency = styled.div`
-  width: 160px;
+  width: fit-content;
   height: 50px;
   /* background-color: #fff; */
   user-select: none;
@@ -263,13 +262,13 @@ export const Urgency = styled.div`
   align-items: center;
 
   > img {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
   }
 
   > h2 {
     text-transform: uppercase;
-    font-size: 34px;
+    font-size: 24px;
   }
 `;
 

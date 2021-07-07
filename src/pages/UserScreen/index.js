@@ -20,22 +20,28 @@ import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
 import { getUser } from "../../services/security";
 import { format } from "date-fns";
+import { validSquaredImage } from "../../utils";
 
 import Loading from "../../components/Loading";
 import Alert from "../../components/Alert";
 import NavBar from "../../components/NavBar";
 
-function Notifications({ card, setMessage, history, setIsloading }) {
+function Notifications({
+  card,
+  setMessage,
+  history,
+  setIsLoading,
+  signedUser,
+}) {
   const acceptService = async () => {
-    setIsloading(true);
+    setIsLoading(true);
     try {
       const response = await api.post(`/createChat/service/${card.id}`);
-      setIsloading(false);
+      setIsLoading(false);
       history.push("/contact");
-      console.log(response);
     } catch (error) {
-      console.log(error);
-      setIsloading(false);
+      console.error(error);
+      setIsLoading(false);
       setMessage({
         title: "Algo deu errado...",
         description: error.response.data.Unauthorized,
@@ -43,17 +49,19 @@ function Notifications({ card, setMessage, history, setIsloading }) {
     }
   };
 
+  // console.log("Aqui gabriel", card);
+
   return (
     <>
       {!card.is_accepted && (
         <CardOwner>
           <div id="titleImage">
-            <img src={Profile} alt="Foto de perfil" />
+            <img src={card.User.image || Profile} alt="Foto de perfil" />
             <h1>{card.User.name} se interessou no seu pedido</h1>
           </div>
 
           <div id="yourPost">
-            <img src={Profile} alt="Foto de perfil" />
+            <img src={signedUser.user.image || Profile} alt="Foto de perfil" />
             <h1>
               Por Você{" "}
               {format(new Date(card.updatedAt), "dd/MM/yyyy 'às' HH:mm")}
@@ -76,7 +84,7 @@ function Notifications({ card, setMessage, history, setIsloading }) {
   );
 }
 
-function User({ user, setMessage, history, setIsloading }) {
+function User({ user, setMessage, history, setIsLoading }) {
   const signedUser = getUser();
 
   const [pendeciesCards, setPendeciesCards] = useState({
@@ -87,10 +95,10 @@ function User({ user, setMessage, history, setIsloading }) {
   const [publishType, setPublishType] = useState("publish");
 
   const loadNotifications = async () => {
-    setIsloading(true);
+    setIsLoading(true);
     try {
       const response = await api.get("/notifications");
-      console.log(response.data);
+
       setPendeciesCards({
         ...pendeciesCards,
         whereUserIsPostOwner: response.data.pendencies.whereUserIsPostOwner,
@@ -99,29 +107,28 @@ function User({ user, setMessage, history, setIsloading }) {
       // setPendeciesCards({
       //   ...pendeciesCards,
       // });
-      setIsloading(false);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
-      setIsloading(false);
+      setIsLoading(false);
     }
   };
 
-  console.log(pendeciesCards);
+  console.log(signedUser);
 
   useEffect(() => {
     loadNotifications();
   }, []);
 
   const acceptService = async (id) => {
-    setIsloading(true);
+    setIsLoading(true);
     try {
       const response = await api.post(`/createChat/service/${id}`);
-      setIsloading(false);
+      setIsLoading(false);
       history.push("/contact");
-      console.log(response);
     } catch (error) {
-      console.log(error);
-      setIsloading(false);
+      console.error(error);
+      setIsLoading(false);
       setMessage({
         title: "Algo deu errado...",
         description: error.response.data.Unauthorized,
@@ -169,7 +176,8 @@ function User({ user, setMessage, history, setIsloading }) {
                 key={m.id}
                 setMessage={setMessage}
                 history={history}
-                setIsloading={setIsloading}
+                setIsLoading={setIsLoading}
+                signedUser={signedUser}
               />
             ))}
             {pendeciesCards.whereUserIsFreelancer.map((m) => (
@@ -204,29 +212,58 @@ function User({ user, setMessage, history, setIsloading }) {
 function UserScreen() {
   const [user, setUser] = useState([]);
   const [success, setSuccess] = useState(false);
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const history = useHistory();
 
+  const signedUser = getUser();
+
   const { id, type } = useParams();
 
-  const getUser = async () => {
-    setIsloading(true);
+  const getThisUser = async () => {
+    setIsLoading(true);
 
     try {
       const response = await api.get(`/${type}/${id}`);
 
       setUser(response.data);
       setSuccess(true);
-      setIsloading(false);
+      setIsLoading(false);
     } catch (error) {
       alert(error);
-      setIsloading(false);
+      setIsLoading(false);
+    }
+  };
+
+  const changeImage = async (e) => {
+    if (!e.target.files) return;
+
+    try {
+      await validSquaredImage(e.target.files[0]);
+
+      const data = new FormData();
+
+      data.append("image", e.target.files[0]);
+
+      setIsLoading(true);
+
+      const type = signedUser.isFreelancer ? "freelancers" : "clients";
+
+      const response = await api.put(`/${type}`, data);
+
+      // setStudent({ ...student, image: response.data.image });
+      // handleReload();
+
+      // setUser({ ...student, image: response.data.image });
+    } catch (error) {
+      alert(error);
+      console.error(error);
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
-    getUser();
+    getThisUser();
   }, []);
 
   return (
@@ -237,13 +274,22 @@ function UserScreen() {
         <>
           <NavBar />
           <Banner>
-            <ProfilePicture src={user.image ? user.image : Profile} />
+            {/* <div> */}
+            {/* <label htmlFor="newImage"> */}
+            {/* <img src={Profile} alt="Imagem para editar" /> */}
+            {/* </label> */}
+            <ProfilePicture
+              src={user.image ? user.image : Profile}
+              onDoubleClick={() => changeImage(user)}
+            />
+            {/* <input id="newImage" type="file" onChange={changeImage} /> */}
+            {/* </div> */}
           </Banner>
           <User
             user={user}
             setMessage={setMessage}
             history={history}
-            setIsloading={setIsloading}
+            setIsLoading={setIsLoading}
           />
         </>
       ) : (

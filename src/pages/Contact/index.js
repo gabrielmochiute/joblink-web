@@ -16,14 +16,25 @@ function Chat({ chat, history, signedUser }) {
       <ContactBox>
         <div id="titleName">
           <label>
-            <img src={Profile} alt="Imagem de perfil" />
+            <img
+              src={
+                chat.Service.Post.User.id == signedUser.user.id
+                  ? chat.Service.User.image || Profile
+                  : chat.Service.Post.User.image || Profile
+              }
+              alt="Imagem de perfil"
+            />
             <div>
               <h1>
-                {chat.Service.User.id != signedUser.user.id
+                {chat.Service.Post.User.id == signedUser.user.id
                   ? chat.Service.User.name
-                  : chat.Service.Post.Name}
+                  : chat.Service.Post.User.name}
               </h1>
-              <h2>Profissional</h2>
+              <h2>
+                {chat.Service.Post.User.id == signedUser.user.id
+                  ? "Profissional"
+                  : "Cliente"}
+              </h2>
             </div>
           </label>
           <h2>{`De "${chat.Service.Post.title}"`}</h2>
@@ -44,13 +55,14 @@ function Chat({ chat, history, signedUser }) {
 }
 
 function Contact() {
+  const signedUser = getUser();
+  const history = useHistory();
+
   const [serviceMessages, setServiceMessages] = useState([]);
   const [postMessages, setPostMessages] = useState([]);
-  const [types, setTypes] = useState(0);
+  const [types, setTypes] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
-  const history = useHistory();
-  const signedUser = getUser();
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -95,10 +107,12 @@ function Contact() {
               <h1>Suas conversas</h1>
               <div />
             </div>
-            <div id="type">
-              <button onClick={() => setTypes(0)}>Seus serviços</button>
-              <button onClick={() => setTypes(1)}>Suas postagens</button>
-            </div>
+            {signedUser.isFreelancer && (
+              <div id="type">
+                <button onClick={() => setTypes(0)}>Seus serviços</button>
+                <button onClick={() => setTypes(1)}>Suas postagens</button>
+              </div>
+            )}
           </label>
           {types === 0
             ? serviceMessages.map((c) => (

@@ -9,8 +9,9 @@ import {
   ClientOrFreelancer,
   FreelancerType,
   Squares,
+  ClientType,
 } from "./styles";
-import React, { useEffect, useRef, useState } from "react";
+import React, { Profiler, useEffect, useRef, useState } from "react";
 import InputMask from "react-input-mask";
 import { Link, useHistory } from "react-router-dom";
 import { cpf } from "cpf-cnpj-validator";
@@ -20,20 +21,27 @@ import banner from "../../assets/banner.jpg";
 import freelancer from "../../assets/freelancer.jpg";
 import { api } from "../../services/api";
 import { signIn } from "../../services/security";
+import { validSquaredImage } from "../../utils";
 import Check from "../../components/Check";
-import animationData from "../../lotties/lottie-register.json";
+import animationData from "../../lotties/lottie-newregister.json";
 import Lottie from "react-lottie";
 import Alert from "../../components/Alert";
 import Loading from "../../components/Loading";
+import Profile from "../../assets/perfil.png";
+import Pen from "../../assets/pen.svg";
 
 function Register() {
   const history = useHistory();
+
+  const imageRef = useRef();
 
   const [message, setMessage] = useState();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [step, setStep] = useState(1);
+
+  const [image, setImage] = useState(null);
 
   const [isFreelancer, setIsFreelancer] = useState(false);
 
@@ -42,6 +50,8 @@ function Register() {
   const clientImageRef = useRef();
 
   const freelancerImageRef = useRef();
+
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [register, setRegister] = useState({
     cpf: "",
@@ -52,6 +62,7 @@ function Register() {
     gender: "",
     address: "",
     profession: "",
+    image: "",
   });
 
   const handleButton = (e) => {
@@ -72,12 +83,10 @@ function Register() {
 
   const validPassword = () => register.password === confirmPassword;
 
-  const [confirmPassword, setConfirmPassword] = useState("");
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (step < 2) return setStep(step + 1);
-    if (step >= 2 && isFreelancer === false) {
+    if (step >= 3 && isFreelancer === false) {
       const formatedBirthDate = register.birthDate.split("-", 3);
       const newBirthDate = `${formatedBirthDate[2]}/${formatedBirthDate[1]}/${formatedBirthDate[0]}`;
 
@@ -89,24 +98,29 @@ function Register() {
         return alert("As senhas precisam ser iguais");
 
       setIsLoading(true);
+
       try {
         const { cpf, name, email, password, gender, address } = register;
 
-        const response = await api.post("/clients", {
-          cpf,
-          name,
-          email,
-          password,
-          birth_date: newBirthDate,
-          gender,
-          address,
+        const data = new FormData();
+
+        data.append("cpf", cpf);
+        data.append("name", name);
+        data.append("email", email);
+        data.append("password", password);
+        data.append("gender", gender);
+        data.append("address", address);
+        data.append("birth_date", newBirthDate);
+
+        if (image) data.append("image", image);
+
+        const response = await api.post("/clients", data, {
+          headers: {
+            "Content-type": "multipart/form-data",
+          },
         });
 
-        console.log(response.data);
-
         signIn(response.data);
-
-        //Implementar a autorização
 
         setIsLoading(false);
         history.push("/feed");
@@ -133,15 +147,23 @@ function Register() {
           const { cpf, name, email, password, gender, address, profession } =
             register;
 
-          const response = await api.post("/freelancers", {
-            cpf,
-            name,
-            email,
-            password,
-            birth_date: newBirthDate,
-            gender,
-            address,
-            profession,
+          const data = new FormData();
+
+          data.append("cpf", cpf);
+          data.append("name", name);
+          data.append("email", email);
+          data.append("password", password);
+          data.append("gender", gender);
+          data.append("address", address);
+          data.append("birth_date", newBirthDate);
+          data.append("profession", profession);
+
+          if (image) data.append("image", image);
+
+          const response = await api.post("/freelancers", data, {
+            headers: {
+              "Content-type": "multipart/form-data",
+            },
           });
 
           console.log(response.data);
@@ -181,6 +203,18 @@ function Register() {
     },
   };
 
+  const handleImage = (e) => {
+    if (e.target.files[0]) {
+      imageRef.current.src = URL.createObjectURL(e.target.files[0]);
+      imageRef.current.style.display = "flex";
+    } else {
+      imageRef.current.src = "";
+      imageRef.current.style.display = "none";
+    }
+
+    setImage(e.target.files[0]);
+  };
+
   const createSquare = () => {
     const urlSquares = document.querySelector("ul.squares");
     console.log(urlSquares);
@@ -218,8 +252,6 @@ function Register() {
     }
   };
 
-  console.log(register);
-
   useEffect(() => {
     createSquare();
     loadCategories();
@@ -250,7 +282,7 @@ function Register() {
         <ModalContainer>
           <BannerRegister>
             <h1>Cadastro</h1>
-            <Lottie options={defaultOptions} />
+            <Lottie options={defaultOptions} height="50%" />
             <Link to="/login">
               Já possui cadastro? Clique aqui para se logar
             </Link>
@@ -388,28 +420,52 @@ function Register() {
                   </ul>
                 </ClientOrFreelancer>
               )}
-              {step === 3 && (
-                <FreelancerType>
-                  <h1>Selecione o seu tipo de trabalho</h1>
-                  <select id="profession" onChange={handleInput}>
-                    <option>Tipo de trabalho</option>
+              {step === 3 ? (
+                isFreelancer ? (
+                  <FreelancerType>
+                    <h1>Envie uma foto sua!</h1>
+                    <div id="imageRow">
+                      <img
+                        alt="Pré-visualização"
+                        ref={imageRef}
+                        src={Profile}
+                      />
+                      <label htmlFor="image">
+                        <img src={Pen} alt="Imagem de editar" />
+                      </label>
+                    </div>
+                    <input id="image" type="file" onChange={handleImage} />
+                    <div id="typeRow">
+                      <h2>Selecione o seu tipo de trabalho</h2>
+                      <select id="profession" onChange={handleInput}>
+                        <option>Tipo de trabalho</option>
 
-                    {categories.map((c) => (
-                      <option value={c.id}>{c.name}</option>
-                    ))}
-                  </select>
-                  <Input
-                    id="yearsExperience"
-                    label="Anos de experiência(opcional)"
-                    type="text"
-                  />
-
-                  <Input
-                    id="formation"
-                    label="Formação (opcional)"
-                    type="text"
-                  />
-                </FreelancerType>
+                        {categories.map((c) => (
+                          <option value={c.id}>{c.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </FreelancerType>
+                ) : (
+                  // <>
+                  <ClientType>
+                    <h1>Envie uma foto sua!</h1>
+                    <div>
+                      <img
+                        alt="Pré-visualização"
+                        ref={imageRef}
+                        src={Profile}
+                      />
+                      <label htmlFor="image">
+                        <img src={Pen} alt="Imagem de editar" />
+                      </label>
+                    </div>
+                    <input id="image" type="file" onChange={handleImage} />
+                  </ClientType>
+                  // </>
+                )
+              ) : (
+                ""
               )}
               <span>
                 <ButtonNext disabled={step !== 1 && handleButton()}>

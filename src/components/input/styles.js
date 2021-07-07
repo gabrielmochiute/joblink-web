@@ -41,7 +41,7 @@ export const Container = styled.div`
 
   > input:not(:placeholder-shown) + label,
   > input:focus + label {
-    top: -45px;
+    top: -40px;
     font-size: 20px;
     font-weight: 400;
     left: 0px;

@@ -64,6 +64,7 @@ export const NavigationBar = styled.nav`
         margin-right: 15px;
         border-radius: 50px;
         cursor: pointer;
+        border: solid 1px #00000030;
       }
 
       > div {

@@ -53,18 +53,15 @@ export const BannerRegister = styled.div`
   position: relative;
   /* background-color: burlywood; */
 
-  /* display: flex; */
-  justify-content: space-between;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
 
   @media screen and (max-width: 768px) {
     display: none;
   }
 
-  > img {
-    width: 100%;
-    height: 100%;
-  }
   > a {
     position: absolute;
     bottom: 25px;
@@ -89,6 +86,7 @@ export const BannerRegister = styled.div`
 
   > h1 {
     position: absolute;
+    top: 0px;
     width: 100%;
     text-align: center;
     color: transparent;
@@ -115,7 +113,7 @@ export const RegisterContainer = styled.div`
   }
   height: 100%;
   overflow: hidden;
-  padding-top: 50px;
+  padding-top: 15px;
 
   display: flex;
   flex-direction: column;
@@ -140,6 +138,7 @@ export const RegisterForm = styled.form`
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  /* background-color: rebeccapurple; */
 
   > input:not(:placeholder-shown) + label,
   > input:focus + label {
@@ -173,12 +172,13 @@ export const RegisterForm = styled.form`
     height: 40px;
 
     > input:focus {
-      border: 2px solid black;
+      border: 2px solid var(--secondary);
     }
 
     > input:not(:placeholder-shown) + label,
     > input:focus + label {
       color: var(--white);
+      font-size: 16px;
     }
 
     > div {
@@ -187,9 +187,10 @@ export const RegisterForm = styled.form`
       > input:not(:placeholder-shown) + label,
       > input:focus + label {
         color: var(--white);
+        font-size: 16px;
       }
       > input:focus {
-        border: 2px solid var(--darkGray);
+        border: 2px solid var(--secondary);
       }
     }
   }
@@ -318,27 +319,75 @@ export const ClientOrFreelancer = styled.div`
 
 export const FreelancerType = styled.div`
   width: 100%;
-  min-height: 300px;
+  min-height: 100%;
   overflow: auto;
   padding: 15px;
 
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: start;
   > h1 {
     color: var(--white);
     font-weight: 400;
-    font-size: 38px;
-    margin-bottom: 25px;
+    font-size: 34px;
+    margin-bottom: 15px;
+  }
+  #imageRow {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    > img {
+      width: 300px;
+      height: 300px;
+      border-radius: 100%;
+      border: solid 1px #00000040;
+    }
+    > label {
+      width: 75px;
+      height: 75px;
+      background-color: var(--secondary);
+      border-radius: 100%;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 38px;
+
+      transition: 0.3s;
+
+      :hover {
+        background-color: var(--darkGray);
+        cursor: pointer;
+      }
+    }
+  }
+  > input {
+    display: none;
   }
 
-  > select {
-    width: 90%;
-    height: 50px;
-    border-radius: 15px;
-    font-size: 24px;
-    color: var(--font);
-    padding: 0px 10px;
-    /* margin-bottom: 25px; */
-    background-color: #ededed;
-    border: none;
+  #typeRow {
+    > h2 {
+      color: var(--white);
+      font-weight: 400;
+      font-size: 28px;
+      margin-bottom: 25px;
+    }
+
+    > select {
+      width: 100%;
+      height: 50px;
+      border-radius: 15px;
+      font-size: 24px;
+      color: var(--font);
+      padding: 0px 10px;
+      /* margin-bottom: 25px; */
+      background-color: #ededed;
+      border: none;
+    }
   }
 `;
 
@@ -352,6 +401,59 @@ const upAnimation = keyframes`
   }
   100%{
     transform: translateY(-800px) rotate(960deg);
+  }
+`;
+
+export const ClientType = styled.section`
+  /* background-color: aliceblue; */
+
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  > h1 {
+    color: var(--secondary);
+    font-weight: 500;
+    font-size: 34px;
+  }
+
+  > div {
+    position: relative;
+    > img {
+      width: 400px;
+      height: 400px;
+      border-radius: 100%;
+      border: solid 1px #00000040;
+    }
+    > label {
+      width: 100px;
+      height: 100px;
+      background-color: var(--secondary);
+      border-radius: 100%;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 38px;
+
+      transition: 0.3s;
+
+      :hover {
+        background-color: var(--darkGray);
+        cursor: pointer;
+      }
+    }
+  }
+  > input {
+    display: none;
   }
 `;
 
