@@ -207,9 +207,16 @@ function Message() {
   };
 
   const payment = async (history) => {
+    const postId = chat.map((c) => {
+      return c.Service.Post.id;
+    });
+    const serviceId = chat.map((c) => {
+      return c.Service.id;
+    });
+
     try {
       const response = await api.put(
-        `/payment/post/${chat[0].Service.Post.id}/service/${chat.Service.id}`
+        `/payment/post/${postId}/service/${serviceId}`
       );
 
       const redirect = response.data.preference.body.init_point;
