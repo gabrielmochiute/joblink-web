@@ -21,8 +21,6 @@ import banner from "../../assets/banner.jpg";
 import freelancer from "../../assets/freelancer.jpg";
 import { api } from "../../services/api";
 import { signIn } from "../../services/security";
-import { validSquaredImage } from "../../utils";
-import Check from "../../components/Check";
 import animationData from "../../lotties/lottie-newregister.json";
 import Lottie from "react-lottie";
 import Alert from "../../components/Alert";

@@ -16,10 +16,11 @@ import feedbackAnimationData from "../../lotties/lottie-feedback.json";
 import Return from "../../assets/return.svg";
 import Profile from "../../assets/perfil.png";
 import Mercado from "../../assets/mercado.png";
-import Alert from "../../assets/alertWhite.svg";
+import AlertIcon from "../../assets/alertWhite.svg";
 import Send from "../../assets/send.svg";
 import Modal from "../../components/Modal";
 import FeedbackModal from "../../components/FeedbackModal";
+import Alert from "../../components/Alert";
 
 import { useEffect, useState } from "react";
 import { getUser } from "../../services/security";
@@ -58,6 +59,8 @@ function Message() {
   const [reload, setReload] = useState(null);
 
   const [messages, setMessages] = useState([]);
+
+  const [alertMessage, setAlertMessage] = useState("");
 
   const [newMessage, setNewMessage] = useState("");
 
@@ -168,15 +171,26 @@ function Message() {
   const feedbackSubmit = async (e) => {
     e.preventDefault();
 
+    const postId = chat.map((c) => {
+      return c.Service.Post.id;
+    });
+    const serviceId = chat.map((c) => {
+      return c.Service.id;
+    });
+
     try {
       const response = await api.put(
-        `/feedback/post/${chat[0].Service.Post.id}/service/${chat.Service.id}`,
+        `/feedback/post/${postId}/service/${serviceId}`,
         {
           rating: feedback.rating,
           feedback: feedback.description,
         }
       );
 
+      setAlertMessage({
+        title: "Sucesso!",
+        description: "O feedback foi definido com sucesso!",
+      });
       setShowFeedback(undefined);
     } catch (error) {
       console.error(error);
@@ -199,7 +213,10 @@ function Message() {
 
       setShowModal(false);
 
-      alert(`O serviço agora custa ${price}`);
+      setAlertMessage({
+        title: "Sucesso!",
+        description: `O serviço agora custa ${price}`,
+      });
       console.log(response);
     } catch (error) {
       console.error(error);
@@ -229,6 +246,11 @@ function Message() {
 
   return (
     <Overlay>
+      <Alert
+        message={alertMessage}
+        type="error"
+        handleClose={setAlertMessage}
+      />
       {showModal && (
         <Modal handleClose={() => setShowModal(undefined)}>
           <PriceModal>
@@ -290,10 +312,11 @@ function Message() {
                   value={feedback.description}
                   type="text"
                   placeholder="Deixe seu comentário (obrigatório)"
+                  required
                 />
               </div>
               <div id="warning">
-                <img src={Alert} alt="Imagem de aviso" />
+                <img src={AlertIcon} alt="Imagem de aviso" />
                 <p>
                   Atenção! É importante que seu feedback seja sincero pro nosso
                   sistema pois isso afeta diretamente a reputação de o
@@ -339,34 +362,28 @@ function Message() {
               )}
             </h2>
           </label>
-          {/* {isThisFreelancer ? (
-            <h3
-              onClick={() => {
-                setShowModal(true);
-              }}
-            >
-              Estipular o preço
-            </h3>
-          ) : (
-            // <h3
-            //   onClick={() => {
-            //     if (window.confirm("Tem certeza?")) setShowFeedback(true);
-            //   }}
-            // >
-            //   Finalizar serviço e dar feedback
-            // </h3>
-            <h3 onClick={() => payment(history)}>Pagar</h3>
-          )} */}
           {chat.map((c) =>
             c.Service.Post.User.id === signedUser.user.id ? (
               c.Service.service_cost != null ? (
-                <>
-                  <h5>Preço Total do Serviço R$ {c.Service.service_cost}</h5>
-                  <h3 onClick={() => payment(history)}>
-                    Pagar
-                    <img src={Mercado} alt="Imagem do Mercado Pago" />
+                c.Service.progress != 2 ? (
+                  <>
+                    <h5>Preço Total do Serviço R$ {c.Service.service_cost}</h5>
+                    <h3 onClick={() => payment(history)}>
+                      Pagar
+                      <img src={Mercado} alt="Imagem do Mercado Pago" />
+                    </h3>
+                  </>
+                ) : !c.Service.feedback ? (
+                  <>
+                    <h3 onClick={() => setShowFeedback(true)}>
+                      Finalizar serviço e dar feedback
+                    </h3>
+                  </>
+                ) : (
+                  <h3 onClick={() => setShowFeedback(true)}>
+                    Alterar Feedback
                   </h3>
-                </>
+                )
               ) : (
                 <h4>O Profissional ainda não definiu o preço do serviço</h4>
               )
